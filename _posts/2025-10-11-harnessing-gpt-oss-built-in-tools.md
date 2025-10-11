@@ -510,6 +510,8 @@ And here it is for query `Multiply 64548*15151 using builtin python interpreter.
 
 ## Install, configure, and start LibreChat
 
+[LibreChat](https://www.librechat.ai/) is an open-source AI chat platform that provides a unified interface for interacting with multiple AI models and services, including custom endpoints like our vLLM server.
+
 ```bash
 git clone https://github.com/danny-avila/LibreChat.git
 cd LibreChat
@@ -570,7 +572,11 @@ sudo iptables -I DOCKER-USER -i docker0 -j ACCEPT
 
 To make these rules permanent across reboots, save them with `sudo iptables-save > /etc/iptables/rules.v4` (after installing `iptables-persistent`), add them to a startup script, or configure UFW: `sudo ufw allow from 172.17.0.0/16 to any port 8000`.
 
+Here are a couple of examples of using the tools in LibreChat:
+
 <img width="641" height="174" alt="image" src="https://github.com/user-attachments/assets/e6d20796-4965-4f6a-a8c4-becbffb27cd7" />
 
 <img width="458" height="203" alt="image" src="https://github.com/user-attachments/assets/dc7811ca-0e4b-4de9-99c3-95956a7e1cff" />
+
+Happy chatting!
 
