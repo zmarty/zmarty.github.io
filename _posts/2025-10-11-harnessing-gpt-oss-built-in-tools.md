@@ -508,3 +508,64 @@ And here it is for query `Multiply 64548*15151 using builtin python interpreter.
 
 <img width="733" height="524" alt="image" src="https://github.com/user-attachments/assets/1bdaa6c2-e05d-43aa-bead-98a0370a0807" />
 
+## Install, configure, and start LibreChat
+
+```bash
+git clone https://github.com/danny-avila/LibreChat.git
+cd LibreChat
+cp .env.example .env
+```
+
+Create file `docker-compose.override.yml`:
+
+```yaml
+services:
+  api:
+    volumes:
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+```
+
+Create the `librechat.yaml` file:
+
+```bash
+cp librechat.example.yaml librechat.yaml
+```
+
+Then inside the `custom` - `endpoints` section of this file create the following vLLM configuration:
+
+```yaml
+    - name: 'vLLM'
+      apiKey: 'EMPTY'
+      baseURL: 'http://host.docker.internal:8000/v1'
+      models:
+        default: ['openai/gpt-oss-20b']
+        fetch: true
+      titleConvo: true
+      titleModel: 'current_model'
+      titleMessageRole: 'user'
+      summarize: false
+      summaryModel: 'current_model'
+      forcePrompt: false
+      modelDisplayLabel: 'vLLM'
+      addParams:
+        web_search: true
+        tools:
+          - type: 'web_search_preview'
+```
+
+Then start the containers:
+
+```bash
+docker compose up -d
+```
+
+**Note for Ubuntu 25.04 users:** If LibreChat can't connect to vLLM on the host, you may need to add iptables rules to allow Docker containers to access port 8000:
+
+```bash
+sudo iptables -I INPUT -i docker0 -p tcp --dport 8000 -j ACCEPT
+sudo iptables -I DOCKER-USER -i docker0 -j ACCEPT
+```
+
+To make these rules permanent across reboots, save them with `sudo iptables-save > /etc/iptables/rules.v4` (after installing `iptables-persistent`), add them to a startup script, or configure UFW: `sudo ufw allow from 172.17.0.0/16 to any port 8000`.
