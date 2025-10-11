@@ -570,7 +570,7 @@ sudo iptables -I DOCKER-USER -i docker0 -j ACCEPT
 
 To make these rules permanent across reboots, save them with `sudo iptables-save > /etc/iptables/rules.v4` (after installing `iptables-persistent`), add them to a startup script, or configure UFW: `sudo ufw allow from 172.17.0.0/16 to any port 8000`.
 
-<img width="1523" height="414" alt="image" src="https://github.com/user-attachments/assets/e6d20796-4965-4f6a-a8c4-becbffb27cd7" />
+<img width="1283" height="348" alt="image" src="https://github.com/user-attachments/assets/e6d20796-4965-4f6a-a8c4-becbffb27cd7" />
 
 <img width="916" height="407" alt="image" src="https://github.com/user-attachments/assets/dc7811ca-0e4b-4de9-99c3-95956a7e1cff" />
 
