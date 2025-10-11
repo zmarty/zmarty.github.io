@@ -20,8 +20,9 @@ linkedin_username: "zmarty"
 #########################################################################################
 theme: "minima"
 
-minima:
-  skin: dark
+# Remove or comment out the minima skin since we're using DarkReader
+# minima:
+#   skin: dark
 
 rss: rss
 
