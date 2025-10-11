@@ -1,0 +1,17 @@
+{%- comment -%}
+Usage: {% include collapsible-code.html title="Click to expand" language="python" code=code_variable %}
+Or with inline code:
+{% capture my_code %}
+your code here
+{% endcapture %}
+{% include collapsible-code.html title="Click to expand" language="python" code=my_code %}
+{%- endcomment -%}
+
+<details class="collapsible-code">
+<summary>{{ include.title | default: "Click to expand code" }}</summary>
+
+{% highlight {{ include.language | default: "plaintext" }} %}
+{{ include.code }}
+{% endhighlight %}
+
+</details>

@@ -181,12 +181,13 @@ mcp run -t sse browser_server.py:mcp
 
 This starts the browser tool server on port 8001. You should see output similar to:
 
-```text
+{% capture server_output %}
 INFO:     Started server process [730909]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
-```
+{% endcapture %}
+{% include collapsible-code.html title="Server startup output" language="text" code=server_output %}
 
 ---
 
