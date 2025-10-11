@@ -31,8 +31,8 @@ For my setup, I run the gpt-oss-20b model on 2× NVIDIA RTX 3090 GPUs (24GB VRAM
 Create a new Python environment:
 
 ```bash
-uv venv venv --python 3.12 --seed
-source venv/bin/activate
+uv venv --python 3.12 --seed
+source .venv/bin/activate
 ```
 
 Install vLLM with automatic torch backend detection:
@@ -41,7 +41,7 @@ Install vLLM with automatic torch backend detection:
 uv pip install vllm --torch-backend=auto
 ```
 
-## Start the browser MCP server
+## Start the MCP tool servers
 
 OpenAI provides reference implementations for the built-in tools through the [gpt-oss package](https://pypi.org/project/gpt-oss/). To make the browser tool available to vLLM, we'll create an MCP (Model Context Protocol) server that wraps the reference implementation.
 
@@ -173,7 +173,49 @@ async def find_pattern(ctx: Context, pattern: str, cursor: int = -1) -> str:
 
 </details>
 
-Before you start the server, you need to get an API key from [exa.ai](https://exa.ai/exa-api), which the server uses to browse the web.
+<details markdown="1">
+<summary markdown="span">Create a file named `python_server.py` (click to expand)</summary>
+
+```python
+from mcp.server.fastmcp import FastMCP
+from gpt_oss.tools.python_docker.docker_tool import PythonTool
+from openai_harmony import Message, TextContent, Author, Role
+
+# Pass lifespan to server
+mcp = FastMCP(
+    name="python",
+    instructions=r"""
+Use this tool to execute Python code in your chain of thought. The code will not be shown to the user. This tool should be used for internal reasoning, but not for code that is intended to be visible to the user (e.g. when creating plots, tables, or files).
+When you send a message containing python code to python, it will be executed in a stateless docker container, and the stdout of that process will be returned to you.
+""".strip(),
+    port=8002,
+)
+
+
+@mcp.tool(
+    name="python",
+    title="Execute Python code",
+    description="""
+Use this tool to execute Python code in your chain of thought. The code will not be shown to the user. This tool should be used for internal reasoning, but not for code that is intended to be visible to the user (e.g. when creating plots, tables, or files).
+When you send a message containing python code to python, it will be executed in a stateless docker container, and the stdout of that process will be returned to you.
+    """,
+    annotations={
+        # Harmony format don't want this schema to be part of it because it's simple text in text out
+        "include_in_prompt": False,
+    })
+async def python(code: str) -> str:
+    tool = PythonTool()
+    messages = []
+    async for message in tool.process(
+            Message(author=Author(role=Role.TOOL, name="python"),
+                    content=[TextContent(text=code)])):
+        messages.append(message)
+    return "\n".join([message.content[0].text for message in messages])
+```
+
+</details>
+
+Before you start the browser server, you need to get an API key from [exa.ai](https://exa.ai/exa-api), which the server uses to browse the web.
 
 Start the MCP server using the `fastmcp` CLI:
 
@@ -191,11 +233,17 @@ INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
 ```
 
+We can similarly start the Python server:
+
+```bash
+cd gpt-oss-tests/mcp-servers && mcp run -t sse python_server.py:mcp
+```
+
 ---
 
 ## Start vLLM with browser tool integration
 
-Now we can launch vLLM and configure it to use the browser MCP server we just started. The key parameter is `--tool-server` which points to our MCP server on `localhost:8001`.
+Now we can launch vLLM and configure it to use the browser MCP server we just started. The key parameter is `--tool-server` which points to our MCP servers on `localhost:8001` and `localhost:8002`, respectively.
 
 ```bash
 vllm serve openai/gpt-oss-20b \
@@ -209,6 +257,7 @@ vllm serve openai/gpt-oss-20b \
   --host 0.0.0.0 \
   --port 8000 \
   --tool-server localhost:8001
+  --tool-server localhost:8002
 ```
 
 Once vLLM initializes, you should see output indicating the server is running:
