@@ -1,3 +1,13 @@
+/* GitHub's system font stack for better readability and native feel */
+body, .site-title, .site-nav, .page-content, .post-content {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* GitHub's monospace font stack for code */
+code, pre, .highlight {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+}
+
 hr {
   margin-top: 30px;
   margin-bottom: 20px;
