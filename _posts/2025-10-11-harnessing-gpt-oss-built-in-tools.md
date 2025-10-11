@@ -45,7 +45,8 @@ uv pip install vllm --torch-backend=auto
 
 OpenAI provides reference implementations for the built-in tools through the [gpt-oss package](https://pypi.org/project/gpt-oss/). To make the browser tool available to vLLM, we'll create an MCP (Model Context Protocol) server that wraps the reference implementation.
 
-Create a file named `browser_server.py`:
+<details markdown="1">
+<summary markdown="span">Create a file named `browser_server.py` (click to expand)</summary>
 
 ```python
 import os
@@ -170,6 +171,8 @@ async def find_pattern(ctx: Context, pattern: str, cursor: int = -1) -> str:
     return "\n".join(messages)
 ```
 
+</details>
+
 Before you start the server, you need to get an API key from [exa.ai](https://exa.ai/exa-api), which the server uses to browse the web.
 
 Start the MCP server using the `fastmcp` CLI:
@@ -217,6 +220,9 @@ Once vLLM initializes, you should see output indicating the server is running:
 ```
 
 ## Test from python
+
+<details markdown="1">
+<summary markdown="span">Python test code using the OpenAI SDK (click to expand)</summary>
 
 ```python
 from openai import OpenAI
@@ -413,6 +419,8 @@ if show_raw_debug:  # Set to False to hide raw response
     response_dict = response.model_dump() if hasattr(response, 'model_dump') else dict(response)
     pprint(response_dict, width=120, depth=10)
 ```
+
+</details>
 
 The crucial part of the code is telling vLLM to use the built-in tools. Note how we just reference the tool name without specifying an actual implementation, and vLLM internally properly calls the browser tool.
 
