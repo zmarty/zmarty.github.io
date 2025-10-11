@@ -276,7 +276,7 @@ If you scroll up a bit in that terminal window you can verify that the tools hav
 ## Test from python
 
 <details markdown="1">
-<summary markdown="span">Python test code using the OpenAI SDK (click to expand)</summary>
+<summary markdown="span">Create file test_builtin_tools.py which uses the OpenAI SDK (click to expand)</summary>
 
 ```python
 from openai import OpenAI
@@ -494,11 +494,17 @@ tools=[
 
 When you reference these two tools in your tools array, vLLM's `_construct_input_messages_with_harmony` function in `serving_responses.py` translates these OpenAI API names to GPT-OSS's internal tool names: `"browser"` and `"python"` respectively. It checks if the configured tool server (either `DemoToolServer` for built-in tools via `--tool-server demo`, or `MCPToolServer` for external servers via `--tool-server localhost:8001,localhost:8002`) has these tools available, then constructs the system message in the Harmony format that GPT-OSS was trained on.
 
-Weather:
+Now run the code:
+
+```bash
+python3 ./test_builtin_tools.py
+```
+
+Here is the output for query `How is the weather in Seattle, WA?`:
 
 <img width="1473" height="796" alt="image" src="https://github.com/user-attachments/assets/cf14d4dd-0a83-460a-8196-3fedb5bc038c" />
 
-Pi
+And here it is for query `Multiply 64548*15151 using builtin python interpreter.`:
 
 <img width="1467" height="1049" alt="image" src="https://github.com/user-attachments/assets/1bdaa6c2-e05d-43aa-bead-98a0370a0807" />
 
