@@ -502,9 +502,9 @@ python3 ./test_builtin_tools.py
 
 Here is the output for query `How is the weather in Seattle, WA?`:
 
-<img width="1473" height="796" alt="image" src="https://github.com/user-attachments/assets/cf14d4dd-0a83-460a-8196-3fedb5bc038c" />
+<img width="736" height="398" alt="image" src="https://github.com/user-attachments/assets/cf14d4dd-0a83-460a-8196-3fedb5bc038c" />
 
 And here it is for query `Multiply 64548*15151 using builtin python interpreter.`:
 
-<img width="1467" height="1049" alt="image" src="https://github.com/user-attachments/assets/1bdaa6c2-e05d-43aa-bead-98a0370a0807" />
+<img width="733" height="524" alt="image" src="https://github.com/user-attachments/assets/1bdaa6c2-e05d-43aa-bead-98a0370a0807" />
 
