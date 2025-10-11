@@ -1,3 +1,8 @@
+/* Increase the width of the content wrapper */
+.wrapper {
+  max-width: 1200px !important;
+}
+
 /* GitHub's system font stack for better readability and native feel */
 body, .site-title, .site-nav, .page-content, .post-content {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
