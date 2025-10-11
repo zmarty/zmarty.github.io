@@ -256,8 +256,7 @@ vllm serve openai/gpt-oss-20b \
   --enable-auto-tool-choice \
   --host 0.0.0.0 \
   --port 8000 \
-  --tool-server localhost:8001
-  --tool-server localhost:8002
+  --tool-server localhost:8001,localhost:8002
 ```
 
 Once vLLM initializes, you should see output indicating the server is running:
@@ -266,6 +265,12 @@ Once vLLM initializes, you should see output indicating the server is running:
 (APIServer pid=732684) INFO:     Started server process [732684]
 (APIServer pid=732684) INFO:     Waiting for application startup.
 (APIServer pid=732684) INFO:     Application startup complete.
+```
+
+If you scroll up a bit in that terminal window you can verify that the tools have been loaded successfully:
+
+```text
+(APIServer pid=860267) INFO 10-11 14:56:42 [entrypoints/tool_server.py:140] MCPToolServer initialized with tools: ['browser', 'python']
 ```
 
 ## Test from python
