@@ -493,3 +493,12 @@ tools=[
 ```
 
 When you reference these two tools in your tools array, vLLM's `_construct_input_messages_with_harmony` function in `serving_responses.py` translates these OpenAI API names to GPT-OSS's internal tool names: `"browser"` and `"python"` respectively. It checks if the configured tool server (either `DemoToolServer` for built-in tools via `--tool-server demo`, or `MCPToolServer` for external servers via `--tool-server localhost:8001,localhost:8002`) has these tools available, then constructs the system message in the Harmony format that GPT-OSS was trained on.
+
+Weather:
+
+<img width="1473" height="796" alt="image" src="https://github.com/user-attachments/assets/cf14d4dd-0a83-460a-8196-3fedb5bc038c" />
+
+Pi
+
+<img width="1467" height="1049" alt="image" src="https://github.com/user-attachments/assets/1bdaa6c2-e05d-43aa-bead-98a0370a0807" />
+
