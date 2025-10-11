@@ -21,7 +21,7 @@ linkedin_username: "linkedinuser"
 theme: "minima"
 
 minima:
-  skin: auto
+  skin: dark
 
 rss: rss
 
