@@ -135,7 +135,7 @@ hr {
 
 /* Add padding after collapsible details sections */
 details {
-  margin-bottom: 1.5em;
+  margin-bottom: 0.8em;
 }
 
 /* Optional: add some spacing after the summary as well */
