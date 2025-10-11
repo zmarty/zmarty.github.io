@@ -390,12 +390,12 @@ response = client.responses.create(
     model="openai/gpt-oss-20b",
     input="How is the weather in Seattle, WA?",
     tools=[
-        #{
-        #    "type": "code_interpreter",
-        #    "container": {
-        #        "type": "auto"
-        #    }
-        #},
+        {
+            "type": "code_interpreter",
+            "container": {
+                "type": "auto"
+            }
+        },
         {
             "type": "web_search_preview"
         }
@@ -426,12 +426,12 @@ The crucial part of the code is telling vLLM to use the built-in tools. Note how
 
 ```python
 tools=[
-    #{
-    #    "type": "code_interpreter",
-    #    "container": {
-    #        "type": "auto"
-    #    }
-    #},
+    {
+        "type": "code_interpreter",
+        "container": {
+            "type": "auto"
+        }
+    },
     {
         "type": "web_search_preview"
     }
