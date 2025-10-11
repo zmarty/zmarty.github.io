@@ -20,12 +20,15 @@
   <!-- End Google Analytics -->
   {%- endif %}
 
-  <!-- Dark theme using DarkReader -->
+  <!-- Dark theme using native CSS - see css/override.css for @media (prefers-color-scheme: dark) styles -->
+  <!-- DarkReader disabled in favor of native CSS dark theme -->
+  <!--
   <script src="//unpkg.com/darkreader@4.9.40/darkreader.js"></script>
   <script type="text/javascript">
     DarkReader.setFetchMethod(window.fetch); // Fix to remedy CORS errors in chrome console
     //DarkReader.enable(); // Uncomment this line to force dark mode always
     DarkReader.auto({brightness: 100, contrast: 90, sepia: 10}); // Auto-switch based on system settings
   </script>
+  -->
 
 </head>
