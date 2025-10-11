@@ -58,3 +58,13 @@ hr {
   font-size: 2.5em;
   opacity: 0.3;
 }
+
+/* Add padding after collapsible details sections */
+details {
+  margin-bottom: 1.5em;
+}
+
+/* Optional: add some spacing after the summary as well */
+details summary {
+  margin-bottom: 0.5em;
+}
