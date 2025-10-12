@@ -39,3 +39,17 @@ Create an SSH key BEFORE you create an instance, otherwise you will need to go u
 
 <img width="1188" height="836" alt="image" src="https://github.com/user-attachments/assets/f4d72a67-56d6-4e10-af37-d5f4ab1e9230" />
 
+<img width="2080" height="1286" alt="image" src="https://github.com/user-attachments/assets/754793e6-1d01-424b-a1ac-3f0e4b81807d" />
+
+<img width="1115" height="442" alt="image" src="https://github.com/user-attachments/assets/9cb3f803-4dea-4963-8691-8489b1920936" />
+
+<img width="1696" height="1601" alt="image" src="https://github.com/user-attachments/assets/deff81ab-1788-4e76-9d88-18007e83449c" />
+
+<img width="1696" height="1601" alt="image" src="https://github.com/user-attachments/assets/9e9c3215-016e-46fe-bfa2-8600bc85411b" />
+
+<img width="2360" height="1195" alt="image" src="https://github.com/user-attachments/assets/7c272700-08a6-4e7e-9a3d-8618aadd8d8a" />
+
+
+
+
+
