@@ -22,3 +22,15 @@ tags: [gpt-oss, glm-4.6, llm]
 <img width="1815" height="1152" alt="image" src="https://github.com/user-attachments/assets/c3a3064b-6534-4404-81d8-00a57318a994" />
 
 "--max-model-len 8192 --enforce-eager --download-dir /workspace/models --host 127.0.0.1 --port 18000 --enable-auto-tool-choice --tool-call-parser glm45 --reasoning-parser glm45 --swap-space 16 --max-num-seqs 64 --gpu-memory-utilization 0.9 --tensor-parallel-size 2 --enable-expert-parallel --trust-remote-code"
+
+
+
+Create an SSH key BEFORE you create an instance, otherwise you will need to go under Instances and set a SSH key that will get propagated to the machine.
+
+<img width="1971" height="1001" alt="image" src="https://github.com/user-attachments/assets/2b293a20-0e2b-4224-8b66-d18f8bfebcf4" />
+
+<img width="1066" height="634" alt="image" src="https://github.com/user-attachments/assets/61151006-c43a-465c-966c-a70778c1bf88" />
+
+<img width="1330" height="839" alt="image" src="https://github.com/user-attachments/assets/a0e1de83-0b0b-4204-8fa7-b9060da7e93c" />
+
+<img width="1033" height="517" alt="image" src="https://github.com/user-attachments/assets/78978d0c-8a10-4b34-b5e0-ed98fd377a22" />
