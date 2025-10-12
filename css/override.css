@@ -142,3 +142,11 @@ details {
 details summary {
   margin-bottom: 0.5em;
 }
+
+/* Responsive images - prevent squishing on mobile */
+.post-content img {
+  max-width: 100%;
+  height: auto !important;
+  display: block;
+  margin: 1em 0;
+}
