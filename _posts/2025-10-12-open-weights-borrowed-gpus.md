@@ -61,7 +61,12 @@ Create an SSH key BEFORE you create an instance, otherwise you will need to go u
 
 <img width="2292" height="1215" alt="image" src="https://github.com/user-attachments/assets/31832b1f-3888-4dea-9794-796b7750bba1" />
 
+---
 
+GLM-4.5 Air:
+"--max-model-len 65536 --download-dir /workspace/models --host 127.0.0.1 --port 18000 --enable-auto-tool-choice --tool-call-parser glm45 --reasoning-parser glm45 --gpu-memory-utilization 0.95 --tensor-parallel-size 2 "
+
+<img width="1386" height="329" alt="image" src="https://github.com/user-attachments/assets/c8fda289-7895-4b59-90c7-28f4420f918d" />
 
 
 
