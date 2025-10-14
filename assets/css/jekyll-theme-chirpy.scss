@@ -3,12 +3,7 @@
 
 @import 'main{% if jekyll.environment == 'production' %}.bundle{% endif %}';
 
-/* Make posts wider */
-#core-wrapper {
-  max-width: 1000px !important;
-}
-
-main.col-12 {
-  flex: 0 0 75% !important;
-  max-width: 75% !important;
+/* Make posts wider by overriding the main content container max-width */
+#main-wrapper > .container {
+  max-width: 1450px !important;
 }
