@@ -1,15 +1,17 @@
 ---
 layout: post
-tags: [gpt-oss, llm]
+title: "Harnessing GPT-OSS Built-in Tools"
+date: 2025-10-11 10:00:00 -0700
+categories: [AI, Development]
+tags: [gpt-oss, llm, vllm, librechat]
+description: "Learn how to properly set up vLLM with GPT-OSS built-in tools and integrate it with LibreChat to leverage powerful capabilities."
 ---
-
-## Harnessing gpt-oss built-in tools
 
 The [OpenAI gpt-oss models](https://openai.com/index/introducing-gpt-oss/) come with built-in tools (python and browser) that are deeply integrated into the model's training. Since these tools are built-in, the inference engine itself must handle them - not your application code.
 
 This blog post explains how to properly set up vLLM with these tools and integrate it with LibreChat to leverage these powerful capabilities.
 
-### Built-in tool basics
+## Built-in tool basics
 
 The gpt-oss series are OpenAI's open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases. They are available in two flavors: gpt-oss-120b (117B parameters) for production use and gpt-oss-20b (21B parameters) for lower latency applications.
 
