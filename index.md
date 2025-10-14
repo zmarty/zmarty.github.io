@@ -1,1 +1,0 @@
-Hi! My name is Ovi and I love technology.
