@@ -278,7 +278,7 @@ If you scroll up a bit in that terminal window you can verify that the tools hav
 ## Test from python
 
 <details markdown="1">
-<summary markdown="span">Create file test_builtin_tools.py which uses the OpenAI SDK (click to expand)</summary>
+<summary markdown="span">Create file `test_builtin_tools.py` which uses the OpenAI SDK (click to expand)</summary>
 
 ```python
 from openai import OpenAI
