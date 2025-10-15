@@ -1,0 +1,9 @@
+---
+---
+
+@import 'main{% if jekyll.environment == 'production' %}.bundle{% endif %}';
+
+/* Make posts wider by overriding the main content container max-width */
+#main-wrapper > .container {
+  max-width: 1450px !important;
+}
