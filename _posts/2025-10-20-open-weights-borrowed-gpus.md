@@ -7,23 +7,38 @@ tags: [gpt-oss, glm-4.6, llm, vllm]
 description: "A practical guide to renting GPUs for running open-weight LLM models with control, privacy, and flexibility."
 ---
 
-## Introduction
+There's a gap between using ChatGPT through an API and running your own GPU cluster. That gap is where **power users and tinkerers** live - people who want to understand how LLMs really work, need privacy for their data, or want full control over their AI stack.
 
-The AI revolution has brought us powerful language models, but there's a catch: the best models often require expensive GPUs to run. While companies like OpenAI and Anthropic offer convenient API access, what if you want more control over your infrastructure, need to keep your data private, or simply want to learn how modern LLMs actually work under the hood?
+A cottage industry has emerged to serve this need: GPU rental platforms like [Vast.ai](https://vast.ai/), [RunPod](https://www.runpod.io/), and [Lambda Labs](https://lambda.ai/) where you can rent datacenter-grade hardware by the minute for inference or fine-tuning. People aren't doing this to save money. They're paying for knowledge, privacy, and control that APIs can't provide. 
 
-Enter the world of **open-weight models** and **GPU rentals**. "Open weights" refers to models whose parameters (weights) are publicly available—think Meta's Llama, Mistral's models, or Zhipu's GLM series. Unlike closed models from OpenAI, you can download these and run them yourself. The challenge? These models need serious hardware.
+Join me in exploring this nascent industry. Along the way we will run an open weights model which is competitive with closed models such as Anthropic Claude 4 Sonnet and OpenAI o3.
 
-This is where GPU rental services come in. Rather than buying a $10,000 workstation with high-end GPUs (and dealing with the power bills), you can rent GPU time by the minute. A cottage industry has sprung up around this need, with platforms like [Vast.ai](https://vast.ai/), [RunPod](https://www.runpod.io/), [Lambda Labs](https://lambda.ai/), and others offering access to everything from consumer GPUs to datacenter-grade hardware.
+## What We'll Cover
 
-**Why rent GPUs for inference?** It's true that for simple API calls, services like OpenAI might be more cost-effective. But renting GPUs offers unique advantages:
+In this post, I'll walk through the practical steps of renting four NVIDIA RTX Pro 6000 GPUs for a total of 384 GB of VRAM (!) and running models. We'll:
 
-- **Full control** over the software stack and model configurations
-- **Privacy** - your data never leaves the server you're renting
-- **Learning opportunity** - understand what it takes to run and fine-tune models
-- **Flexibility** - experiment with different models, quantizations, and serving frameworks
-- **Fine-tuning** - train custom adaptors or fine-tune models on your own data
+1. Choose and configure GPU hardware
+2. Set up SSH access securely
+3. Deploy a [vLLM](https://github.com/vllm-project/vllm) inference server
+4. Run the full Zhipu AI [GLM-4.6](https://z.ai/blog/glm-4.6) open weights model (the principles apply to any open-weight model)
+5. Understand the key parameters and trade-offs
+6. Use the [Jan](https://www.jan.ai/) UI to access and use the model remotely.
 
-In this post, I'll walk through the practical steps of renting GPUs and running open-weight models using [Vast.ai](https://vast.ai/) as an example. We'll set up a [vLLM](https://github.com/vllm-project/vllm) inference server running the GLM-4 series models, but the principles apply to any platform and model.
+## My Setup: Why I Needed More Than My Home Rig
+
+I run a dual RTX 3090 setup at home (48GB total VRAM). This handles most models fine, but I hit limitations when:
+- Testing models that need 48GB+ VRAM
+- Running long context windows (65k+ tokens)
+- Using quantization methods like [NVFP4](https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/) supported natively by newer GPU architectures such as Blackwell.
+- Fine-tuning models
+
+## About GLM-4.6
+
+[GLM-4.6](https://z.ai/blog/glm-4.6) is Zhipu AI's latest flagship model, representing a significant upgrade over GLM-4.5. Built with a Mixture-of-Experts architecture, it brings several key improvements: a **200K token context window** (up from 128K), superior coding performance approaching Claude Sonnet 4 levels, and enhanced reasoning capabilities with tool use during inference. In real-world evaluations using CC-Bench, GLM-4.6 achieves near parity with Claude Sonnet 4 (48.6% win rate) while clearly outperforming other open-source models like DeepSeek-V3.2-Exp. The model also demonstrates 15% better token efficiency than GLM-4.5, completing tasks with fewer tokens while maintaining higher quality. Like its predecessor, GLM-4.6 offers hybrid reasoning modes - thinking mode for complex tasks and non-thinking mode for instant responses - all while being available as open weights.
+
+## Step-by-Step: Renting GPUs and Running vLLM
+
+Let's walk through the entire process. I'll use Vast.ai, but the concepts apply to RunPod, Lambda Labs, or any other provider.
 
 
 <img width="732" height="440" alt="image" src="https://github.com/user-attachments/assets/23468865-098e-4184-b6aa-40fb56190181" />
