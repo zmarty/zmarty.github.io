@@ -72,7 +72,10 @@ Under VLLM args I specified the following parameters to load the model:
 --max-model-len 8192 --enforce-eager --download-dir /workspace/models --host 127.0.0.1 --port 18000 --enable-auto-tool-choice --tool-call-parser glm45 --reasoning-parser glm45 --swap-space 16 --max-num-seqs 64 --gpu-memory-utilization 0.9 --tensor-parallel-size 4 --enable-expert-parallel --trust-remote-code
 ```
 
-Here's what these mean:
+**Security Note:** When exposing vLLM to the internet, you can secure it with an API key by adding `--api-key your_secret_api_key` to the arguments above.
+
+<details markdown="1">
+<summary markdown="span">Parameter explanations (click to expand)</summary>
 
 - `--max-model-len 8192`: Max context length (tokens). Limits prompt + output length to save GPU memory. Here I could have set it much higher since I had the VRAM available.
 - `--enforce-eager`: Forces PyTorch eager mode (disables CUDA graphs). More stable, slightly slower.
@@ -87,6 +90,8 @@ Here's what these mean:
 - `--tensor-parallel-size 4`: Splits model across 4 GPUs for inference.
 - `--enable-expert-parallel`: Enables expert parallelism for MoE (Mixture-of-Experts) models.
 - `--trust-remote-code`: Allows loading custom model code from remote repositories (e.g., Hugging Face).
+
+</details>
 
 <img width="714" height="89" alt="image" src="https://github.com/user-attachments/assets/be228d64-4c7e-4da5-bf4e-62237c1f6107" />
 
@@ -158,7 +163,7 @@ Finally, we can connect a UI such as [Jan](https://www.jan.ai/) to the server re
 
 <br>
 
-You can see at the bottom here we are getting about 8 tokens per second: 
+You can see at the bottom here we are getting about 8 tokens per second, which is not great - I have seen other reporting 90 tokens/sec, but I have not spent time tuning it: 
 
 <img width="685" height="642" alt="image" src="https://github.com/user-attachments/assets/5917c985-2ceb-4590-8777-7a91d5e3847b" />
 
@@ -214,7 +219,7 @@ Setting up a full inference server with vLLM is straightforward once you underst
 
 **Who's Behind These Rentals?**
 The GPU rental marketplace is surprisingly diverse. You're renting from:
-- Enthusiasts with high-end gaming rigs or workstations. Yes could be renting a computer in somebody's basement
+- Enthusiasts with high-end gaming rigs or workstations. You could be renting a computer in somebody's basement
 - Small businesses with spare compute capacity
 - Small datacenter operators looking to monetize idle hardware
 
