@@ -17,12 +17,12 @@ Join me in exploring this nascent industry. Along the way I'll run an open weigh
 
 In this post, I'll walk through the practical steps of renting four [NVIDIA RTX Pro 6000](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/) GPUs for a total of 384 GB of VRAM (!) and running models. We'll:
 
-1. Choose and configure GPU hardware
-2. Set up SSH access securely
-3. Deploy a [vLLM](https://github.com/vllm-project/vllm) inference server
-4. Run the full Zhipu AI [GLM-4.6](https://z.ai/blog/glm-4.6) open weights model (the principles apply to any open-weight model)
-5. Understand the key parameters and trade-offs
-6. Use the [Jan](https://www.jan.ai/) UI to access and use the model remotely.
+1. Choose and rent GPUs
+2. Deploy a [vLLM](https://github.com/vllm-project/vllm) inference server
+3. Run the Zhipu AI [GLM-4.6](https://z.ai/blog/glm-4.6) open weights model (the principles apply to any open-weight model)
+4. Use the [Jan](https://www.jan.ai/) UI to access and use the model remotely.
+5. Explore pricing
+6. Present take-aways and tips
 
 ## My Setup: Why I Needed More Than My Home Rig
 
@@ -115,13 +115,13 @@ You can see in the logs that it was loading the GLM model:
 
 To access the machine over SSH, first **create an SSH key BEFORE you create an instance**, otherwise you will need to go under Instances and set a SSH key that will get propagated to the machine.
 
-1. Generate a SSH key pair in your terminal:
+Generate a SSH key pair in your terminal:
 
 ```bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
-2. Copy your public key, then paste it into the vast.ai interface under Keys:
+Copy your public key, then paste it into the vast.ai interface under Keys:
 
 ```bash
 # Print the public key
