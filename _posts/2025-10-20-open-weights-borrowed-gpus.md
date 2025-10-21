@@ -36,6 +36,8 @@ I run a dual RTX 3090 setup at home (48GB total VRAM). This handles most models 
 
 [GLM-4.6](https://z.ai/blog/glm-4.6) is Zhipu AI's latest flagship model, representing a significant upgrade over GLM-4.5. Built with a Mixture-of-Experts architecture, it brings several key improvements: a **200K token context window** (up from 128K), superior coding performance approaching Claude Sonnet 4 levels, and enhanced reasoning capabilities with tool use during inference. In real-world evaluations using CC-Bench, GLM-4.6 achieves near parity with Claude Sonnet 4 (48.6% win rate) while clearly outperforming other open-source models like DeepSeek-V3.2-Exp. The model also demonstrates 15% better token efficiency than GLM-4.5, completing tasks with fewer tokens while maintaining higher quality. Like its predecessor, GLM-4.6 offers hybrid reasoning modes - thinking mode for complex tasks and non-thinking mode for instant responses - all while being available as open weights.
 
+<img width="3390" height="2654" alt="image" src="https://github.com/user-attachments/assets/8d487191-6338-4fd3-b94e-f9a1f6436349" />
+
 ## Step-by-Step: Renting GPUs and Running vLLM
 
 Let's walk through the entire process. I'll use Vast.ai, but the concepts apply to RunPod, Lambda Labs, or any other provider.
