@@ -44,6 +44,8 @@ Let's walk through the entire process. I'll use Vast.ai, but the concepts apply 
 
 After I created an account, I filtered down to the RTX Pro 6000 GPUs that I was interested in. I am experimenting with them because I plan on buying one for my home workstation. These rental platforms have many other GPUs available, including gaming GPUs such as 5090, as well as datacenter-grade GPUs such as H100 or H200.
 
+<img width="2054" height="1251" alt="image" src="https://github.com/user-attachments/assets/b63d9cb5-ff2b-4fe0-babf-eb5247e81e9c" />
+
 <img width="732" height="440" alt="image" src="https://github.com/user-attachments/assets/23468865-098e-4184-b6aa-40fb56190181" />
 
 <img width="735" height="174" alt="image" src="https://github.com/user-attachments/assets/7c19f373-5109-40ad-99fe-37dbcae1c7c8" />
