@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Open Weights, Borrowed GPUs"
-date: 2025-10-20 23:00:00 -0700
+date: 2025-10-20 22:15:00 -0700
 categories: [AI, Development]
 tags: [glm-4.6, llm, vllm]
 description: "A practical guide to renting GPUs for running open-weight LLM models with control, privacy, and flexibility."
