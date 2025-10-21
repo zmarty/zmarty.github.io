@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Open Weights, Borrowed GPUs"
-date: 2025-10-14 23:00:00 -0700
+date: 2025-10-20 23:00:00 -0700
 categories: [AI, Development]
-tags: [gpt-oss, glm-4.6, llm, vllm]
+tags: [glm-4.6, llm, vllm]
 description: "A practical guide to renting GPUs for running open-weight LLM models with control, privacy, and flexibility."
 ---
 
@@ -15,7 +15,7 @@ Join me in exploring this nascent industry. Along the way we will run an open we
 
 ## What We'll Cover
 
-In this post, I'll walk through the practical steps of renting four NVIDIA RTX Pro 6000 GPUs for a total of 384 GB of VRAM (!) and running models. We'll:
+In this post, I'll walk through the practical steps of renting four [NVIDIA RTX Pro 6000](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/) GPUs for a total of 384 GB of VRAM (!) and running models. We'll:
 
 1. Choose and configure GPU hardware
 2. Set up SSH access securely
@@ -26,8 +26,8 @@ In this post, I'll walk through the practical steps of renting four NVIDIA RTX P
 
 ## My Setup: Why I Needed More Than My Home Rig
 
-I run a dual RTX 3090 setup at home (48GB total VRAM). This handles most models fine, but I hit limitations when:
-- Testing models that need 48GB+ VRAM
+I run a dual RTX 3090 setup at home . This handles most models fine, but I hit limitations when:
+- Testing models that need more than the 48GB VRAM that I have available
 - Running long context windows (65k+ tokens)
 - Using quantization methods like [NVFP4](https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/) supported natively by newer GPU architectures such as Blackwell.
 - Fine-tuning models
@@ -36,12 +36,13 @@ I run a dual RTX 3090 setup at home (48GB total VRAM). This handles most models 
 
 [GLM-4.6](https://z.ai/blog/glm-4.6) is Zhipu AI's latest flagship model, representing a significant upgrade over GLM-4.5. Built with a Mixture-of-Experts architecture, it brings several key improvements: a **200K token context window** (up from 128K), superior coding performance approaching Claude Sonnet 4 levels, and enhanced reasoning capabilities with tool use during inference. In real-world evaluations using CC-Bench, GLM-4.6 achieves near parity with Claude Sonnet 4 (48.6% win rate) while clearly outperforming other open-source models like DeepSeek-V3.2-Exp. The model also demonstrates 15% better token efficiency than GLM-4.5, completing tasks with fewer tokens while maintaining higher quality. Like its predecessor, GLM-4.6 offers hybrid reasoning modes - thinking mode for complex tasks and non-thinking mode for instant responses - all while being available as open weights.
 
-<img width="3390" height="2654" alt="image" src="https://github.com/user-attachments/assets/8d487191-6338-4fd3-b94e-f9a1f6436349" />
+<img width="800" height="626" alt="image" src="https://github.com/user-attachments/assets/8d487191-6338-4fd3-b94e-f9a1f6436349" />
 
 ## Step-by-Step: Renting GPUs and Running vLLM
 
 Let's walk through the entire process. I'll use Vast.ai, but the concepts apply to RunPod, Lambda Labs, or any other provider.
 
+After I created an account, I filtered down to the RTX Pro 6000 GPUs that I was interested in. I am experimenting with them because I plan on buying one for my home workstation. These rental platforms have many other GPUs available, including gaming GPUs such as 5090, as well as datacenter-grade GPUs such as H100 or H200.
 
 <img width="732" height="440" alt="image" src="https://github.com/user-attachments/assets/23468865-098e-4184-b6aa-40fb56190181" />
 
