@@ -24,18 +24,26 @@ docker run --rm --ipc=host -it \
   nvcr.io/nvidia/tensorrt-llm/release:1.2.0rc1 \
   /bin/bash
 
+cd /models
+
+cat <<EOF > low_latency.yaml
+enable_attention_dp: false
+cuda_graph_config:
+    max_batch_size: 1
+    enable_padding: true
+moe_config:
+    backend: TRTLLM
+EOF
 
 
-mpirun -n 1 --oversubscribe --allow-run-as-root \
-trtllm-serve 
-  --model openai/gpt-oss-120b \
-  --model_path /models/original/gpt-oss-120b \
+trtllm-serve \
+  /models/original/gpt-oss-120b \
   --host 0.0.0.0 \
   --port 8000 \
   --backend pytorch \
-  --tp_size 8 \
-  --ep_size 8 \
-  --max_batch_size 640 \
+  --tp_size 1 \
+  --ep_size 1 \
+  --max_batch_size 1 \
   --trust_remote_code \
-  --extra_llm_api_options max_throughput.yaml \
+  --extra_llm_api_options low_latency.yaml \
   --kv_cache_free_gpu_memory_fraction 0.9
