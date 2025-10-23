@@ -10,8 +10,9 @@ description: "Speculative decoding!"
 mkdir -p /models/original/
 
 pip install huggingface-hub
-huggingface-cli download nvidia/gpt-oss-120b-Eagle3 --local-dir /models/original/gpt-oss-120b-Eagle3
 huggingface-cli download openai/gpt-oss-120b --local-dir /models/original/gpt-oss-120b
+huggingface-cli download nvidia/gpt-oss-120b-Eagle3 --local-dir /models/original/gpt-oss-120b-Eagle3
+huggingface-cli download nvidia/gpt-oss-120b-Eagle3-v2 --local-dir /models/original/gpt-oss-120b-Eagle3-v2
 
 
 docker run --rm --ipc=host -it \
@@ -72,7 +73,7 @@ moe_config:
 speculative_config:
     decoding_type: Eagle
     max_draft_len: 3
-    speculative_model_dir: /models/original/gpt-oss-120b-Eagle3/
+    speculative_model_dir: /models/original/gpt-oss-120b-Eagle3-v2/
 kv_cache_config:
     enable_block_reuse: false
 
