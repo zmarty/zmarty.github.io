@@ -123,3 +123,12 @@ docker run --rm --ipc=host -it \
   nvcr.io/nvidia/tensorrt-llm/release:1.0.0 \
   /bin/bash
 
+docker run --rm --ipc=host -it \
+  --ulimit stack=67108864 \
+  --ulimit memlock=-1 \
+  --gpus all \
+  -p 8000:8000 \
+  -e TRTLLM_ENABLE_PDL=1 \
+  -v /models:/models:rw \
+  nvcr.io/nvidia/tensorrt-llm/release:1.1.0rc5 \
+  /bin/bash
