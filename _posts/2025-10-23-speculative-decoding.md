@@ -7,6 +7,8 @@ tags: [gpt-oss-120b, llm, vllm]
 description: "Speculative decoding!"
 ---
 
+https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tensorrt-llm/containers/release?version=1.2.0rc1
+
 mkdir -p /models/original/
 
 pip install huggingface-hub
@@ -90,3 +92,34 @@ trtllm-serve \
   --trust_remote_code \
   --extra_llm_api_options low_latency_speculative.yaml \
   --kv_cache_free_gpu_memory_fraction 0.9
+
+
+--log_level debug
+
+
+---
+
+
+docker run --rm --ipc=host -it \
+  --ulimit stack=67108864 \
+  --ulimit memlock=-1 \
+  --gpus all \
+  -p 8000:8000 \
+  -e TRTLLM_ENABLE_PDL=1 \
+  -v /models:/models:rw \
+  nvcr.io/nvidia/tensorrt-llm/release:spark-single-gpu-dev \
+  /bin/bash
+
+TODO: Remove Docker image spark-single-gpu-dev !!!
+
+
+docker run --rm --ipc=host -it \
+  --ulimit stack=67108864 \
+  --ulimit memlock=-1 \
+  --gpus all \
+  -p 8000:8000 \
+  -e TRTLLM_ENABLE_PDL=1 \
+  -v /models:/models:rw \
+  nvcr.io/nvidia/tensorrt-llm/release:1.0.0 \
+  /bin/bash
+
