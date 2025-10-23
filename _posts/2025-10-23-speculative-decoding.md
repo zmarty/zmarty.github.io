@@ -26,13 +26,15 @@ docker run --rm --ipc=host -it \
 
 cd /models
 
+https://github.com/NVIDIA/TensorRT-LLM/issues/8474
+
 cat <<EOF > low_latency.yaml
 enable_attention_dp: false
 cuda_graph_config:
     max_batch_size: 1
     enable_padding: true
 moe_config:
-    backend: TRTLLM
+    backend: CUTLASS
 EOF
 
 
