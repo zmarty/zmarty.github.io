@@ -11,10 +11,16 @@ https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tensorrt-llm/containers/release
 
 mkdir -p /models/original/
 
+venv etc!!!!!!!!!!!!!
+source venv/bin/activate !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+cd /models/original/
+
 pip install huggingface-hub
 huggingface-cli download openai/gpt-oss-120b --local-dir /models/original/gpt-oss-120b
 huggingface-cli download nvidia/gpt-oss-120b-Eagle3 --local-dir /models/original/gpt-oss-120b-Eagle3
 huggingface-cli download nvidia/gpt-oss-120b-Eagle3-v2 --local-dir /models/original/gpt-oss-120b-Eagle3-v2
+
+huggingface-cli download Snowflake/Arctic-LSTM-Speculator-gpt-oss-120b --local-dir /models/original/Arctic-LSTM-Speculator-gpt-oss-120b
 
 
 docker run --rm --ipc=host -it \
@@ -109,15 +115,6 @@ pip3 install -e .
 
 ----
 
-git clone https://github.com/coder543/llm-speed-benchmark
-cd llm-speed-benchmark
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-
-export OPENAI_API_KEY="None"
-export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
-python benchmark.py --models "gpt-oss-120b" -n 100 --plot no
 
 ----
 
@@ -131,3 +128,39 @@ vllm serve /models/original/gpt-oss-120b \
   --enable-auto-tool-choice \
   --host 0.0.0.0 \
   --port 8000
+
+----
+
+https://github.com/snowflakedb/ArcticInference/tree/main
+
+pip3 install arctic-inference[vllm]
+
+ARCTIC_INFERENCE_ENABLED=1 vllm serve /models/original/gpt-oss-120b \
+  --tensor-parallel-size 1 \
+  --max_num_seqs 1 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.97 \
+  --reasoning-parser GptOss \
+  --speculative-config '{ "method": "arctic", "model":"/models/original/Arctic-LSTM-Speculator-gpt-oss-120b", "num_speculative_tokens": 3, "enable_suffix_decoding": true }' \
+  --host 0.0.0.0 \
+  --port 8000
+
+----
+
+git clone https://github.com/coder543/llm-speed-benchmark
+cd llm-speed-benchmark
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+
+export OPENAI_API_KEY="None"
+export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
+python benchmark.py --models "/models/original/gpt-oss-120b" -n 10 --plot no
+
+----
+
+
+
+
+
+
