@@ -160,6 +160,27 @@ python benchmark.py --models "/models/original/gpt-oss-120b" -n 10 --plot no
 ----
 
 
+VLLM_TORCH_BACKEND=auto uv pip install -U \
+  --prerelease=allow \
+  --extra-index-url https://wheels.vllm.ai/nightly \
+  "triton-kernels @ git+https://github.com/triton-lang/triton.git@v3.5.0#subdirectory=python/triton_kernels" \
+  vllm
+
+----
+
+----
+
+vllm serve /models/original/gpt-oss-120b \
+  --tensor-parallel-size 1 \
+  --max_num_seqs 1 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.97 \
+  --tool-call-parser openai \
+  --reasoning-parser openai_gptoss \
+  --enable-auto-tool-choice \
+  --speculative-config '{"model": "/models/original/gpt-oss-120b-Eagle3", "num_speculative_tokens": 3, "method":"eagle3", "draft_tensor_parallel_size":1}' \
+  --host 0.0.0.0 \
+  --port 8000
 
 
 
