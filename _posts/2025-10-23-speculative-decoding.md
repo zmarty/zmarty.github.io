@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Speculative decoding"
+title: "Speeding up local LLM inference 2x with Speculative Decoding"
 date: 2025-10-23 22:15:00 -0700
 categories: [AI, Development]
 tags: [gpt-oss-120b, llm, vllm]
@@ -51,7 +51,7 @@ trtllm-serve \
   --max_batch_size 1 \
   --trust_remote_code \
   --extra_llm_api_options low_latency.yaml \
-  --kv_cache_free_gpu_memory_fraction 0.9
+  --kv_cache_free_gpu_memory_fraction 0.95
 
 --
 
@@ -91,44 +91,43 @@ trtllm-serve \
   --max_batch_size 1 \
   --trust_remote_code \
   --extra_llm_api_options low_latency_speculative.yaml \
-  --kv_cache_free_gpu_memory_fraction 0.9
+  --kv_cache_free_gpu_memory_fraction 0.95
 
 
 --log_level debug
 
 
----
 
+-----
+-----
 
-docker run --rm --ipc=host -it \
-  --ulimit stack=67108864 \
-  --ulimit memlock=-1 \
-  --gpus all \
-  -p 8000:8000 \
-  -e TRTLLM_ENABLE_PDL=1 \
-  -v /models:/models:rw \
-  nvcr.io/nvidia/tensorrt-llm/release:spark-single-gpu-dev \
-  /bin/bash
+git clone https://github.com/ray-project/llmperf
+cd llmperf
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -e .
 
-TODO: Remove Docker image spark-single-gpu-dev !!!
+----
 
+git clone https://github.com/coder543/llm-speed-benchmark
+cd llm-speed-benchmark
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 
-docker run --rm --ipc=host -it \
-  --ulimit stack=67108864 \
-  --ulimit memlock=-1 \
-  --gpus all \
-  -p 8000:8000 \
-  -e TRTLLM_ENABLE_PDL=1 \
-  -v /models:/models:rw \
-  nvcr.io/nvidia/tensorrt-llm/release:1.0.0 \
-  /bin/bash
+export OPENAI_API_KEY="None"
+export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
+python benchmark.py --models "gpt-oss-120b" -n 100 --plot no
 
-docker run --rm --ipc=host -it \
-  --ulimit stack=67108864 \
-  --ulimit memlock=-1 \
-  --gpus all \
-  -p 8000:8000 \
-  -e TRTLLM_ENABLE_PDL=1 \
-  -v /models:/models:rw \
-  nvcr.io/nvidia/tensorrt-llm/release:1.1.0rc5 \
-  /bin/bash
+----
+
+vllm serve /models/original/gpt-oss-120b \
+  --tensor-parallel-size 1 \
+  --max_num_seqs 1 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.97 \
+  --tool-call-parser openai \
+  --reasoning-parser openai_gptoss \
+  --enable-auto-tool-choice \
+  --host 0.0.0.0 \
+  --port 8000
