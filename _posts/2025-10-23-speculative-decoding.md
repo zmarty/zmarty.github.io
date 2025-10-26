@@ -9,7 +9,7 @@ description: "How a small draft model can speed up LLM inference by 1.82× witho
 
 Speculative decoding is a technique that can speed up LLM inference at a small cost of extra compute and VRAM usage. In this post I explore this technique by benchmarking the Qwen3-32B model with and without speculative decoding, achieving a **1.82× speedup** in token generation throughput while maintaining identical output quality.
 
-<img width="800" height="836" alt="output" src="https://github.com/user-attachments/assets/8ad9398b-f08e-4d7e-8996-93b35366c38d" />
+<img width="600" height="627" alt="output" src="https://github.com/user-attachments/assets/8ad9398b-f08e-4d7e-8996-93b35366c38d" />
 
 ### How Does Speculative Decoding Work?
 
