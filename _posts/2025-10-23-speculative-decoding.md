@@ -211,6 +211,19 @@ uv pip install flashinfer-python
    must force reinstall nightly Triton afterward using --force-reinstall --no-deps
    to keep the nightly version.
 
+----
+
+Using flash attention
+
+uv pip install flashinfer-python
+
+https://huggingface.co/RedHatAI/Qwen3-32B-speculator.eagle3
+
+vllm serve /models/original/Qwen-Qwen3-32B \
+  --served-model-name "Qwen3-32B" \
+  --reasoning-parser deepseek_r1 \
+  --speculative-config '{ "model": "/models/original/RedHatAI-Qwen3-32B-speculator.eagle3", "num_speculative_tokens": 3, "method": "eagle3" }'
+
 
 
 
