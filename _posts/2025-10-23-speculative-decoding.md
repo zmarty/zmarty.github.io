@@ -84,7 +84,7 @@ uv pip install flashinfer-python
 
 ### Install benchmark
 
-We will use the lighweight [llm-speed-benchmark](https://github.com/coder543/llm-speed-benchmark) to test speed.
+We will use the lightweight [llm-speed-benchmark](https://github.com/coder543/llm-speed-benchmark) to test speed.
 
 ```bash
 git clone https://github.com/coder543/llm-speed-benchmark
