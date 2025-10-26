@@ -4,18 +4,36 @@ title: "Speeding up local LLM inference 2x with Speculative Decoding"
 date: 2025-10-26 13:15:00 -0700
 categories: [AI, Development]
 tags: [gpt-oss-120b, llm, vllm]
-description: "Speculative decoding!"
+description: "How a small draft model can speed up LLM inference by 1.82× without sacrificing quality - benchmarking Qwen3-32B with speculative decoding"
 ---
 
-### Install VLLM
+Speculative decoding is a technique that can speed up LLM inference at a small cost of extra compute and VRAM usage. In this post I explore this technique by benchmarking the Qwen3-32B model with and without speculative decoding, achieving a **1.82× speedup** in token generation throughput while maintaining identical output quality.
 
-```bash
-cd /git/vllm
-uv venv --python 3.12 --seed
-source .venv/bin/activate
-uv pip install vllm --torch-backend=auto
-uv pip install flashinfer-python
-```
+<img width="800" height="836" alt="output" src="https://github.com/user-attachments/assets/8ad9398b-f08e-4d7e-8996-93b35366c38d" />
+
+### How Does Speculative Decoding Work?
+
+Speculative decoding uses two models working together: a small, fast "draft" model that proposes candidate tokens, and the full large model that verifies them. The draft model quickly generates a few consecutive token suggestions, and then the large model checks whether those suggestions align with what it would have generated.
+
+At first, I had trouble understanding how this could possibly be faster. Here's what confused me initially - if the large model still has to process those tokens, how is that cheaper than just having the large model generate them in the first place?
+
+The breakthrough came when I realized that **the large model can verify multiple tokens in a single forward pass**. With speculative decoding:
+
+1. A small, fast draft model proposes N tokens (for example, 3 tokens: "The", "cat", "sat")
+2. The large model runs **one forward pass** to check all N tokens at once
+3. In that single pass, it computes the probabilities for each: p("The"|context), p("cat"|context, "The"), p("sat"|context, "The", "cat")
+4. The large model accepts the prefix of tokens that match its own probability distribution
+5. If any token is rejected, the large model resumes generation from that point
+
+In normal decoding, generating N tokens would require N separate expensive forward passes through the large model. With speculative decoding, you only need 1 large model forward pass to verify all N tokens. Modern GPUs can compute activations for multiple tokens in parallel efficiently, so verifying N draft tokens in one pass is only marginally more expensive than generating 1 token - but you save N-1 expensive forward passes.
+
+**Speculative decoding is not an approximation** as the output quality is exactly the same as if the large model generated everything itself. The draft model's suggestions are just proposals that get verified and corrected by the large model.
+
+The technique works best when the draft model is well-aligned with the large model, resulting in high acceptance rates. In my tests, I observed an average draft acceptance rate of 33.8%.
+
+### Models Used
+
+For this benchmark, I used the [Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B) model as the main model - a 32 billion parameter model in BF16 format, weighing in at 65.5GB. For the draft model, I used [Qwen3-32B-speculator.eagle3](https://huggingface.co/RedHatAI/Qwen3-32B-speculator.eagle3) from RedHat AI, which is a 2 billion parameter model also in BF16 format at just 3.12GB. This 16:1 parameter ratio between the models allows the draft model to run very quickly while still producing reasonable suggestions that the large model can verify efficiently.
 
 ### Hardware
 
@@ -25,6 +43,7 @@ I ran everything locally on my Workstation
 CPU: AMD Ryzen 9 7950X3D 16-Core Processor
 GPU: NVIDIA RTX Pro 6000 (96 GB VRAM)
 OS: Ubuntu 25.04
+vllm: version 0.11.0
 ```
 
 ``nvidia-smi`` output:
@@ -51,6 +70,16 @@ Sun Oct 26 13:03:58 2025
 |=========================================================================================|
 |    0   N/A  N/A            5635      G   /usr/bin/gnome-shell                      8MiB |
 +-----------------------------------------------------------------------------------------+
+```
+
+### Install VLLM
+
+```bash
+cd /git/vllm
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+uv pip install vllm --torch-backend=auto
+uv pip install flashinfer-python
 ```
 
 ### Install benchmark
@@ -125,9 +154,11 @@ DEFAULT_PROMPT = ("Imagine you are planning a week-long vacation to a place you'
 
 ### Results
 
-<img width="1184" height="1236" alt="output" src="https://github.com/user-attachments/assets/8ad9398b-f08e-4d7e-8996-93b35366c38d" />
+The results show impressive speedups across all metrics. Speculative decoding nearly doubled the token generation throughput, achieving **1.82× faster** response generation (from 22.96 to 41.88 tokens/s). The time to first token also improved by **1.60×**, meaning responses start streaming much sooner. Even prompt processing saw a **1.71× speedup**.
 
-Note I am running the full and unquantized ``Qwen3-32B`` model!
+What's remarkable is that these gains come with zero quality loss - the output is mathematically identical to what the large model would generate alone. The tradeoff is modest: an additional ~3GB of VRAM to load the draft model (3.12GB on-disk) and slightly higher compute overhead, but the benefits far outweigh the costs.
+
+**Note I am running the full and unquantized ``Qwen3-32B`` model!**
 
 Here's a Markdown table summarizing the **Qwen3-32B speculative decoding speedup**:
 
