@@ -184,6 +184,10 @@ vllm serve /models/original/gpt-oss-120b \
 
 ----
 
+uv pip install flashinfer-python
+
+----
+
 # 1. Create a virtual environment
      python3 -m venv .venv
      
