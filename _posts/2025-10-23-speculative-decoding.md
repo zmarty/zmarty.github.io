@@ -224,6 +224,20 @@ vllm serve /models/original/Qwen-Qwen3-32B \
   --reasoning-parser deepseek_r1 \
   --speculative-config '{ "model": "/models/original/RedHatAI-Qwen3-32B-speculator.eagle3", "num_speculative_tokens": 3, "method": "eagle3" }'
 
+python3 benchmark.py --models "Qwen3-32B" -n 10 --plot no
 
+```python
+# Default prompt used for benchmarking. Long enough to hopefully get a good sense of prompt processing speed, and generate enough response tokens to get a reasonable measure there too.
+DEFAULT_PROMPT = ("Imagine you are planning a week-long vacation to a place you've never visited before. "
+                  "Describe the destination, including its main attractions and cultural highlights. "
+                  "What activities would you prioritize during your visit? Additionally, explain how you would prepare for the trip, "
+                  "including any specific items you would pack and any research you would conduct beforehand. "
+                  "Finally, discuss how you would balance relaxation and adventure during your vacation.")
+```
 
+```console
+(APIServer pid=714707) INFO 10-26 12:32:24 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 48.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 25.1%, Prefix cache hit rate: 26.4%
+(APIServer pid=714707) INFO 10-26 12:32:24 [metrics.py:96] SpecDecoding metrics: Mean acceptance length: 3.33, Accepted throughput: 33.60 tokens/s, Drafted throughput: 43.20 tokens/s, Accepted: 336 tokens, Drafted: 432 tokens, Per-position acceptance rate: 0.833, 0.833, 0.667, Avg Draft acceptance rate: 77.8%
+(APIServer pid=714707) INFO 10-26 12:32:34 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 47.2 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 25.7%, Prefix cache hit rate: 26.4%
+```
 
