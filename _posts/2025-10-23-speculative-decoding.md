@@ -236,8 +236,7 @@ DEFAULT_PROMPT = ("Imagine you are planning a week-long vacation to a place you'
 ```
 
 ```console
-(APIServer pid=714707) INFO 10-26 12:32:24 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 48.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 25.1%, Prefix cache hit rate: 26.4%
-(APIServer pid=714707) INFO 10-26 12:32:24 [metrics.py:96] SpecDecoding metrics: Mean acceptance length: 3.33, Accepted throughput: 33.60 tokens/s, Drafted throughput: 43.20 tokens/s, Accepted: 336 tokens, Drafted: 432 tokens, Per-position acceptance rate: 0.833, 0.833, 0.667, Avg Draft acceptance rate: 77.8%
-(APIServer pid=714707) INFO 10-26 12:32:34 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 47.2 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 25.7%, Prefix cache hit rate: 26.4%
+(APIServer pid=722408) INFO 10-26 12:36:16 [metrics.py:96] SpecDecoding metrics: Mean acceptance length: 2.01, Accepted throughput: 20.60 tokens/s, Drafted throughput: 60.90 tokens/s, Accepted: 206 tokens, Drafted: 609 tokens, Per-position acceptance rate: 0.601, 0.286, 0.128, Avg Draft acceptance rate: 33.8%
+(APIServer pid=722408) INFO 10-26 12:36:26 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 47.4 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 1.9%, Prefix cache hit rate: 37.2%
 ```
 
