@@ -182,6 +182,31 @@ vllm serve /models/original/gpt-oss-120b \
   --host 0.0.0.0 \
   --port 8000
 
+----
+
+# 1. Create a virtual environment
+     python3 -m venv .venv
+     
+     # 2. Activate the virtual environment and upgrade pip
+     source .venv/bin/activate
+     pip install --upgrade pip
+     
+     # 3. Install nightly Triton first
+     pip install --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton
+     
+     # 4. Install nightly vLLM
+     pip install vllm --pre
+     
+     # 5. Force reinstall nightly Triton (vLLM will have downgraded it to stable 3.4.0)
+     pip install --force-reinstall --no-deps --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton
+     
+     # 6. Verify installation
+     pip list | grep -E "(vllm|triton)"
+
+   Key insight: vLLM's dependencies will pull in the stable Triton 3.4.0, so you
+   must force reinstall nightly Triton afterward using --force-reinstall --no-deps
+   to keep the nightly version.
+
 
 
 
