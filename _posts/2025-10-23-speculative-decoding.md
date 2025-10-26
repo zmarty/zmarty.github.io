@@ -1,230 +1,118 @@
 ---
 layout: post
 title: "Speeding up local LLM inference 2x with Speculative Decoding"
-date: 2025-10-23 22:15:00 -0700
+date: 2025-10-26 13:15:00 -0700
 categories: [AI, Development]
 tags: [gpt-oss-120b, llm, vllm]
 description: "Speculative decoding!"
 ---
 
-https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tensorrt-llm/containers/release?version=1.2.0rc1
+### Install VLLM
 
-mkdir -p /models/original/
+```bash
+cd /git/vllm
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+uv pip install vllm --torch-backend=auto
+uv pip install flashinfer-python
+```
 
-venv etc!!!!!!!!!!!!!
-source venv/bin/activate !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-cd /models/original/
+### Hardware
 
-pip install huggingface-hub
-huggingface-cli download openai/gpt-oss-120b --local-dir /models/original/gpt-oss-120b
-huggingface-cli download nvidia/gpt-oss-120b-Eagle3 --local-dir /models/original/gpt-oss-120b-Eagle3
-huggingface-cli download nvidia/gpt-oss-120b-Eagle3-v2 --local-dir /models/original/gpt-oss-120b-Eagle3-v2
+I ran everything locally on my Workstation
 
-huggingface-cli download Snowflake/Arctic-LSTM-Speculator-gpt-oss-120b --local-dir /models/original/Arctic-LSTM-Speculator-gpt-oss-120b
+```
+CPU: AMD Ryzen 9 7950X3D 16-Core Processor
+GPU: NVIDIA RTX Pro 6000 (96 GB VRAM)
+OS: Ubuntu 25.04
+```
 
+``nvidia-smi`` output:
 
-docker run --rm --ipc=host -it \
-  --ulimit stack=67108864 \
-  --ulimit memlock=-1 \
-  --gpus all \
-  -p 8000:8000 \
-  -e TRTLLM_ENABLE_PDL=1 \
-  -v /models:/models:rw \
-  nvcr.io/nvidia/tensorrt-llm/release:1.2.0rc1 \
-  /bin/bash
+```bash
+(vllm) zmarty@zmarty-aorus:/git/vllm$ nvidia-smi
+Sun Oct 26 13:03:58 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                  Off |
+| 30%   31C    P0            106W /  600W |      20MiB /  97887MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
 
-cd /models
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            5635      G   /usr/bin/gnome-shell                      8MiB |
++-----------------------------------------------------------------------------------------+
+```
 
-https://github.com/NVIDIA/TensorRT-LLM/issues/8474
+### Install benchmark
 
-cat <<EOF > low_latency.yaml
-enable_attention_dp: false
-cuda_graph_config:
-    max_batch_size: 1
-    enable_padding: true
-moe_config:
-    backend: CUTLASS
-EOF
+We will use the lighweight [llm-speed-benchmark](https://github.com/coder543/llm-speed-benchmark) to test speed.
 
-
-trtllm-serve \
-  /models/original/gpt-oss-120b \
-  --host 0.0.0.0 \
-  --port 8000 \
-  --backend pytorch \
-  --tp_size 1 \
-  --ep_size 1 \
-  --max_batch_size 1 \
-  --trust_remote_code \
-  --extra_llm_api_options low_latency.yaml \
-  --kv_cache_free_gpu_memory_fraction 0.95
-
---
-
-sudo iptables -I INPUT -i docker0 -p tcp --dport 8000 -j ACCEPT
-sudo iptables -I DOCKER-USER -i docker0 -j ACCEPT
-
---
-
-https://developer.nvidia.com/blog/tensorrt-llm-speculative-decoding-boosts-inference-throughput-by-up-to-3-6x/
-
-low_latency_speculative.yaml:
-
-enable_attention_dp: false
-disable_overlap_scheduler: true
-enable_autotuner: false
-cuda_graph_config:
-    max_batch_size: 1
-    enable_padding: true
-moe_config:
-    backend: CUTLASS
-speculative_config:
-    decoding_type: Eagle
-    max_draft_len: 3
-    speculative_model_dir: /models/original/gpt-oss-120b-Eagle3-v2/
-kv_cache_config:
-    enable_block_reuse: false
-
-
-
-trtllm-serve \
-  /models/original/gpt-oss-120b \
-  --host 0.0.0.0 \
-  --port 8000 \
-  --backend pytorch \
-  --tp_size 1 \
-  --ep_size 1 \
-  --max_batch_size 1 \
-  --trust_remote_code \
-  --extra_llm_api_options low_latency_speculative.yaml \
-  --kv_cache_free_gpu_memory_fraction 0.95
-
-
---log_level debug
-
-
-
------
------
-
-git clone https://github.com/ray-project/llmperf
-cd llmperf
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -e .
-
-----
-
-
-----
-
-vllm serve /models/original/gpt-oss-120b \
-  --tensor-parallel-size 1 \
-  --max_num_seqs 1 \
-  --max-model-len 131072 \
-  --gpu-memory-utilization 0.97 \
-  --tool-call-parser openai \
-  --reasoning-parser openai_gptoss \
-  --enable-auto-tool-choice \
-  --host 0.0.0.0 \
-  --port 8000
-
-----
-
-https://github.com/snowflakedb/ArcticInference/tree/main
-
-pip3 install arctic-inference[vllm]
-
-ARCTIC_INFERENCE_ENABLED=1 vllm serve /models/original/gpt-oss-120b \
-  --tensor-parallel-size 1 \
-  --max_num_seqs 1 \
-  --max-model-len 131072 \
-  --gpu-memory-utilization 0.97 \
-  --reasoning-parser GptOss \
-  --speculative-config '{ "method": "arctic", "model":"/models/original/Arctic-LSTM-Speculator-gpt-oss-120b", "num_speculative_tokens": 3, "enable_suffix_decoding": true }' \
-  --host 0.0.0.0 \
-  --port 8000
-
-----
-
+```bash
 git clone https://github.com/coder543/llm-speed-benchmark
 cd llm-speed-benchmark
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
+```
 
-export OPENAI_API_KEY="None"
-export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
-python benchmark.py --models "/models/original/gpt-oss-120b" -n 10 --plot no
+### Download models
 
-----
+We need to download both the original ``Qwen-Qwen3-32B`` model, as well as the draft model ``RedHatAI-Qwen3-32B-speculator.eagle3``.
 
+```bash
+cd /models/original/
+python3 -m venv venv
+source venv/bin/activate
 
-VLLM_TORCH_BACKEND=auto uv pip install -U \
-  --prerelease=allow \
-  --extra-index-url https://wheels.vllm.ai/nightly \
-  "triton-kernels @ git+https://github.com/triton-lang/triton.git@v3.5.0#subdirectory=python/triton_kernels" \
-  vllm
+pip3 install huggingface-hub
+huggingface-cli download Qwen/Qwen3-32B  --local-dir /models/original/Qwen-Qwen3-32B
+huggingface-cli download RedHatAI/Qwen3-32B-speculator.eagle3  --local-dir /models/original/RedHatAI-Qwen3-32B-speculator.eagle3
+```
 
-----
+## Run and benchmark model variants
 
-----
+First start the model without speculative decoding:
 
-vllm serve /models/original/gpt-oss-120b \
-  --tensor-parallel-size 1 \
-  --max_num_seqs 1 \
-  --max-model-len 131072 \
-  --gpu-memory-utilization 0.97 \
-  --tool-call-parser openai \
-  --reasoning-parser openai_gptoss \
-  --enable-auto-tool-choice \
-  --speculative-config '{"model": "/models/original/gpt-oss-120b-Eagle3", "num_speculative_tokens": 3, "method":"eagle3", "draft_tensor_parallel_size":1}' \
-  --host 0.0.0.0 \
-  --port 8000
+```bash
+vllm serve /models/original/Qwen-Qwen3-32B \
+  --served-model-name "Qwen3-32B" \
+  --reasoning-parser deepseek_r1
+```
 
-----
+Then after benchmark is done, start it with speculative decoding:
 
-uv pip install flashinfer-python
-
-----
-
-# 1. Create a virtual environment
-     python3 -m venv .venv
-     
-     # 2. Activate the virtual environment and upgrade pip
-     source .venv/bin/activate
-     pip install --upgrade pip
-     
-     # 3. Install nightly Triton first
-     pip install --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton
-     
-     # 4. Install nightly vLLM
-     pip install vllm --pre
-     
-     # 5. Force reinstall nightly Triton (vLLM will have downgraded it to stable 3.4.0)
-     pip install --force-reinstall --no-deps --pre --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton
-     
-     # 6. Verify installation
-     pip list | grep -E "(vllm|triton)"
-
-   Key insight: vLLM's dependencies will pull in the stable Triton 3.4.0, so you
-   must force reinstall nightly Triton afterward using --force-reinstall --no-deps
-   to keep the nightly version.
-
-----
-
-Using flash attention
-
-uv pip install flashinfer-python
-
-https://huggingface.co/RedHatAI/Qwen3-32B-speculator.eagle3
-
+```bash
 vllm serve /models/original/Qwen-Qwen3-32B \
   --served-model-name "Qwen3-32B" \
   --reasoning-parser deepseek_r1 \
   --speculative-config '{ "model": "/models/original/RedHatAI-Qwen3-32B-speculator.eagle3", "num_speculative_tokens": 3, "method": "eagle3" }'
+```
 
+Below is an example of the output that one can see in the console when the speculative version is running. Note the ``Avg Draft acceptance rate``.
+
+```bash
+(APIServer pid=722408) INFO 10-26 12:36:16 [metrics.py:96] SpecDecoding metrics: Mean acceptance length: 2.01, Accepted throughput: 20.60 tokens/s, Drafted throughput: 60.90 tokens/s, Accepted: 206 tokens, Drafted: 609 tokens, Per-position acceptance rate: 0.601, 0.286, 0.128, Avg Draft acceptance rate: 33.8%
+```
+
+For each model I ran the benchmark from inside its folder and saved the results from output.csv:
+
+```bash
+export OPENAI_API_KEY="None"
+export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
 python3 benchmark.py --models "Qwen3-32B" -n 10 --plot no
+```
+
+Here's the prompt used by the benchmark tool:
 
 ```python
 # Default prompt used for benchmarking. Long enough to hopefully get a good sense of prompt processing speed, and generate enough response tokens to get a reasonable measure there too.
@@ -235,8 +123,17 @@ DEFAULT_PROMPT = ("Imagine you are planning a week-long vacation to a place you'
                   "Finally, discuss how you would balance relaxation and adventure during your vacation.")
 ```
 
-```console
-(APIServer pid=722408) INFO 10-26 12:36:16 [metrics.py:96] SpecDecoding metrics: Mean acceptance length: 2.01, Accepted throughput: 20.60 tokens/s, Drafted throughput: 60.90 tokens/s, Accepted: 206 tokens, Drafted: 609 tokens, Per-position acceptance rate: 0.601, 0.286, 0.128, Avg Draft acceptance rate: 33.8%
-(APIServer pid=722408) INFO 10-26 12:36:26 [loggers.py:127] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 47.4 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 1.9%, Prefix cache hit rate: 37.2%
-```
+### Results
+
+<img width="1184" height="1236" alt="output" src="https://github.com/user-attachments/assets/8ad9398b-f08e-4d7e-8996-93b35366c38d" />
+
+Note I am running the full and unquantized ``Qwen3-32B`` model!
+
+Here's a Markdown table summarizing the **Qwen3-32B speculative decoding speedup**:
+
+| Metric                      | Normal | Speculative |      Speedup (×) | Notes                              |
+| :-------------------------- | -----: | ----------: | ---------------: | :--------------------------------- |
+| **Response Tok/s**          |  22.96 |       41.88 | **1.82× faster** | Biggest improvement in throughput  |
+| **Time To First Token (s)** |  25.62 |       15.98 | **1.60× faster** | Tokens start streaming much sooner |
+| **Prompt Tok/s**            |   3.05 |        5.22 | **1.71× faster** | Input encoding also speeds up      |
 
