@@ -15,6 +15,9 @@ vllm serve \
     --gpu-memory-utilization 0.9 \
     --tensor-parallel-size 1 \
     --trust-remote-code \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
     --host 0.0.0.0 \
     --port 8000
 ```
