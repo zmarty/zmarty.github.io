@@ -11,8 +11,7 @@ vllm serve \
     --enable-expert-parallel \
     --swap-space 16 \
     --max-num-seqs 512 \
-    --max-model-len 32768 \
-    --gpu-memory-utilization 0.9 \
+    --gpu-memory-utilization 0.97 \
     --tensor-parallel-size 1 \
     --trust-remote-code \
     --tool-call-parser glm45 \
