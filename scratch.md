@@ -1,6 +1,9 @@
 
+
 ```code
 https://huggingface.co/QuantTrio/GLM-4.5-Air-AWQ-FP16Mix
+
+huggingface-cli download QuantTrio/GLM-4.5-Air-AWQ-FP16Mix --local-dir /models/original/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix
 
 CONTEXT_LENGTH=32768 vllm serve \
     "/models/original/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix/" \
