@@ -182,7 +182,7 @@ export CUDA_VISIBLE_DEVICES=0,1
 export VLLM_ATTENTION_BACKEND=FLASHINFER
 export NCCL_DEBUG=INFO
 export NCCL_IB_DISABLE=1
-export NCCL_P2P_DISABLE=1 #??????????
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
 export VLLM_SLEEP_WHEN_IDLE=1
 
 vllm serve \
