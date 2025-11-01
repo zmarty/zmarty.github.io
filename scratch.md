@@ -34,4 +34,24 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+---
+
+vllm 0.11.0 error hanging on nccl when starting vllm serve...
+Tried installing nightly
+
+mkdir vllm-nightly
+cd vllm-nightly
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+
+# https://github.com/vllm-project/vllm/issues/27880 - [Installation]: [HELP]How to install the latest main version of vllm #27880
+uv pip install -U vllm \
+    --torch-backend=auto \
+    --extra-index-url https://wheels.vllm.ai/nightly \
+    --extra-index-url https://download.pytorch.org/whl/cu1290 \
+    --index-strategy unsafe-best-match \
+    --prerelease=allow
+
+pip install flashinfer-python
+
 ```
