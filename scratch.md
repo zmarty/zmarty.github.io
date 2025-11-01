@@ -67,4 +67,8 @@ Read more:
 https://github.com/vllm-project/vllm/issues/5484
 https://github.com/NVIDIA/nccl/issues/631
 
+FlashInfer error:
+export VLLM_DISABLE_FLASHINFER=1
+export VLLM_ATTENTION_BACKEND=FLASH_ATTN
+
 ```
