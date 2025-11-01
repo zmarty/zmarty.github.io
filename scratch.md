@@ -19,4 +19,19 @@ vllm serve \
     --enable-auto-tool-choice \
     --host 0.0.0.0 \
     --port 8000
+
+---
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Instruct-2507 \
+    --enable-expert-parallel \
+    --swap-space 16 \
+    --max-num-seqs 512 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
 ```
