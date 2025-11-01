@@ -71,4 +71,6 @@ FlashInfer error:
 export VLLM_DISABLE_FLASHINFER=1
 export VLLM_ATTENTION_BACKEND=FLASH_ATTN
 
+https://www.reddit.com/r/LocalLLaMA/comments/1o4m71e/help_with_rtx6000_pros_and_vllm/
+
 ```
