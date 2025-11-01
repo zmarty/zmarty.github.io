@@ -77,15 +77,16 @@ https://www.reddit.com/r/LocalLLaMA/comments/1o4m71e/help_with_rtx6000_pros_and_
 
 ```console
 # Preconditions
-# Driver 580.95.05 + CUDA 13.0 (great).
+# Driver 580.95.05 + CUDA 13.0
 # Two RTX PRO 6000 Blackwell (96 GB) on the same CPU root complex if possible.
 
 mkdir /git/vllm-nightly/
 cd /git/vllm-nightly/
 git clone https://github.com/vllm-project/vllm.git .
 
-# fresh venv
-python3 -m venv .venv && source .venv/bin/activate
+# Fresh venv. Note that Python 3.12 is important for vllm compatibility, do not attempt with newer Python.
+uv venv --python 3.12 --seed
+source .venv/bin/activate
 
 # compile kernels for Blackwell (SM_120)
 export TORCH_CUDA_ARCH_LIST="12.0"
@@ -106,6 +107,36 @@ except PackageNotFoundError as e:
     print("Not installed:", e)
 PY
 
+# Install/Compile vllm
+pip install -U pip setuptools wheel
 
+pip install -U flashinfer-python
+
+# Install vLLM from source but **skip dependency resolution** to avoid the xformers pin
+export VLLM_USE_PRECOMPILED=0
+pip install --no-deps -e .
+
+# Add the minimal runtime deps (no xformers)
+pip install -U "transformers>=4.49" safetensors sentencepiece \
+  fastapi uvicorn pydantic<3 numpy packaging psutil einops \
+  huggingface_hub hf_transfer grpcio
+
+# Sanity check
+python - <<'PY'
+import torch, importlib.metadata as im
+print("Torch:", torch.__version__, "CUDA:", torch.version.cuda, "CUDA ok?", torch.cuda.is_available())
+try: print("NCCL:", im.version("nvidia-nccl-cu12"))
+except: print("NCCL wheel not found in this venv")
+print("CC:", torch.cuda.get_device_capability(0))
+PY
+
+# Above you want to see: CUDA: 13.0, NCCL present, and capability (12, 0).
+
+# Test vllm serve
+export CUDA_VISIBLE_DEVICES=0,1
+export VLLM_ATTENTION_BACKEND=FLASHINFER
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export VLLM_SLEEP_WHEN_IDLE=1
 
 ```
