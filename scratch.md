@@ -255,5 +255,5 @@ sudo apt install cmake
 sudo apt install libcurl4-openssl-dev
 
 cmake -B build -DGGML_CUDA=ON
-cmake --build build --config Release
+cmake --build build --config Release -j $(nproc)
 ```
