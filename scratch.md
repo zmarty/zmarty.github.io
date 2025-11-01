@@ -231,3 +231,15 @@ docker run --rm --name vllm-qwen3 \
     --tensor-parallel-size 2 \
     --host 0.0.0.0 --port 8000
 ```
+
+```console
+cd /git/llama/llama-b6919-bin-ubuntu-x64/build/bin
+CUDA_VISIBLE_DEVICES=0,1 \
+./llama-server \
+  --model  /models/gguf/Unsloth/Qwen3-VL-235B-A22B-Instruct-GGUF/Qwen3-VL-235B-A22B-Instruct-UD-Q5_K_XL-00001-of-00004.gguf \
+  --mmproj /models/gguf/Unsloth/Qwen3-VL-235B-A22B-Instruct-GGUF/mmproj-F32.gguf \
+  --n-gpu-layers -1 \
+  --tensor-split 0.5,0.5 \
+  --main-gpu 0 \
+  --host 0.0.0.0 --port 8080
+```
