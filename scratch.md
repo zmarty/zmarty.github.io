@@ -37,7 +37,7 @@ vllm serve \
 ---
 
 vllm 0.11.0 error hanging on nccl when starting vllm serve...
-Tried installing nightly
+Tried installing nightly - also fails....
 
 mkdir vllm-nightly
 cd vllm-nightly
@@ -53,5 +53,9 @@ uv pip install -U vllm \
     --prerelease=allow
 
 pip install flashinfer-python
+
+---
+
+https://www.reddit.com/r/LocalLLaMA/comments/1my3why/rtx_pro_6000_maxq_blackwell_for_llm/
 
 ```
