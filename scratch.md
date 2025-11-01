@@ -120,10 +120,38 @@ pip install --no-deps -e . -v 2>&1 | tee build.log
 
 While vllm is compiling you will see a lot of warnings. It does not mean anything is wrong. Just check the CPU usage and monitor the steps. From time to time you will see something lke [321/489] which tells you it is at step 321 out of 489.
 
+At the end you will see something like `Successfully installed vllm-0.11.1rc6.dev45+gc2ed069b3.cu130`
+
+# Let's pin Torch back to a 2.9 nightly for cu130 (this is the combo most folks have working on Blackwell):
+pip uninstall -y torch torchvision torchaudio
+
+
 # Add the minimal runtime deps (no xformers)
 pip install -U "transformers>=4.49" safetensors sentencepiece \
-  fastapi uvicorn pydantic<3 numpy packaging psutil einops \
+  fastapi uvicorn "pydantic<3" numpy packaging psutil einops \
   huggingface_hub hf_transfer grpcio
+
+pip install -U \
+  aiohttp cloudpickle diskcache msgspec pillow protobuf pyzmq \
+  prometheus_client prometheus-fastapi-instrumentator \
+  "ray[cgraph]==2.48.0" scipy setproctitle tiktoken gguf \
+  "lark==1.2.2" "outlines_core==0.2.11" partial-json-parser \
+  "lm-format-enforcer==0.11.3" \
+  openai openai-harmony blake3 cachetools cbor2 py-cpuinfo pybase64 six \
+  watchfiles "compressed-tensors==0.12.2" "depyf==0.20.0" \
+  opencv-python-headless mistral_common[audio,image] xgrammar
+
+# exact versions vLLM warned about:
+pip install \
+  "anthropic==0.71.0" \
+  "lark==1.2.2" \
+  "outlines_core==0.2.11" \
+  "lm-format-enforcer==0.11.3" \
+  "xgrammar==0.1.25" \
+  python-json-logger
+
+python -m pip install --pre "torch>=2.9.0.dev0,<2.10" \
+  --index-url https://download.pytorch.org/whl/nightly/cu130
 
 # Sanity check
 python - <<'PY'
@@ -134,7 +162,15 @@ except: print("NCCL wheel not found in this venv")
 print("CC:", torch.cuda.get_device_capability(0))
 PY
 
-# Above you want to see: CUDA: 13.0, NCCL present, and capability (12, 0).
+# Above you want to see
+# Torch: 2.9.0.dev20250909+cu130 CUDA: 13.0 CUDA ok? True
+# NCCL: 2.28.7
+# CC: (12, 0)
+
+# Running vllm server failed with
+# Applying https://github.com/vllm-project/vllm/pull/26844
+git fetch origin pull/26844/head:pr-26844
+git merge pr-26844 --no-edit
 
 # Test vllm serve
 export CUDA_VISIBLE_DEVICES=0,1
