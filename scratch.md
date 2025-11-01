@@ -57,5 +57,10 @@ pip install flashinfer-python
 ---
 
 https://www.reddit.com/r/LocalLLaMA/comments/1my3why/rtx_pro_6000_maxq_blackwell_for_llm/
+https://www.reddit.com/r/LocalLLaMA/comments/1nj5igv/help_running_2_rtx_pro_6000_blackwell_with_vllm/
+
+This solves it but maybe lower performance??
+export NCCL_P2P_DISABLE=1
+export NCCL_IB_DISABLE=1
 
 ```
