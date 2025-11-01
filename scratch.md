@@ -63,4 +63,8 @@ This solves it but maybe lower performance??
 export NCCL_P2P_DISABLE=1
 export NCCL_IB_DISABLE=1
 
+Read more:
+https://github.com/vllm-project/vllm/issues/5484
+https://github.com/NVIDIA/nccl/issues/631
+
 ```
