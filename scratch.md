@@ -116,6 +116,11 @@ pip install -U flashinfer-python
 export VLLM_USE_PRECOMPILED=0
 pip install --no-deps -e .
 
+# Alternative: keep a build log
+pip install --no-deps -e . -v 2>&1 | tee build.log
+
+While vllm is compiling you will see a lot of warnings. It does not mean anything is wrong. Just check the CPU usage and monitor the steps. From time to time you will see something lke [321/489] which tells you it is at step 321 out of 489.
+
 # Add the minimal runtime deps (no xformers)
 pip install -U "transformers>=4.49" safetensors sentencepiece \
   fastapi uvicorn pydantic<3 numpy packaging psutil einops \
