@@ -243,4 +243,17 @@ CUDA_VISIBLE_DEVICES=0,1 \
   --tensor-split 0.5,0.5 \
   --main-gpu 0 \
   --host 0.0.0.0 --port 8000
+
+FAIL - CPU ONLY@
+```
+
+```console
+cd /git
+git clone https://github.com/ggml-org/llama.cpp
+
+sudo apt install cmake
+sudo apt install libcurl4-openssl-dev
+
+cmake -B build -DGGML_CUDA=ON
+cmake --build build --config Release
 ```
