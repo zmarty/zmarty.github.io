@@ -74,3 +74,38 @@ export VLLM_ATTENTION_BACKEND=FLASH_ATTN
 https://www.reddit.com/r/LocalLLaMA/comments/1o4m71e/help_with_rtx6000_pros_and_vllm/
 
 ```
+
+```console
+# Preconditions
+# Driver 580.95.05 + CUDA 13.0 (great).
+# Two RTX PRO 6000 Blackwell (96 GB) on the same CPU root complex if possible.
+
+mkdir /git/vllm-nightly/
+cd /git/vllm-nightly/
+git clone https://github.com/vllm-project/vllm.git .
+
+# fresh venv
+python3 -m venv .venv && source .venv/bin/activate
+
+# compile kernels for Blackwell (SM_120)
+export TORCH_CUDA_ARCH_LIST="12.0"
+
+# PyTorch nightly for CUDA 13.0
+pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu130
+
+# Fix the NCCL version (this unblocks the TP=2 hang)
+# Find the latest NCCL and install it, in my case it was 2.28.7
+pip install -U nvidia-nccl-cu12
+
+# Verify version:
+python - <<'PY'
+from importlib.metadata import version, PackageNotFoundError
+try:
+    print("nvidia-nccl-cu12:", version("nvidia-nccl-cu12"))
+except PackageNotFoundError as e:
+    print("Not installed:", e)
+PY
+
+
+
+```
