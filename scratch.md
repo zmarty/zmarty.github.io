@@ -172,6 +172,11 @@ PY
 git fetch origin pull/26844/head:pr-26844
 git merge pr-26844 --no-edit
 
+pip install llguidance
+pip install uvloop
+pip install python-multipart
+pip install numba
+
 # Test vllm serve
 export CUDA_VISIBLE_DEVICES=0,1
 export VLLM_ATTENTION_BACKEND=FLASHINFER
@@ -190,4 +195,14 @@ vllm serve \
     --tensor-parallel-size 2 \
     --host 0.0.0.0 \
     --port 8000
+```
+
+```console
+mkdir -p /models/gguf/Unsloth/GLM-4.5-Air-GGUF/UD-Q8_K_XL
+
+hf download unsloth/GLM-4.5-Air-GGUF \
+  "UD-Q8_K_XL/GLM-4.5-Air-UD-Q8_K_XL-00001-of-00003.gguf" \
+  "UD-Q8_K_XL/GLM-4.5-Air-UD-Q8_K_XL-00002-of-00003.gguf" \
+  "UD-Q8_K_XL/GLM-4.5-Air-UD-Q8_K_XL-00003-of-00003.gguf" \
+  --local-dir /models/gguf/Unsloth/GLM-4.5-Air-GGUF
 ```
