@@ -5,6 +5,9 @@ https://huggingface.co/QuantTrio/GLM-4.5-Air-AWQ-FP16Mix
 
 huggingface-cli download QuantTrio/GLM-4.5-Air-AWQ-FP16Mix --local-dir /models/original/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix
 
+export CUDA_VISIBLE_DEVICES=0
+export TORCH_CUDA_ARCH_LIST="12.0"
+
 vllm serve \
     "/models/awq/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix/" \
     --served-model-name GLM-4.5-Air-AWQ-FP16Mix \
@@ -21,6 +24,24 @@ vllm serve \
     --enable-auto-tool-choice \
     --host 0.0.0.0 \
     --port 8000
+
+vllm serve "/models/awq/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix/" \
+  --served-model-name GLM-4.5-Air-AWQ-FP16Mix \
+  --enable-expert-parallel \
+  --max-model-len 60000 \
+  --swap-space 16 \
+  --max-num-seqs 8 \
+  --max-num-batched-tokens 8192 \
+  --gpu-memory-utilization 0.90 \
+  --tensor-parallel-size 1 \
+  --pipeline-parallel-size 1 \
+  --trust-remote-code \
+  --tool-call-parser glm45 \
+  --reasoning-parser glm45 \
+  --enable-auto-tool-choice \
+  --host 0.0.0.0 \
+  --port 8000
+
 
 ---
 
