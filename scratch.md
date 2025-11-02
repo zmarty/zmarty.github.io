@@ -13,6 +13,7 @@ vllm serve \
     --max-num-seqs 512 \
     --gpu-memory-utilization 0.97 \
     --tensor-parallel-size 1 \
+    --pipeline-parallel-size 1 \
     --trust-remote-code \
     --tool-call-parser glm45 \
     --reasoning-parser glm45 \
