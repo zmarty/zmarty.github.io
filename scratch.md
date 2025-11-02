@@ -312,4 +312,28 @@ vllm serve \
     --pipeline-parallel-size 2 \
     --host 0.0.0.0 \
     --port 8000
+
+FAIL - nccl
+```
+docker pull danucore/vllm-cu128-sm120:latest
+
+docker run --rm --name vllm-qwen3 \
+  --gpus all \
+  --ipc=host --shm-size=16g \
+  -p 8000:8000 -v /models:/models:ro \
+  -e NVIDIA_VISIBLE_DEVICES=0,1 \
+  -e VLLM_ATTENTION_BACKEND=FLASHINFER \
+  -e NCCL_DEBUG=INFO -e NCCL_IB_DISABLE=1 -e NCCL_P2P_DISABLE=1 \
+  -e VLLM_SLEEP_WHEN_IDLE=1 \
+  danucore/vllm-cu128-sm120:latest \
+  /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Instruct-2507 \
+    --enable-expert-parallel \
+    --swap-space 16 \
+    --max-num-seqs 512 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --host 0.0.0.0 --port 8000
 ```
