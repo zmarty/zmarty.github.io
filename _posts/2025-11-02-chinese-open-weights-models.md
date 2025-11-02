@@ -1,11 +1,15 @@
 ---
 layout: post
-title: "Chinese open weight models overtaking US ones"
+title: "Silicon Valley’s New Secret: Chinese Base Models"
 date: 2025-11-02 11:05:00 -0700
 categories: [AI, Development]
 tags: [llm]
-description: "TODO"
+description: "From fine-tunes to founder stacks, the center of gravity is moving east."
 ---
+
+Hidden away as a last bullet point in the announcement this week of [The next chapter of the Microsoft–OpenAI partnership](https://openai.com/index/next-chapter-of-microsoft-openai-partnership/) was an interesting point that may be more impactful than it meets the eye: "OpenAI is now able to release open weight models that meet requisite capability criteria."
+
+It all started when DeepSeek burst out with V3 in Dec 2024 and the R1 reasoning model in Jan 2025, touting frontier-level performance trained in ~2 months for under $6M on H800s. The app rocketed to #1 on the U.S. App Store, triggering Wall Street jitters and a flurry of “AI price war” headlines as DeepSeek slashed off-peak API rates and rivals followed. In the weeks after, competitors rushed out reasoning upgrades, Chinese labs accelerated releases , and the narrative flipped from compute-as-moat to "efficient scaling", cementing DeepSeek as the spark for a global reset on costs and pace.
 
 The downfall of Llama and these rise of Chinese models
 
