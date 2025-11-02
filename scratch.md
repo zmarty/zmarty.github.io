@@ -339,13 +339,11 @@ docker run -it --rm --name vllm-qwen3 \
     --served-model-name Qwen3-235B-A22B-Instruct-2507 \
     --enable-expert-parallel \
     --swap-space 16 \
-    --max-num-seqs 8 \
-    --max-seq-len-to-capture 4096 \
+    --max-num-seqs 4 \
     --max-model-len 12800 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 2 \
-    --enforce-eager \
     --host 0.0.0.0 --port 8000
 ```
 
