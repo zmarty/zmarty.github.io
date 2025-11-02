@@ -324,6 +324,8 @@ FAIL - nccl
 ```
 
 ```console
+WORKS:
+
 docker pull danucore/vllm-cu128-sm120:latest
 
 docker run -it --rm --name vllm-qwen3 \
@@ -338,6 +340,8 @@ docker run -it --rm --name vllm-qwen3 \
   /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
     --served-model-name Qwen3-235B-A22B-Instruct-2507 \
     --enable-expert-parallel \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
     --swap-space 16 \
     --max-num-seqs 4 \
     --max-model-len 12800 \
