@@ -368,6 +368,7 @@ docker run -it --rm --name vllm-qwen3 \
   /models/original/GLM-4.5-Air-FP8/ \
     --served-model-name GLM-4.5-Air-FP8 \
     --enable-expert-parallel \
+    --enable-auto-tool-choice \
     --tool-call-parser glm45 \
     --reasoning-parser glm45 \
     --swap-space 16 \
