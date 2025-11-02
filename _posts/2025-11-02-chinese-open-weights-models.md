@@ -49,7 +49,7 @@ The efficiency advantage becomes clear when plotting intelligence against active
 
 <img width="1000" height="476" alt="image" src="https://github.com/user-attachments/assets/207cd4ba-38b9-4b5b-b1b5-985ef85460b5" />
 
-Behind these numbers is an entire ecosystem of organizations competing at every tier. The chart categorizes players from frontier models down to honorable mentions. Since this visualization was created for Nathan Lambert's October talk which I credit below, [MiniMax released M2](https://huggingface.co/MiniMaxAI/MiniMax-M2), which now claims the top spot in Artificial Analysis intelligence rankings. The pace of releases is so rapid that static snapshots become obsolete within weeks.
+Behind these numbers is an entire ecosystem of organizations competing at every tier. The chart categorizes players from frontier models down to honorable mentions. Since this visualization was created for Nathan Lambert's October talk I credit below, [MiniMax released M2](https://huggingface.co/MiniMaxAI/MiniMax-M2), which now claims the top spot in Artificial Analysis intelligence rankings. The pace of releases is so rapid that static snapshots become obsolete within weeks.
 
 <img width="600" height="615" alt="image" src="https://github.com/user-attachments/assets/73a5adc7-e213-4336-aa44-44b1bd3a9a7e" />
 
