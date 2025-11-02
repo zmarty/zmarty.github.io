@@ -9,8 +9,9 @@ vllm serve \
     "/models/awq/QuantTrio-GLM-4.5-Air-AWQ-FP16Mix/" \
     --served-model-name GLM-4.5-Air-AWQ-FP16Mix \
     --enable-expert-parallel \
+    --max-model-len 128000 \
     --swap-space 16 \
-    --max-num-seqs 512 \
+    --max-num-seqs 4 \
     --gpu-memory-utilization 0.97 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 1 \
