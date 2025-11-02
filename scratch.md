@@ -344,7 +344,7 @@ docker run -it --rm --name vllm-qwen3 \
     --tool-call-parser hermes \
     --swap-space 16 \
     --max-num-seqs 4 \
-    --max-model-len 12800 \
+    --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 2 \
