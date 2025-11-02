@@ -25,19 +25,19 @@ Looking at the top-performing open weights models by [intelligence ratings](http
 
 The aggregate performance intelligence ratings chart reveals the inflection point. Starting from roughly equal footing in April 2024, China's red line climbs relentlessly while the US blue line begins to plateau. The crossover happened around April 2025 - and the gap has only widened since. Europe's trajectory flatlined, a stark reminder that AI leadership requires more than regulation.
 
-<img width="1000" height="667" alt="image" src="https://github.com/user-attachments/assets/562b1e3c-60f7-4dc2-91d7-eba0bded04af" />
+<img width="600" height="667" alt="image" src="https://github.com/user-attachments/assets/562b1e3c-60f7-4dc2-91d7-eba0bded04af" />
 
 Perhaps the most significant inflection point: in August 2025, cumulative downloads of Chinese models surpassed those from the US for the first time. The crossover wasn't close - China's trajectory is steeper, suggesting the gap will only widen. This chart captures the moment when developer preference fundamentally shifted.
 
-<img width="1000" height="710" alt="4863b0bb-31e2-4bb5-b909-7122c11b964e" src="https://github.com/user-attachments/assets/bcbacd38-336e-4528-afdb-660c39ed845d" />
+<img width="600" height="710" alt="4863b0bb-31e2-4bb5-b909-7122c11b964e" src="https://github.com/user-attachments/assets/bcbacd38-336e-4528-afdb-660c39ed845d" />
 
 The growth trajectories tell an even more dramatic story. Meta's Llama maintained a steady lead through 2024, but Qwen's explosive acceleration in 2025 changed everything - the red line shoots nearly vertical, reaching 400M downloads while Llama approaches 350M. Mistral and DeepSeek trail at 100M and 80M respectively. This isn't gradual adoption; it's a developer exodus to Chinese models.
 
-<img width="1000" height="797" alt="15f8f279-680a-4f73-aee3-842655210c30" src="https://github.com/user-attachments/assets/fc52d0b9-cecc-4b5b-9ee1-3812e1a8ef33" />
+<img width="600" height="797" alt="15f8f279-680a-4f73-aee3-842655210c30" src="https://github.com/user-attachments/assets/fc52d0b9-cecc-4b5b-9ee1-3812e1a8ef33" />
 
 The downstream impact is even more striking. When developers build custom models through fine-tuning, they increasingly start with Chinese base models. By late 2025, Chinese models account for over 50% of all fine-tuned derivatives - a majority that keeps growing. These aren't just being downloaded; they're becoming the foundation of the next generation of AI applications.
 
-<img width="1000" height="708" alt="image" src="https://github.com/user-attachments/assets/23163e25-e12d-4a0c-ad34-debb9855402d" />
+<img width="600" height="708" alt="image" src="https://github.com/user-attachments/assets/23163e25-e12d-4a0c-ad34-debb9855402d" />
 
 Perhaps the most striking trend: the gap between frontier closed models and open-weight models is rapidly closing. In July 2023, frontier models like GPT-4 dominated with scores in the 40s while open models barely reached 20%. Just seven months later, o1-mini achieved 65% - but open models were already catching up. By mid-2025, top open models like Qwen3-32B and EXAONE-4.0 are tracking closely behind Grok 4, with the performance delta shrinking to single digits. The chart suggests consumer GPUs (RTX 5090, 6000) can now run models approaching frontier intelligence.
 
@@ -49,6 +49,6 @@ The efficiency advantage becomes clear when plotting intelligence against active
 
 Behind these numbers is an entire ecosystem of organizations competing at every tier. The chart categorizes players from frontier models down to honorable mentions. Since this visualization was created for Nathan Lambert's October talk, [MiniMax released M2](https://huggingface.co/MiniMaxAI/MiniMax-M2), which now claims the top spot in Artificial Analysis intelligence rankings. The pace of releases is so rapid that static snapshots become obsolete within weeks.
 
-<img width="1000" height="615" alt="image" src="https://github.com/user-attachments/assets/73a5adc7-e213-4336-aa44-44b1bd3a9a7e" />
+<img width="600" height="615" alt="image" src="https://github.com/user-attachments/assets/73a5adc7-e213-4336-aa44-44b1bd3a9a7e" />
 
 This post is based HEAVILY on a [talk](https://www.interconnects.ai/p/state-of-open-models-2025) and [slides](https://docs.google.com/presentation/d/1f1Et0Mz8zb1yVCnCgdYSy4tAa0Kv_gKT4wPEg1XPdUA/edit?slide=id.p#slide=id.p) presented by Nathan Lambert on The State of Open Models. Further augmented with more recent developments, notable quotes, and graphs from [Artificial Analysis](https://artificialanalysis.ai/).
