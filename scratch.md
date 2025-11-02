@@ -378,4 +378,30 @@ docker run -it --rm --name vllm-qwen3 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 2 \
     --host 0.0.0.0 --port 8000
+
+Disable FlashInfer:
+
+docker run -it --rm --name vllm-qwen3 \
+  --gpus all \
+  --ipc=host --shm-size=16g \
+  -p 8000:8000 -v /models:/models:ro \
+  -e NVIDIA_VISIBLE_DEVICES=0,1 \
+  -e VLLM_DISABLE_FLASHINFER=1 \
+  -e VLLM_ATTENTION_BACKEND=FLASH_ATTN \
+  -e NCCL_DEBUG=INFO -e NCCL_IB_DISABLE=1 -e NCCL_P2P_DISABLE=1 \
+  -e VLLM_SLEEP_WHEN_IDLE=1 \
+  danucore/vllm-cu128-sm120:latest \
+  /models/original/GLM-4.5-Air-FP8/ \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --enable-expert-parallel \
+    --enable-auto-tool-choice \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --swap-space 16 \
+    --max-num-seqs 4 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --host 0.0.0.0 --port 8000
 ```
