@@ -324,7 +324,7 @@ FAIL - nccl
 ```
 
 ```console
-WORKS:
+ONLY VERY PARTIALLY WORKS - dies after second query :(
 
 docker pull danucore/vllm-cu128-sm120:latest
 
