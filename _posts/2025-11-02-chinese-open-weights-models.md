@@ -9,6 +9,9 @@ description: "TODO"
 
 The downfall of Llama and these rise of Chinese models
 
+Countries of the top open weights models by intelligence
+<img width="2387" height="1031" alt="image" src="https://github.com/user-attachments/assets/d2e3564b-c3f0-4325-8f5b-b00be41a080e" />
+
 Cumulative downloads of leading LLM organizations from key open-weight AI labs:
 <img width="1379" height="1099" alt="15f8f279-680a-4f73-aee3-842655210c30" src="https://github.com/user-attachments/assets/fc52d0b9-cecc-4b5b-9ee1-3812e1a8ef33" />
 
@@ -42,5 +45,9 @@ Chamath Palihapitiya just made a bold statement on the All-In Podcast:
 He’s switching parts of his company’s AI stack from OpenAI / Anthropic to Kimi K2, despite being a top-tier Amazon Bedrock customer.
 His reason: “It’s way more performant and a ton cheaper.”
 https://x.com/CodeByPoonam/status/1982763665314267435
+
+Intelligence vs active parameters
+<img width="1964" height="934" alt="image" src="https://github.com/user-attachments/assets/207cd4ba-38b9-4b5b-b1b5-985ef85460b5" />
+
 
 This post is based HEAVILY on a [talk](https://www.interconnects.ai/p/state-of-open-models-2025) and [slides](https://docs.google.com/presentation/d/1f1Et0Mz8zb1yVCnCgdYSy4tAa0Kv_gKT4wPEg1XPdUA/edit?slide=id.p#slide=id.p) presented by Nathan Lambert on The State of Open Models. Further augmented with more recent developments and notable quotes.
