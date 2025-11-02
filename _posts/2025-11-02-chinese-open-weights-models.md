@@ -59,5 +59,5 @@ Intelligence vs active parameters
 This post is based HEAVILY on a [talk](https://www.interconnects.ai/p/state-of-open-models-2025) and [slides](https://docs.google.com/presentation/d/1f1Et0Mz8zb1yVCnCgdYSy4tAa0Kv_gKT4wPEg1XPdUA/edit?slide=id.p#slide=id.p) presented by Nathan Lambert on The State of Open Models. Further augmented with more recent developments and notable quotes.
 
 Models used to write and edit this post:
-- Text editing: Quantized GLM-4.5-Air [running locally](https://huggingface.co/QuantTrio/GLM-4.5-Air-AWQ-FP16Mix) at full context on an single [NVIDIA RTX Pro 6000](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/).
+- Text editing: Quantized GLM-4.5-Air [running locally](https://huggingface.co/QuantTrio/GLM-4.5-Air-AWQ-FP16Mix) at full context on an single [NVIDIA RTX Pro 6000](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/) wit ha prompt processing speed of up to 5,000 tokens/sec, and a text generation speed of up to 100 tokens/sec.
 - Image editing: [Google Nano Banana](https://aistudio.google.com/models/gemini-2-5-flash-image).
