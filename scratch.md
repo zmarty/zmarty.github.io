@@ -299,3 +299,17 @@ CUDA_VISIBLE_DEVICES=0,1 \
   --main-gpu 0 \
   --host 0.0.0.0 --port 8000
 ```
+
+```console
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Instruct-2507 \
+    --enable-expert-parallel \
+    --max-num-seqs 512 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
