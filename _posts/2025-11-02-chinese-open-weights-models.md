@@ -23,11 +23,11 @@ Looking at the top-performing open weights models by [intelligence ratings](http
 
 <img width="1000" height="432" alt="image" src="https://github.com/user-attachments/assets/d2e3564b-c3f0-4325-8f5b-b00be41a080e" />
 
-The aggregate performance intelligence ratings chart reveals the inflection point. Starting from roughly equal footing in April 2024, China's red line climbs relentlessly while the US blue line begins to plateau. The crossover happened around April 2025—and the gap has only widened since. Europe's trajectory flatlined, a stark reminder that AI leadership requires more than regulation.
+The aggregate performance intelligence ratings chart reveals the inflection point. Starting from roughly equal footing in April 2024, China's red line climbs relentlessly while the US blue line begins to plateau. The crossover happened around April 2025 - and the gap has only widened since. Europe's trajectory flatlined, a stark reminder that AI leadership requires more than regulation.
 
 <img width="1000" height="667" alt="image" src="https://github.com/user-attachments/assets/562b1e3c-60f7-4dc2-91d7-eba0bded04af" />
 
-Perhaps the most significant inflection point: in August 2025, cumulative downloads of Chinese models surpassed those from the US for the first time. The crossover wasn't close—China's trajectory is steeper, suggesting the gap will only widen. This chart captures the moment when developer preference fundamentally shifted.
+Perhaps the most significant inflection point: in August 2025, cumulative downloads of Chinese models surpassed those from the US for the first time. The crossover wasn't close - China's trajectory is steeper, suggesting the gap will only widen. This chart captures the moment when developer preference fundamentally shifted.
 
 <img width="1000" height="710" alt="4863b0bb-31e2-4bb5-b909-7122c11b964e" src="https://github.com/user-attachments/assets/bcbacd38-336e-4528-afdb-660c39ed845d" />
 
@@ -35,15 +35,15 @@ The growth trajectories tell an even more dramatic story. Meta's Llama maintaine
 
 <img width="1000" height="797" alt="15f8f279-680a-4f73-aee3-842655210c30" src="https://github.com/user-attachments/assets/fc52d0b9-cecc-4b5b-9ee1-3812e1a8ef33" />
 
-The downstream impact is even more striking. When developers build custom models through fine-tuning, they increasingly start with Chinese base models. By late 2025, Chinese models account for over 50% of all fine-tuned derivatives—a majority that keeps growing. These aren't just being downloaded; they're becoming the foundation of the next generation of AI applications.
+The downstream impact is even more striking. When developers build custom models through fine-tuning, they increasingly start with Chinese base models. By late 2025, Chinese models account for over 50% of all fine-tuned derivatives - a majority that keeps growing. These aren't just being downloaded; they're becoming the foundation of the next generation of AI applications.
 
 <img width="1000" height="708" alt="image" src="https://github.com/user-attachments/assets/23163e25-e12d-4a0c-ad34-debb9855402d" />
 
-Perhaps the most striking trend: the gap between frontier closed models and open-weight models is rapidly closing. In July 2023, frontier models like GPT-4 dominated with scores in the 40s while open models barely reached 20%. Just seven months later, o1-mini achieved 65%—but open models were already catching up. By mid-2025, top open models like Qwen3-32B and EXAONE-4.0 are tracking closely behind Grok 4, with the performance delta shrinking to single digits. The chart suggests consumer GPUs (RTX 5090, 6000) can now run models approaching frontier intelligence.
+Perhaps the most striking trend: the gap between frontier closed models and open-weight models is rapidly closing. In July 2023, frontier models like GPT-4 dominated with scores in the 40s while open models barely reached 20%. Just seven months later, o1-mini achieved 65% - but open models were already catching up. By mid-2025, top open models like Qwen3-32B and EXAONE-4.0 are tracking closely behind Grok 4, with the performance delta shrinking to single digits. The chart suggests consumer GPUs (RTX 5090, 6000) can now run models approaching frontier intelligence.
 
 <img width="1000" height="510" alt="c4c2ac11-6da5-412a-b565-9653eac2411f" src="https://github.com/user-attachments/assets/9c19ba05-7154-4673-824b-d3f0d17f777b" />
 
-The efficiency advantage becomes clear when plotting intelligence against active parameters. The "most attractive quadrant"—high intelligence, lower parameter count—is highlighted in green. OpenAI's gpt-oss models (12B and 20B) sit squarely in this zone, but Chinese models are pushing into it from the right. MiniMax-M2 achieves top-tier intelligence around the 10B mark, while models like DeepSeek V3.2, Qwen3-235B, and GLM-4.6 cluster in the 40-60B range with competitive scores. The trend is clear: newer releases are climbing toward that upper-left corner, delivering more intelligence per parameter.
+The efficiency advantage becomes clear when plotting intelligence against active parameters. The "most attractive quadrant" - high intelligence, lower parameter count - is highlighted in green. OpenAI's gpt-oss models (12B and 20B) sit squarely in this zone, but Chinese models are pushing into it from the right. MiniMax-M2 achieves top-tier intelligence around the 10B mark, while models like DeepSeek V3.2, Qwen3-235B, and GLM-4.6 cluster in the 40-60B range with competitive scores. The trend is clear: newer releases are climbing toward that upper-left corner, delivering more intelligence per parameter.
 
 <img width="1000" height="476" alt="image" src="https://github.com/user-attachments/assets/207cd4ba-38b9-4b5b-b1b5-985ef85460b5" />
 
