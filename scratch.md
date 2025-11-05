@@ -412,3 +412,27 @@ docker run -it --rm --name vllm-qwen3 \
     --pipeline-parallel-size 2 \
     --host 0.0.0.0 --port 8000
 ```
+
+```console
+ComfyUI:
+
+git clone https://github.com/comfyanonymous/ComfyUI.git
+cd ComfyUI
+
+# 2) Create & enter a venv (Python 3.13 is recommended by ComfyUI)
+python3 -m venv .venv
+source .venv/bin/activate
+python -V      # should show 3.13.x on Ubuntu 25.04 (ok if 3.12/3.13)
+
+# 3) Upgrade pip/wheel
+pip install --upgrade pip wheel
+
+# 4) Install PyTorch with the CUDA 13.0 wheels (includes CUDA runtime)
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu130
+# (Nightly, if you want bleeding edge instead of stable)
+# pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu130
+
+# 5) Install ComfyUI Python deps
+pip install -r requirements.txt
+
+```
