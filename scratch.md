@@ -435,4 +435,16 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # 5) Install ComfyUI Python deps
 pip install -r requirements.txt
 
+https://comfyanonymous.github.io/ComfyUI_examples/qwen_image/?utm_source=chatgpt.com
+
+Qwen-Image
+wget https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_fp8_e4m3fn.safetensors -> ComfyUI/models/diffusion_models
+wget https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors -> ComfyUI/models/text_encoders
+wget https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors -> ComfyUI/models/vae/
+
+Qwen-Image-Edit-2509
+wget https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors -> ComfyUI/models/diffusion_models
+
+python main.py --listen 0.0.0.0 --port 8188
+
 ```
