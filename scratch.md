@@ -447,4 +447,5 @@ wget https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split
 
 python main.py --listen 0.0.0.0 --port 8188
 
+sudo ufw allow 8188/tcp
 ```
