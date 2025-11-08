@@ -562,11 +562,15 @@ vllm serve \
 
 Not working:
 
+export CUDA_VISIBLE_DEVICES=0
+export TORCH_CUDA_ARCH_LIST="12.0"
+
 vllm serve \
   /models/original/openai-gpt-oss-120b \
   --served-model-name openai-gpt-oss-120b \
   --tensor-parallel-size 1 \
-  --max_num_seqs 1 \
+--pipeline-parallel-size 1 \
+  --max_num_seqs 8 \
   --max-model-len 131072 \
   --gpu-memory-utilization 0.85 \
   --tool-call-parser openai \
