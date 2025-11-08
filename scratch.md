@@ -479,7 +479,7 @@ export NCCL_IB_DISABLE=1
 export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
 export VLLM_SLEEP_WHEN_IDLE=1
 
-Pipeline parallel 2. Tensor parallel 2 will fail with vLLM and NCCL hanging forever
+# Pipeline parallel 2. Tensor parallel 2 will fail with vLLM and NCCL hanging forever
 
 vllm serve \
     /models/original/GLM-4.5-Air-FP8 \
@@ -537,8 +537,40 @@ vllm serve \
 
 huggingface-cli download QuantTrio/MiniMax-M2-AWQ --local-dir /models/awq/QuantTrio-MiniMax-M2-AWQ
 
+export CUDA_VISIBLE_DEVICES=0,1
+export VLLM_ATTENTION_BACKEND=FLASHINFER
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
 
-https://huggingface.co/
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2-AWQ \
+    --served-model-name MiniMax-M2-AWQ \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
+    --host 0.0.0.0 \
+    --port 8000
 
+---
+
+vllm serve \
+  /models/original/openai-gpt-oss-120b \
+  --served-model-name openai-gpt-oss-120b \
+  --tensor-parallel-size 2 \
+  --max_num_seqs 1 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.85 \
+  --tool-call-parser openai \
+  --reasoning-parser openai_gptoss \
+  --enable-auto-tool-choice \
+  --host 0.0.0.0 \
+  --port 8000
 
 ```
