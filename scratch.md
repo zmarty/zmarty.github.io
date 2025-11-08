@@ -478,14 +478,26 @@ export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
 export VLLM_SLEEP_WHEN_IDLE=1
 
 vllm serve \
-    /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
-    --served-model-name Qwen3-235B-A22B-Instruct-2507 \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
     --enable-expert-parallel \
     --max-num-seqs 512 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.97 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
     --host 0.0.0.0 \
     --port 8000
+
+--
+
+huggingface-cli download QuantTrio/Qwen3-VL-235B-A22B-Thinking-AWQ --local-dir /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ
+
+# Install Qwen-VL utility library (recommended for offline inference)
+uv pip install qwen-vl-utils==0.0.14
+
+
 ```
