@@ -454,3 +454,38 @@ sudo ufw allow 8188/tcp
 https://github.com/mcmonkeyprojects/SwarmUI
 https://github.com/invoke-ai/InvokeAI?tab=readme-ov-file
 ```
+
+```console
+python3 -m venv .venv
+
+source .venv/bin/activate
+
+uv pip install --pre \
+  --index-strategy unsafe-best-match \
+  'triton-kernels @ git+https://github.com/triton-lang/triton.git@v3.5.0#subdirectory=python/triton_kernels' \
+  vllm \
+  --extra-index-url https://wheels.vllm.ai/nightly \
+  --extra-index-url https://download.pytorch.org/whl/nightly/cu130 \
+  --extra-index-url https://download.pytorch.org/whl/xformers/
+
+--
+
+export CUDA_VISIBLE_DEVICES=0,1
+export VLLM_ATTENTION_BACKEND=FLASHINFER
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-235B-A22B-Instruct-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Instruct-2507 \
+    --enable-expert-parallel \
+    --max-num-seqs 512 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
