@@ -560,7 +560,7 @@ vllm serve \
 
 ---
 
-Not working:
+# Only working if I disable triton and I use Marlin
 
 export CUDA_VISIBLE_DEVICES=0
 export TORCH_CUDA_ARCH_LIST="12.0"
