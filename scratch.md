@@ -449,3 +449,8 @@ python main.py --listen 0.0.0.0 --port 8188
 
 sudo ufw allow 8188/tcp
 ```
+
+```console
+https://github.com/mcmonkeyprojects/SwarmUI
+https://github.com/invoke-ai/InvokeAI?tab=readme-ov-file
+```
