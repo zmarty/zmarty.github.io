@@ -456,6 +456,8 @@ https://github.com/invoke-ai/InvokeAI?tab=readme-ov-file
 ```
 
 ```console
+WORKING WORKING WORKING WORKING WORKING
+
 python3 -m venv .venv
 
 source .venv/bin/activate
@@ -477,13 +479,15 @@ export NCCL_IB_DISABLE=1
 export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
 export VLLM_SLEEP_WHEN_IDLE=1
 
+Pipeline parallel 2. Tensor parallel 2 will fail with vLLM and NCCL hanging forever
+
 vllm serve \
     /models/original/GLM-4.5-Air-FP8 \
     --served-model-name GLM-4.5-Air-FP8 \
     --enable-expert-parallel \
-    --max-num-seqs 512 \
+    --max-num-seqs 8 \
     --max-model-len 128000 \
-    --gpu-memory-utilization 0.97 \
+    --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 1 \
     --pipeline-parallel-size 2 \
     --tool-call-parser glm45 \
@@ -492,12 +496,49 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+Note I set max-num-seqs low due to FlashInfer 256MB hardcoded limit - for now - see https://github.com/vllm-project/vllm/issues/25342?utm_source=chatgpt.com
+
+
 --
 
 huggingface-cli download QuantTrio/Qwen3-VL-235B-A22B-Thinking-AWQ --local-dir /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ
 
 # Install Qwen-VL utility library (recommended for offline inference)
 uv pip install qwen-vl-utils==0.0.14
+
+# ModuleNotFoundError: No module named 'torchvision'
+uv pip install --pre --index-url https://download.pytorch.org/whl/nightly/cu130 torchvision
+
+# Qwen3-VL does not support _Backend.FLASHINFER backend now.
+export VLLM_DISABLE_FLASHINFER=1
+export VLLM_ATTENTION_BACKEND=FLASH_ATTN
+
+export CUDA_VISIBLE_DEVICES=0,1
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --served-model-name Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --enable-expert-parallel \
+    --limit-mm-per-prompt.video 0 \
+    --mm-encoder-tp-mode data \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+---
+
+huggingface-cli download QuantTrio/MiniMax-M2-AWQ --local-dir /models/awq/QuantTrio-MiniMax-M2-AWQ
+
+
+https://huggingface.co/
 
 
 ```
