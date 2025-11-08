@@ -564,6 +564,7 @@ Not working:
 
 export CUDA_VISIBLE_DEVICES=0
 export TORCH_CUDA_ARCH_LIST="12.0"
+export VLLM_MXFP4_USE_MARLIN=1
 
 vllm serve \
   /models/original/openai-gpt-oss-120b \
