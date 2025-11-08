@@ -560,10 +560,12 @@ vllm serve \
 
 ---
 
+Not working:
+
 vllm serve \
   /models/original/openai-gpt-oss-120b \
   --served-model-name openai-gpt-oss-120b \
-  --tensor-parallel-size 2 \
+  --tensor-parallel-size 1 \
   --max_num_seqs 1 \
   --max-model-len 131072 \
   --gpu-memory-utilization 0.85 \
