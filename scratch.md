@@ -765,6 +765,8 @@ vllm serve \
 ```console
 WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKSWORKS WORKS WORKS
 
+https://chatgpt.com/share/69110274-c930-8000-ade4-4b37833fee2b
+
 huggingface-cli download NVFP4/Qwen3-235B-A22B-Thinking-2507-FP4 --local-dir /models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
 
 docker run --rm -it \
