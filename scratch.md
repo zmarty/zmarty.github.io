@@ -627,4 +627,51 @@ docker run --rm \
   --kv-cache-dtype fp8 \
   --host 0.0.0.0 \
   --port 8000
+
+--
+
+export NCCL_DEBUG=INFO
+export VLLM_MXFP4_USE_MARLIN=1
+# !!! --disable-custom-all-reduce
+
+# NCCL_P2P_DISABLE=1 !
+docker run --rm \
+  --name inference \
+  --gpus all \
+  --shm-size=32g \
+  --ipc=host \
+  -p 0.0.0.0:8000:8000 \
+  --ulimit memlock=-1 \
+  --ulimit nofile=1048576 \
+  -e NCCL_IB_DISABLE=1 \
+  -e NCCL_NVLS_ENABLE=0 \
+  -e NCCL_P2P_DISABLE=1 \
+  -e NCCL_SHM_DISABLE=0 \
+  -e VLLM_MXFP4_USE_MARLIN=1 \
+  -e VLLM_USE_V1=1 \
+  -e VLLM_USE_FLASHINFER_MOE_FP4=1 \
+  -e OMP_NUM_THREADS=8 \
+  -e SAFETENSORS_FAST_GPU=1 \
+  -v /dev/shm:/dev/shm \
+  -v /models:/models:ro \
+  vllm/vllm-openai:nightly \
+  --model /models/nvfp4/lukealonso-MiniMax-M2-NVFP4 \
+  --enable-auto-tool-choice \
+  --tool-call-parser minimax_m2 \
+  --reasoning-parser minimax_m2_append_think \
+  --all2all-backend pplx \
+  --enable-expert-parallel \
+  --disable-custom-all-reduce \
+  --enable-prefix-caching \
+  --enable-chunked-prefill \
+  --served-model-name "MiniMax-M2" \
+  --tensor-parallel-size 2 \
+  --gpu-memory-utilization 0.95 \
+  --max-num-batched-tokens 16384 \
+  --dtype auto \
+  --max-num-seqs 8 \
+  --kv-cache-dtype fp8 \
+  --host 0.0.0.0 \
+  --port 8000
+
 ```
