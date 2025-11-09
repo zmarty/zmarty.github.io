@@ -710,4 +710,54 @@ https://github.com/vllm-project/vllm/issues/27562
 --mm-encoder-tp-mode data
 --enable-expert-parallel
 
+---
+
+WORKS 100%
+
+export CUDA_VISIBLE_DEVICES=0,1
+export VLLM_ATTENTION_BACKEND=FLASHINFER
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
+
+# Pipeline parallel 2. Tensor parallel 2 will fail with vLLM and NCCL hanging forever
+
+vllm serve \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --enable-expert-parallel \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --host 0.0.0.0 \
+    --port 8000
+
+---
+
+# Now try tp 2 but with P2P disable:
+
+export NCCL_P2P_DISABLE=1
+
+DOES NOT WORK ! DOES NOT WORK ! DOES NOT WORK ! DOES NOT WORK ! DOES NOT WORK ! 
+
+vllm serve \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --enable-expert-parallel \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --host 0.0.0.0 \
+    --port 8000
+
 ```
