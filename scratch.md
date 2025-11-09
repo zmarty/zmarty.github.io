@@ -775,6 +775,14 @@ docker run --rm -it \
 
 # To fallback to pytorch instead of TensortRT C++, add: --backend pytorch
 
+export NCCL_DEBUG=INFO
+export NCCL_DEBUG_SUBSYS=INIT,ENV,GRAPH
+export NCCL_IB_DISABLE=1          # you likely have no InfiniBand
+export NCCL_NET_GDR_LEVEL=0
+export NCCL_PXN_DISABLE=1         # avoid cross-NIC/complex paths
+export NCCL_P2P_LEVEL=PIX         # or PHB if GPUs are under different root complexes
+export NCCL_SOCKET_IFNAME=^lo,docker0  # keep NCCL off loopback/docker
+
 trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
   --host 0.0.0.0 \
   --port 8000 \
