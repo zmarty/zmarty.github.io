@@ -780,5 +780,6 @@ trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
   --port 8000 \
   --backend pytorch \
   --tp_size 2 \
-  --gpus_per_node 2
+  --gpus_per_node 2 \
+  --log_level debug
 ```
