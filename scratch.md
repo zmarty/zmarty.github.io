@@ -1022,4 +1022,6 @@ vllm serve \
     --reasoning-parser minimax_m2_append_think \
     --host 0.0.0.0 \
     --port 8000
+
+50-70 tokens/sec?
 ```
