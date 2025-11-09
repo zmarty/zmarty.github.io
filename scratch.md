@@ -783,6 +783,5 @@ trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
   --max_seq_len 8192 \
   --max_num_tokens 1024 \
   --max_batch_size 1 \
-  --max_num_requests 2 \
   --log_level debug
 ```
