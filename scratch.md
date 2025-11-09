@@ -701,6 +701,8 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+-> Fails with This flash attention build does not support headdim not being a multiple of 32
+https://github.com/vllm-project/vllm/issues/27562
 
 --limit-mm-per-prompt.video 0
 --max-model-len 128000
