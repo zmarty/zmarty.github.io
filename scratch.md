@@ -570,7 +570,7 @@ vllm serve \
   /models/original/openai-gpt-oss-120b \
   --served-model-name openai-gpt-oss-120b \
   --tensor-parallel-size 1 \
---pipeline-parallel-size 1 \
+  --pipeline-parallel-size 1 \
   --max_num_seqs 8 \
   --max-model-len 131072 \
   --gpu-memory-utilization 0.85 \
@@ -675,5 +675,37 @@ docker run --rm \
   --kv-cache-dtype fp8 \
   --host 0.0.0.0 \
   --port 8000
+
+---
+
+# Qwen3-VL does not support _Backend.FLASHINFER backend now.
+export VLLM_DISABLE_FLASHINFER=1
+export VLLM_ATTENTION_BACKEND=FLASH_ATTN
+
+export CUDA_VISIBLE_DEVICES=0,1
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --served-model-name Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --enable-expert-parallel \
+    --swap-space 16 \
+    --max-num-seqs 8 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.97 \
+    --disable-custom-all-reduce \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+
+--limit-mm-per-prompt.video 0
+--max-model-len 128000
+--async-scheduling
+--mm-encoder-tp-mode data
+--enable-expert-parallel
 
 ```
