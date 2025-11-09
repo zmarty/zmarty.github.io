@@ -821,7 +821,7 @@ export NCCL_PXN_DISABLE=1         # avoid cross-NIC/complex paths
 export NCCL_P2P_LEVEL=PIX         # or PHB if GPUs are under different root complexes
 export NCCL_SOCKET_IFNAME=^lo,docker0  # keep NCCL off loopback/docker
 
-trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
+trtllm-serve "/models/original/openai-gpt-oss-120b/" \
   --host 0.0.0.0 \
   --port 8000 \
   --tp_size 2 \
@@ -831,5 +831,5 @@ trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
   --max_batch_size 1 \
   --log_level debug
 
-Result: 70 tokens/sec
+Result: 185 tokens/sec
 ```
