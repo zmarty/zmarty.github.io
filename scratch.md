@@ -581,3 +581,9 @@ vllm serve \
   --port 8000
 
 ```
+
+```console
+GLM 4.5 Air LM Studio Jinja template fix for OpenAI style function calling
+
+https://pastebin.com/CfMw7hFS
+```
