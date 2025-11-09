@@ -763,6 +763,8 @@ vllm serve \
 ```
 
 ```console
+TensortRT-LLM Qwen3-235B-A22B-Thinking-2507-FP4
+
 WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS 
 But needs thinking parsing template?
 
@@ -805,6 +807,8 @@ Result: 70 tokens/sec
 ```
 
 ```console
+TensortRT-LLM openai-gpt-oss-120b
+
 WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS
 Also has thinking template working fine
 
@@ -838,6 +842,7 @@ Result: 185 tokens/sec
 ```
 
 ```console
+Tensor RT LLM - GLM-4.5-Air-FP8
 
 DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK
 Unsupported quantization error!
@@ -868,4 +873,85 @@ trtllm-serve "/models/original/GLM-4.5-Air-FP8/" \
   --max_batch_size 1
 
 
+```
+
+```console
+MAJOR FAIL
+
+vllm - GLM-4.5-Air-FP8
+
+cd /git/vllm-nightly/
+source .venv/bin/activate
+
+# === GPU selection ===
+export CUDA_VISIBLE_DEVICES=0,1
+
+# === NCCL: maximum verbosity + useful extras ===
+export NCCL_DEBUG=TRACE                         # TRACE > INFO > WARN
+export NCCL_DEBUG_SUBSYS=ALL                    # or: INIT,ENV,GRAPH,COLL,P2P,SHM,NET
+# Write one log file per rank: hostname, pid, rank in filename
+export NCCL_DEBUG_FILE=/tmp/nccl_%h_%p_%r.log
+export NCCL_ASYNC_ERROR_HANDLING=1              # surface async errors sooner
+
+# Keep your existing NCCL env (tweak as needed)
+export NCCL_IB_DISABLE=1
+export NCCL_NET_GDR_LEVEL=0
+export NCCL_PXN_DISABLE=1
+export NCCL_P2P_LEVEL=PIX                       # use PHB if needed
+export NCCL_SOCKET_IFNAME=^lo,docker0
+
+# === PyTorch distributed: richer diagnostics ===
+# DETAIL shows collective shapes, store ops, timeouts, etc. Use INFO for less noise.
+export TORCH_DISTRIBUTED_DEBUG=DETAIL
+# Optional: make CUDA ops sync to get proper Python stack traces on kernel errors
+export CUDA_LAUNCH_BLOCKING=1
+# Helpful when debugging OOMs / allocator behavior (noisy):
+# export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,garbage_collection_threshold:0.8
+
+# === vLLM logging ===
+# vLLM uses Python logging; this env bumps its internal loggers.
+export VLLM_LOGGING_LEVEL=DEBUG
+
+vllm serve \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --enable-expert-parallel \
+    --enforce-eager \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+```console
+vllm - NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
+
+DOES NOT WORK - needs more investigation! Out of memory?!
+
+cd /git/vllm-nightly/
+source .venv/bin/activate
+
+export CUDA_VISIBLE_DEVICES=0,1
+export NCCL_IB_DISABLE=1          # you likely have no InfiniBand
+export NCCL_NET_GDR_LEVEL=0
+export NCCL_PXN_DISABLE=1         # avoid cross-NIC/complex paths
+export NCCL_P2P_LEVEL=PIX         # or PHB if GPUs are under different root complexes
+export NCCL_SOCKET_IFNAME=^lo,docker0  # keep NCCL off loopback/docker
+
+vllm serve \
+    /models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4 \
+    --served-model-name Qwen3-235B-A22B-Thinking-2507 \
+    --enable-expert-parallel \
+    --swap-space 16 \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
 ```
