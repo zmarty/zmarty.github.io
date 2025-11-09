@@ -763,7 +763,7 @@ vllm serve \
 ```
 
 ```console
-WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKSWORKS WORKS WORKS
+WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKS WORKS WORKS WORKS 
 But needs thinking parsing template?
 
 https://chatgpt.com/share/69110274-c930-8000-ade4-4b37833fee2b
@@ -805,6 +805,9 @@ Result: 70 tokens/sec
 ```
 
 ```console
+WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS WORKS
+Also has thinking template working fine
+
 docker run --rm -it \
   -p 8000:8000 \
   -v /models:/models:ro \
@@ -832,4 +835,37 @@ trtllm-serve "/models/original/openai-gpt-oss-120b/" \
   --log_level debug
 
 Result: 185 tokens/sec
+```
+
+```console
+
+DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK DOES NOT WORK
+Unsupported quantization error!
+
+docker run --rm -it \
+  -p 8000:8000 \
+  -v /models:/models:ro \
+  --ipc=host \
+  --ulimit memlock=-1 \
+  --ulimit stack=67108864 \
+  --gpus=all \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0rc2
+
+export CUDA_VISIBLE_DEVICES=0,1
+export NCCL_IB_DISABLE=1          # you likely have no InfiniBand
+export NCCL_NET_GDR_LEVEL=0
+export NCCL_PXN_DISABLE=1         # avoid cross-NIC/complex paths
+export NCCL_P2P_LEVEL=PIX         # or PHB if GPUs are under different root complexes
+export NCCL_SOCKET_IFNAME=^lo,docker0  # keep NCCL off loopback/docker
+
+trtllm-serve "/models/original/GLM-4.5-Air-FP8/" \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --tp_size 2 \
+  --gpus_per_node 2 \
+  --max_seq_len 8192 \
+  --max_num_tokens 1024 \
+  --max_batch_size 1
+
+
 ```
