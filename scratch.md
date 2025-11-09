@@ -470,6 +470,28 @@ uv pip install --pre \
   --extra-index-url https://download.pytorch.org/whl/nightly/cu130 \
   --extra-index-url https://download.pytorch.org/whl/xformers/
 
+(.venv) zmarty@zmarty-aorus:/git/vllm-nightly$ uv pip install --pre -U --force-reinstall --no-deps vllm \
+  --extra-index-url https://wheels.vllm.ai/nightly
+Resolved 1 package in 117ms
+Prepared 1 package in 4.91s
+Uninstalled 1 package in 53ms
+Installed 1 package in 25ms
+ - vllm==1.0.0.dev20251107+cu130
+ + vllm==0.11.1rc6.dev234+gc4768dcf4.cu129
+
+
+I think this loaded an older rc. Updated with:
+
+(.venv) zmarty@zmarty-aorus:/git/vllm-nightly$ uv pip install --pre -U --force-reinstall --no-deps vllm \
+  --extra-index-url https://wheels.vllm.ai/nightly
+Resolved 1 package in 117ms
+Prepared 1 package in 4.91s
+Uninstalled 1 package in 53ms
+Installed 1 package in 25ms
+ - vllm==1.0.0.dev20251107+cu130
+ + vllm==0.11.1rc6.dev234+gc4768dcf4.cu129
+
+
 --
 
 export CUDA_VISIBLE_DEVICES=0,1
@@ -894,6 +916,9 @@ export NCCL_DEBUG_SUBSYS=ALL                    # or: INIT,ENV,GRAPH,COLL,P2P,SH
 export NCCL_DEBUG_FILE=/tmp/nccl_%h_%p_%r.log
 export NCCL_ASYNC_ERROR_HANDLING=1              # surface async errors sooner
 
+export NCCL_P2P_DISABLE=1
+export VLLM_WORKER_MULTIPROC_METHOD="spawn"
+
 # Keep your existing NCCL env (tweak as needed)
 export NCCL_IB_DISABLE=1
 export NCCL_NET_GDR_LEVEL=0
@@ -949,10 +974,50 @@ vllm serve \
     --served-model-name Qwen3-235B-A22B-Thinking-2507 \
     --enable-expert-parallel \
     --swap-space 16 \
+    --max-num-seqs 1 \
+    --max-model-len 12800 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+```console
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+
+uv pip install compressed-tensors==0.12.2
+uv pip install depyf==0.20.0
+
+uv pip install --pre \
+  'triton-kernels @ git+https://github.com/triton-lang/triton.git@v3.5.0#subdirectory=python/triton_kernels' \
+  vllm \
+  --extra-index-url https://wheels.vllm.ai/nightly \
+  --extra-index-url https://download.pytorch.org/whl/nightly/cu129 \
+  --extra-index-url https://download.pytorch.org/whl/xformers/
+
+python -c "import vllm; print(vllm.__version__)"
+
+# I had to hack the versions using Claude Sonnet 4.5
+
+export CUDA_VISIBLE_DEVICES=0,1
+export VLLM_ATTENTION_BACKEND=FLASHINFER
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1 #Absolutely required !!!!!
+export VLLM_SLEEP_WHEN_IDLE=1
+
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2-AWQ \
+    --served-model-name MiniMax-M2-AWQ \
     --max-num-seqs 8 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
-    --tensor-parallel-size 2 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
     --host 0.0.0.0 \
     --port 8000
 ```
