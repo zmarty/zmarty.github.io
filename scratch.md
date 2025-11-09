@@ -762,6 +762,8 @@ vllm serve \
 
 ---
 
+WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKSWORKS WORKS WORKS
+
 huggingface-cli download NVFP4/Qwen3-235B-A22B-Thinking-2507-FP4 --local-dir /models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
 
 docker run --rm -it \
@@ -775,6 +777,8 @@ docker run --rm -it \
 
 # To fallback to pytorch instead of TensortRT C++, add: --backend pytorch
 
+export CUDA_VISIBLE_DEVICES=0,1
+export TLLM_LOG_LEVEL=DEBUG # or TRACE
 export NCCL_DEBUG=INFO
 export NCCL_DEBUG_SUBSYS=INIT,ENV,GRAPH
 export NCCL_IB_DISABLE=1          # you likely have no InfiniBand
