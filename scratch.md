@@ -877,6 +877,7 @@ trtllm-serve "/models/original/GLM-4.5-Air-FP8/" \
 
 ```console
 MAJOR FAIL
+https://github.com/vllm-project/vllm/issues/17676
 
 vllm - GLM-4.5-Air-FP8
 
