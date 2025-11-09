@@ -760,8 +760,9 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
----
+```
 
+```console
 WORKS WORKS WORKS WORKS WORKS WORKSWORKS WORKS WORKSWORKS WORKS WORKS
 
 huggingface-cli download NVFP4/Qwen3-235B-A22B-Thinking-2507-FP4 --local-dir /models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
@@ -796,4 +797,6 @@ trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
   --max_num_tokens 1024 \
   --max_batch_size 1 \
   --log_level debug
+
+Result: 70 tokens/sec
 ```
