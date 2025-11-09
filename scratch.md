@@ -632,6 +632,7 @@ docker run --rm \
 
 export NCCL_DEBUG=INFO
 export VLLM_MXFP4_USE_MARLIN=1
+export TORCH_CUDA_ARCH_LIST="12.0"
 # !!! --disable-custom-all-reduce
 
 # NCCL_P2P_DISABLE=1 !
@@ -649,6 +650,7 @@ docker run --rm \
   -e NCCL_SHM_DISABLE=0 \
   -e VLLM_MXFP4_USE_MARLIN=1 \
   -e VLLM_USE_V1=1 \
+  -e TORCH_CUDA_ARCH_LIST="12.0" \
   -e VLLM_USE_FLASHINFER_MOE_FP4=1 \
   -e OMP_NUM_THREADS=8 \
   -e SAFETENSORS_FAST_GPU=1 \
