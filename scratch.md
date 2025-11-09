@@ -760,4 +760,25 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+---
+
+huggingface-cli download NVFP4/Qwen3-235B-A22B-Thinking-2507-FP4 --local-dir /models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
+
+docker run --rm -it \
+  -p 8000:8000 \
+  -v /models:/models:ro \
+  --ipc=host \
+  --ulimit memlock=-1 \
+  --ulimit stack=67108864 \
+  --gpus=all \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0rc2
+
+# To fallback to pytorch instead of TensortRT C++, add: --backend pytorch
+
+trtllm-serve "/models/nvfp4/NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4" \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --backend pytorch \
+  --tp_size 2 \
+  --gpus_per_node 2
 ```
