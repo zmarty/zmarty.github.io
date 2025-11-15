@@ -17,6 +17,8 @@ description: ""
 | [MLX (Apple MLX + MLX-LM)](https://ml-explore.github.io/mlx/)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
 | [Modular (MAX engine)](https://www.modular.com/max/solutions/ai-inference) | 25.2k         | **Proprietary / source-available** (Apache-2.0 code under a community use license) | High-throughput production                |
 
+Tensor Parallelism and batch inference
+https://medium.com/@himanshushukla.shukla3/stop-using-llama-cpp-for-multi-gpu-setups-use-vllm-or-exllamav2-instead-73992cf1a1ad
 
 ### Production level, high-throughput inference engines
 
@@ -33,3 +35,4 @@ These engines often allow using a combination of
 Where to start
 
 If you are new to the LLM Inference world, I would recommend starting with LMStudio.
+
