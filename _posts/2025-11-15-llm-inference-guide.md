@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "LLM inference Basics"
+title: "Getting Started with running LLM models locally"
 date: 2025-11-15 12:00:00 -0700
 categories: [AI]
 tags: [llm, vllm]
 description: ""
 ---
 
-LLM inference has two main stages: prefill (prompt processing), and decode (toekn generation). While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
+If you are completely new to this world of LLM inference and just want to get started with running models locally then download [LM Studio](https://lmstudio.ai/), which has backends like llama.cpp and MLX that will run on any hardware. Another option is [ollama](https://ollama.com/), but I am hesitant to recommend it because they are perceived as taking open source projects and turning them into a closed off walled garden with a custom API.
 
 ### Hardware
 
@@ -15,9 +15,9 @@ LLM inference has two main stages: prefill (prompt processing), and decode (toek
 | ---------------------- | ----------- | ------- | ------- | ---------- |
 | 2× NVIDIA RTX 3090     | 48 GB VRAM  | ~$1,500 | Fast    | Fast     |
 | 1× NVIDIA RTX 5090     | 32 GB VRAM  | ~$2,000 | Fast    | Fast       |
-| 1× NVIDIA RTX Pro 6000 Blackwell Workstation  | 96 GB VRAM  | ~$7,300 | Fast    | Fast       |
-| 2× NVIDIA RTX Pro 6000 Blackwell Workstation  | 192 GB VRAM  | ~$14,600 | Fast    | Fast       |
-| 4× NVIDIA RTX Pro 6000 Blackwell Max-Q  | 384 GB VRAM  | ~$29,200 | Fast    | Fast       |
+| 1× NVIDIA RTX Pro 6000 Workstation (600W)  | 96 GB VRAM  | ~$7,300 | Fast    | Fast       |
+| 2× NVIDIA RTX Pro 6000 Workstation (600W)  | 192 GB VRAM  | ~$14,600 | Fast    | Fast       |
+| 4× NVIDIA RTX Pro 6000 Max-Q (300W)  | 384 GB VRAM  | ~$29,200 | Fast    | Fast       |
 | AMD Strix Halo (Ryzen AI Max+ 395) | Up to 128 GB unified memory | ~$2,000 | Medium  | Slow       |
 | Apple MacBook Pro / Mac Studio M4 Max | 128 GB unified memory | ~$4,000 | Medium  | Medium     |
 | Apple Mac Studio M3 Ultra | 256–512 GB unified memory | ~$8,000+ | Medium  | Medium     |
@@ -27,6 +27,8 @@ LLM inference has two main stages: prefill (prompt processing), and decode (toek
 ### Inference engines
 
 LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching to speed up subsequent requests in a conversation.
+
+LLM inference has two main stages: prefill and decode. Prefill is the prompt processing step which takes the input (question) to the model and processes it, while decode is the token generation phase which generates the output from the model, token by token. While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
 
 | Name                                                                       | GitHub stars* | Type                                                                               | Scale                                     |
 | -------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
@@ -95,7 +97,25 @@ https://medium.com/@himanshushukla.shukla3/stop-using-llama-cpp-for-multi-gpu-se
 
 Does the full or quantized model that you want to run fully fit in GPU or unified memory? 
 
-### Production level, high-throughput inference engines
+### Quantization
+
+Quantizatization often makes the difference between being able to run an LLM model locally or not. Quantization is taking the weights of a model and reducing their precision (bit-width), basically compressing them. For example, converting from FP16 (16-bit floating point) to INT8 (8-bit integer) or INT4 (4-bit integer) can reduce memory requirements by 2x or 4x respectively, with minimal impact on model quality. This allows running larger models on hardware with limited VRAM or unified memory.
+
+Common quantization formats include:
+- **FP16/BF16**: 16-bit floating point, baseline for most models
+- **INT8**: 8-bit integer quantization, ~2x compression
+- **4-bit quantization** (~4x compression):
+  - **INT4**: Simple 4-bit integer quantization
+  - **NVFP4/MXFP4**: 4-bit floating point formats (NVIDIA FP4 and Microscaling FP4), offering better accuracy than INT4
+  - **AWQ**: Activation-aware Weight Quantization, optimizes which weights to quantize based on activation patterns
+  - **GPTQ**: Layer-wise quantization method that preserves model quality
+- **GGUF, exl3**: Advanced quantization formats with flexible bit-width support
+
+The graph below shows the impact of quantization on LLM. As the number of bits used for quantization increase from 2 to 16, the perplexity metric decreases (lower is better). Perplexity scales smoothly with model size across quantization levels, with 6-bit quantization staying within 0.1% of FP16. The [table](https://github.com/ggml-org/llama.cpp/pull/1684) on this list explains in more detail the 10 quantization data points chosen for each model size.
+
+
+
+### Interfaces
 
 These engines are used in production by large companies to serve text and multimodal LLMs at scale. They primarily focus on serving models that fit within the VRAM of the GPUs.
 
