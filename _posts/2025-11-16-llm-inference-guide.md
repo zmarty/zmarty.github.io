@@ -183,7 +183,7 @@ Jan
 
 <br/>
 
-Text-Generation-WebUI
+text-generation-webui
 
 <img width="1000" height="563" alt="image" src="https://github.com/user-attachments/assets/b4e54d88-c3d9-4b5f-9405-415dc13cfd3d" />
 
