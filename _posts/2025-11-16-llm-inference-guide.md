@@ -150,17 +150,17 @@ Here's an EXL3-specific example of the relationship between quantization bits an
 
 Once you've chosen your hardware and inference engine, you'll need a user interface to interact with your models. LLM interfaces range from feature-rich desktop applications with bundled inference engines to lightweight web clients that connect to external APIs. Some applications like LM Studio and Jan bundle their own inference engines for a plug-and-play experience, while others like Open WebUI and LibreChat act as universal frontends that connect to any OpenAI-compatible API endpoint. Many interfaces expose OpenAI-compatible APIs themselves, making it easy to integrate local models into existing applications. The table below compares popular options based on their architecture, integration capabilities, and community adoption.
 
-| Name | Type & Engine | Integrations | GitHub Stars |
+| Name | GitHub Stars | Type & Engine | Integrations |
 | :--- | :--- | :--- | :--- |
-| [**LM Studio**](https://lmstudio.ai/) | Bundled `llama.cpp`-based engine (proprietary) | Exposes OpenAI-compatible API | N/A |
-| [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | Client-only | Connects to `llama-server` via OpenAI API | **89.9k** |
-| [**Jan**](https://jan.ai/) | Bundled `llama.cpp` engine | Exposes OpenAI API; connects to OpenAI, Claude, Gemini | **39.3k** |
-| [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | Multi-engine loader (Transformers, llama.cpp, ExLlama, TRT-LLM) | Exposes OpenAI-compatible API | **45.4k** |
-| [**Open WebUI**](https://github.com/open-webui/open-webui) | Client-only | Connects to Ollama, LM Studio, Groq, any OpenAI API | **115k** |
-| [**LibreChat**](https://github.com/danny-avila/LibreChat) | Client-only | Connects to OpenAI, Azure, Google, Anthropic, Ollama, etc. | **31.7k** |
-| [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | Bundled `llama.cpp`-derived + Nomic engine | Internal API with SDK access | **76.9k** |
-| [**AnythingLLM**](https://github.com/Mintplex-Labs/anything-llm) | RAG-focused client | Connects to Ollama, LM Studio, OpenAI, Azure, Anthropic | **51.1k** |
-| [**Chatbox**](https://chatboxai.app/) | Client-only | Connects to OpenAI, Claude, Gemini, local/Ollama | **37.4k** |
+| [**LM Studio**](https://lmstudio.ai/) | N/A | Bundled `llama.cpp`-based engine (proprietary) | Exposes OpenAI-compatible API |
+| [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | **89.9k** | Client-only | Connects to `llama-server` via OpenAI API |
+| [**Jan**](https://jan.ai/) | **39.3k** | Bundled `llama.cpp` engine | Exposes OpenAI API; connects to OpenAI, Claude, Gemini |
+| [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | **45.4k** | Multi-engine loader (Transformers, llama.cpp, ExLlama, TRT-LLM) | Exposes OpenAI-compatible API |
+| [**Open WebUI**](https://github.com/open-webui/open-webui) | **115k** | Client-only | Connects to Ollama, LM Studio, Groq, any OpenAI API |
+| [**LibreChat**](https://github.com/danny-avila/LibreChat) | **31.7k** | Client-only | Connects to OpenAI, Azure, Google, Anthropic, Ollama, etc. |
+| [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | **76.9k** | Bundled `llama.cpp`-derived + Nomic engine | Internal API with SDK access |
+| [**AnythingLLM**](https://github.com/Mintplex-Labs/anything-llm) | **51.1k** | RAG-focused client | Connects to Ollama, LM Studio, OpenAI, Azure, Anthropic |
+| [**Chatbox**](https://chatboxai.app/) | **37.4k** | Client-only | Connects to OpenAI, Claude, Gemini, local/Ollama |
 
 > **Note:** Star counts are dynamic and change daily. These figures were accurate as of mid-November 2025. "LM Studio" is listed as N/A as its primary UI application is proprietary and not a public GitHub repository. The star count for "llama.cpp WebUI" refers to the main `llama.cpp` repository, as the WebUI is a feature of its bundled server.
 
