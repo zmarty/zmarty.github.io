@@ -1,25 +1,25 @@
 ---
 layout: post
 title: "Getting Started with running LLM models locally"
-date: 2025-11-15 12:00:00 -0700
+date: 2025-11-16 12:00:00 -0700
 categories: [AI]
-tags: [llm, vllm]
-description: ""
+tags: [llm, vllm, sglang, llama.cpp, quantization, inference]
+description: "A comprehensive guide to running large language models locally: hardware options, inference engines (vLLM, SGLang, llama.cpp), quantization techniques, and user interfaces."
 ---
 
-In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), and dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not.
+In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not, and review the user interfaces available for interacting with your local models.
 
 If you are completely new to this world of LLM inference and just want to get started with running models locally then download [LM Studio](https://lmstudio.ai/), which has backends like llama.cpp and MLX that will run on any hardware.
 
 ### Inference engines
 
-LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching to speed up subsequent requests in a conversation.
+LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching, which means remembering previous parts of the conversation so the model doesn't have to reprocess them with each new response, speeding up responses.
 
 Inference has two main stages: prefill and decode. Prefill is the prompt processing step which takes the input (question) to the model and processes it, while decode is the token generation phase which generates the output from the model, token by token. While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
 
 Modern inference engines employ several techniques to maximize throughput and enable running larger models. **Batch processing** groups multiple requests together to better utilize GPU compute during both prefill and decode phases. **Tensor parallelism** splits model layers across multiple GPUs, allowing models that don't fit on a single GPU to run efficiently—though this requires high-bandwidth interconnects like NVLink to avoid bottlenecks. **Pipeline parallelism** assigns different layers to different GPUs, processing requests sequentially through the pipeline. Production engines like vLLM and SGLang also implement **continuous batching** (dynamically adding/removing requests from batches) and **PagedAttention** (efficient KV cache memory management) to maximize GPU utilization and throughput.
 
-| Name                                                                       | GitHub stars* | Type                                                                               | Scale                                     |
+| Name                                                                       | GitHub stars | Type                                                                               | Scale                                     |
 | -------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
 | [vLLM](https://docs.vllm.ai/)                                              | 63.1k         | Open Source (Apache-2.0)                                                           | High-throughput production                |
 | [SGLang](https://docs.sglang.ai/)                                          | 20.2k         | Open Source (Apache-2.0)                                                           | High-throughput production                |
@@ -27,7 +27,10 @@ Modern inference engines employ several techniques to maximize throughput and en
 | [llama.cpp](https://github.com/ggml-org/llama.cpp)                         | 89.8k         | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [exllamav3](https://github.com/turboderp-org/exllamav3)                    | 571           | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [MLX (Apple MLX + MLX-LM)](https://ml-explore.github.io/mlx/)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
+| [Ollama](https://ollama.com/)                                              | 156k          | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [Modular (MAX engine)](https://www.modular.com/max/solutions/ai-inference) | 25.2k         | **Proprietary / source-available** (Apache-2.0 code under a community use license) | High-throughput production                |
+
+> **Note:** While Ollama initially used llama.cpp as its backend, it now has [its own inference engine](https://ollama.com/blog/multimodal-models), particularly for supporting multimodal models with improved reliability, accuracy, and model modularity.
 
 The following decision tree will help you select the most appropriate inference engine based on your hardware configuration and use case:
 
@@ -75,8 +78,8 @@ flowchart TD
   - **AMD Strix Halo**: AMD's APU series (including the Ryzen AI Max+ 395) with integrated RDNA graphics and up to 128GB of unified LPDDR5X memory.
 
 - **Does the model fit in VRAM?**: Can the entire model (including weights, KV cache, and activations) fit in your GPU's VRAM? For example:
-  - A 7B parameter model in FP16 requires ~14GB VRAM
-  - A 70B parameter model in FP16 requires ~140GB VRAM
+  - A 7B parameter model in FP16 requires ~14GB of VRAM
+  - A 70B parameter model in FP16 requires ~140GB of VRAM
   - Quantization (INT8, INT4) can reduce memory requirements by 2-4x
 
 - **Production or Enthusiast?**: 
@@ -85,7 +88,9 @@ flowchart TD
 
 ### Hardware
 
-The hardware you choose determines which models you can run and how fast they'll perform. The table below compares various configurations, from budget-friendly consumer GPUs to high-end workstation setups. The "Model Size" column shows the approximate parameter range you can run quantization (more on that below), while "Prefill" and "Generation" indicate the speed of prompt processing and token generation respectively.
+The hardware you choose determines which models you can run and how fast they'll perform. The table below compares various configurations, from budget-friendly consumer GPUs to high-end workstation setups. The "Model Size" column shows the approximate parameter range you can run with quantization (more on that below), while "Prefill" and "Generation" indicate the speed of prompt processing and token generation respectively.
+
+> **Note:** The model size ranges assume 4-bit to 8-bit quantization. Without quantization (FP16), memory requirements roughly double.
 
 | Configuration          | Memory      | Model Size | Prefill | Generation | Cost    |
 | ---------------------- | ----------- | ----------------------- | ------- | ---------- | ------- |
@@ -132,7 +137,7 @@ GGUF offers two categories of quantization:
 
 Note that GGUF prioritizes flexibility over raw speed—it's typically slower than GPU-native formats like EXL2 in both token generation and prompt processing.
 
-The graph below shows the impact of quantization on LLM. As the number of bits used for quantization increase from 2 to 16, the perplexity metric decreases (lower is better). Perplexity scales smoothly with model size across quantization levels, with 6-bit quantization staying within 0.1% of FP16. The [table](https://github.com/ggml-org/llama.cpp/pull/1684) on this list explains in more detail the 10 quantization data points chosen for each model size.
+The graph below shows the impact of quantization on LLM quality. As the number of bits used for quantization increases from 2 to 16, perplexity decreases (lower is better). Perplexity is an evaluation metric that measures how well a language model predicts the next word in a sequence: a lower perplexity score indicates better, more confident predictions. The metric scales smoothly with model size across quantization levels, with 6-bit quantization staying within 0.1% of FP16. The [table](https://github.com/ggml-org/llama.cpp/pull/1684) on this list explains in more detail the 10 quantization data points chosen for each model size.
 
 <img width="792" height="612" alt="image" src="https://github.com/user-attachments/assets/03a79b2c-33ed-4385-ab87-ee2385a3182b" />
 
@@ -144,16 +149,18 @@ Here's an EXL3-specific example of the relationship between quantization bits an
 
 ### Interfaces
 
-| Name | Primary Category | Core Inference Engine(s) | API Standard(s) | Connects To / Bundles | GitHub Stars |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| [**LM Studio**](https://lmstudio.ai/) | **Bundled Engine + UI** | `llama.cpp`-derived (proprietary runtime) | **Exposes** OpenAI-compat | **Bundles** its own `llama.cpp`-based runtime and UI. | N/A (Proprietary) |
-| [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat | **Connects to** `llama-server` (the "reference" Layer 2 backend). | **89.9k** (Main repo) |
-| [**Jan**](https://jan.ai/) | **Hybrid (Bundled Engine + Client)** | `llama.cpp`-based | **Exposes** OpenAI-compat; **Consumes** OpenAI-compat | **Bundles** `llama.cpp`; **Connects to** OpenAI, Claude, Gemini, etc. | **39.3k** |
-| [**Text-Gen-WebUI**](https://github.com/oobabooga/text-generation-webui) | **Specialist Loader + UI** | `Transformers`, `llama.cpp`, `ExLlamaV2/3`, `TRT-LLM` | **Exposes** OpenAI-compat | **Bundles** a framework to load *many* engine types. | **45.4k** |
-| [**Open WebUI**](https://github.com/open-webui/open-webui) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** Ollama & OpenAI-compat | **Connects to** Ollama, LM Studio, Groq, Mistral, any OpenAI-compat API. | **115k** |
-| [**LibreChat**](https://github.com/danny-avila/LibreChat) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat & others | **Connects to** a *vast* list, incl. OpenAI, Azure, Google, Anthropic, Ollama, KoboldCpp. | **31.7k** |
-| [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | **Bundled Engine + UI** | `llama.cpp`-derived & Nomic C backend | N/A (Internal); SDKs provide API | **Bundles** its `llama.cpp`-derived runtime and UI. | **76.9k** |
-| [**AnythingLLM**](https://github.com/Mintplex-Labs/anything-llm) | **RAG Orchestration Hub** | **None** (BYO LLM) | **Consumes** OpenAI-compat | **Connects to** Ollama, LM Studio, OpenAI, Azure, Anthropic. **Bundles** RAG support (embedders, vectorDB). | **51.1k** |
-| [**Chatbox**](https://chatboxai.app/) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat | **Connects to** OpenAI, Claude, Gemini & Local/Ollama. | **37.4k** |
+Once you've chosen your hardware and inference engine, you'll need a user interface to interact with your models. LLM interfaces range from feature-rich desktop applications with bundled inference engines to lightweight web clients that connect to external APIs. Some applications like LM Studio and Jan bundle their own inference engines for a plug-and-play experience, while others like Open WebUI and LibreChat act as universal frontends that connect to any OpenAI-compatible API endpoint. Many interfaces expose OpenAI-compatible APIs themselves, making it easy to integrate local models into existing applications. The table below compares popular options based on their architecture, integration capabilities, and community adoption.
+
+| Name | Type & Engine | Integrations | GitHub Stars |
+| :--- | :--- | :--- | :--- |
+| [**LM Studio**](https://lmstudio.ai/) | Bundled `llama.cpp`-based engine (proprietary) | Exposes OpenAI-compatible API | N/A |
+| [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | Client-only | Connects to `llama-server` via OpenAI API | **89.9k** |
+| [**Jan**](https://jan.ai/) | Bundled `llama.cpp` engine | Exposes OpenAI API; connects to OpenAI, Claude, Gemini | **39.3k** |
+| [**Text-Gen-WebUI**](https://github.com/oobabooga/text-generation-webui) | Multi-engine loader (Transformers, llama.cpp, ExLlama, TRT-LLM) | Exposes OpenAI-compatible API | **45.4k** |
+| [**Open WebUI**](https://github.com/open-webui/open-webui) | Client-only | Connects to Ollama, LM Studio, Groq, any OpenAI API | **115k** |
+| [**LibreChat**](https://github.com/danny-avila/LibreChat) | Client-only | Connects to OpenAI, Azure, Google, Anthropic, Ollama, etc. | **31.7k** |
+| [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | Bundled `llama.cpp`-derived + Nomic engine | Internal API with SDK access | **76.9k** |
+| [**AnythingLLM**](https://github.com/Mintplex-Labs/anything-llm) | RAG-focused client | Connects to Ollama, LM Studio, OpenAI, Azure, Anthropic | **51.1k** |
+| [**Chatbox**](https://chatboxai.app/) | Client-only | Connects to OpenAI, Claude, Gemini, local/Ollama | **37.4k** |
 
 > **Note:** Star counts are dynamic and change daily. These figures were accurate as of mid-November 2025. "LM Studio" is listed as N/A as its primary UI application is proprietary and not a public GitHub repository. The star count for "llama.cpp WebUI" refers to the main `llama.cpp` repository, as the WebUI is a feature of its bundled server.
