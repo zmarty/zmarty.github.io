@@ -169,17 +169,21 @@ Here are a few screenshots, starting with LM Studio:
 
 <img width="1000" height="626" alt="image" src="https://github.com/user-attachments/assets/3e887ba3-79c6-4fe8-a11b-38efb29a1dff" />
 
+
 llama.cpp WebUI
 
 <img width="1000" height="820" alt="image" src="https://github.com/user-attachments/assets/f40816f4-9b3a-494d-85aa-40a9684c6310" />
+
 
 Jan
 
 <img width="1000" height="643" alt="image" src="https://github.com/user-attachments/assets/45d57721-60f5-4450-8137-044a6bb64f22" />
 
+
 Text-Generation-WebUI
 
 <img width="1000" height="563" alt="image" src="https://github.com/user-attachments/assets/b4e54d88-c3d9-4b5f-9405-415dc13cfd3d" />
+
 
 OpenWebUI
 
