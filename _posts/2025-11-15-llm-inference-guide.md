@@ -9,7 +9,7 @@ description: ""
 
 In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), and dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not.
 
-If you are completely new to this world of LLM inference and just want to get started with running models locally then download [LM Studio](https://lmstudio.ai/), which has backends like llama.cpp and MLX that will run on any hardware. Another option is [ollama](https://ollama.com/), but I am hesitant to recommend it because they are perceived as taking open source projects and turning them into a closed off walled garden with a custom API.
+If you are completely new to this world of LLM inference and just want to get started with running models locally then download [LM Studio](https://lmstudio.ai/), which has backends like llama.cpp and MLX that will run on any hardware.
 
 ### Inference engines
 
@@ -144,5 +144,16 @@ Here's an EXL3-specific example of the relationship between quantization bits an
 
 ### Interfaces
 
-These engines are used in production by large companies to serve text and multimodal LLMs at scale. They primarily focus on serving models that fit within the VRAM of the GPUs.
+| Name | Primary Category | Core Inference Engine(s) | API Standard(s) | Connects To / Bundles | GitHub Stars |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [**LM Studio**](https://lmstudio.ai/) | **Bundled Engine + UI** | `llama.cpp`-derived (proprietary runtime) | **Exposes** OpenAI-compat | **Bundles** its own `llama.cpp`-based runtime and UI. | N/A (Proprietary) |
+| [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat | **Connects to** `llama-server` (the "reference" Layer 2 backend). | **89.9k** (Main repo) |
+| [**Jan**](https://jan.ai/) | **Hybrid (Bundled Engine + Client)** | `llama.cpp`-based | **Exposes** OpenAI-compat; **Consumes** OpenAI-compat | **Bundles** `llama.cpp`; **Connects to** OpenAI, Claude, Gemini, etc. | **39.3k** |
+| [**Text-Gen-WebUI**](https://github.com/oobabooga/text-generation-webui) | **Specialist Loader + UI** | `Transformers`, `llama.cpp`, `ExLlamaV2/3`, `TRT-LLM` | **Exposes** OpenAI-compat | **Bundles** a framework to load *many* engine types. | **45.4k** |
+| [**Open WebUI**](https://github.com/open-webui/open-webui) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** Ollama & OpenAI-compat | **Connects to** Ollama, LM Studio, Groq, Mistral, any OpenAI-compat API. | **115k** |
+| [**LibreChat**](https://github.com/danny-avila/LibreChat) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat & others | **Connects to** a *vast* list, incl. OpenAI, Azure, Google, Anthropic, Ollama, KoboldCpp. | **31.7k** |
+| [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | **Bundled Engine + UI** | `llama.cpp`-derived & Nomic C backend | N/A (Internal); SDKs provide API | **Bundles** its `llama.cpp`-derived runtime and UI. | **76.9k** |
+| [**AnythingLLM**](https://github.com/Mintplex-Labs/anything-llm) | **RAG Orchestration Hub** | **None** (BYO LLM) | **Consumes** OpenAI-compat | **Connects to** Ollama, LM Studio, OpenAI, Azure, Anthropic. **Bundles** RAG support (embedders, vectorDB). | **51.1k** |
+| [**Chatbox**](https://chatboxai.app/) | **Agnostic UI Client** | **None** (Client-only) | **Consumes** OpenAI-compat | **Connects to** OpenAI, Claude, Gemini & Local/Ollama. | **37.4k** |
 
+> **Note:** Star counts are dynamic and change daily. These figures were accurate as of mid-November 2025. "LM Studio" is listed as N/A as its primary UI application is proprietary and not a public GitHub repository. The star count for "llama.cpp WebUI" refers to the main `llama.cpp` repository, as the WebUI is a feature of its bundled server.
