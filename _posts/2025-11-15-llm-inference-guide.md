@@ -102,7 +102,7 @@ The hardware you choose determines which models you can run and how fast they'll
 
 ### Quantization
 
-Quantizatization often makes the difference between being able to run an LLM model locally or not. Quantization is taking the weights of a model and reducing their precision (bit-width), basically compressing them. For example, converting from FP16 (16-bit floating point) to INT8 (8-bit integer) or INT4 (4-bit integer) can reduce memory requirements by 2x or 4x respectively, with minimal impact on model quality. This allows running larger models on hardware with limited VRAM or unified memory.
+Quantization often makes the difference between being able to run an LLM model locally or not. Quantization is taking the weights of a model and reducing their precision (bit-width), basically compressing them. For example, converting from FP16 (16-bit floating point) to INT8 (8-bit integer) or INT4 (4-bit integer) can reduce memory requirements by 2x or 4x respectively, with minimal impact on model quality. This allows running larger models on hardware with limited VRAM or unified memory.
 
 Common quantization formats include:
 - **FP16/BF16**: 16-bit floating point, baseline for most models
