@@ -138,6 +138,10 @@ The graph below shows the impact of quantization on LLM. As the number of bits u
 
 For flexible GPU-only quantization, I'd like to give a special shout-out to [exllamav3](https://github.com/turboderp-org/exllamav3) and its **EXL3** format. Based on Cornell's QTIP quantization method, EXL3 allows you to specify a target bitrate (bits per weight) when converting models, making it possible to quantize a model to fit precisely within your available VRAM. Unlike fixed quantization levels (e.g., Q4, Q6, Q8), you can choose any bitrate—say 3.2 bpw or 4.75 bpw—to maximize model size while staying within your hardware constraints. The conversion process is also remarkably efficient, taking just minutes for smaller models and a few hours for 70B+ models on a single GPU, compared to hundreds of GPU-hours required by some other SOTA quantization methods.
 
+Here's an EXL3-specific example of the relationship between quantization bits and perplexity:
+
+<img width="1399" height="1099" alt="image" src="https://github.com/user-attachments/assets/723c8fd7-7256-4a9e-806d-6b2d1a6c6801" />
+
 ### Interfaces
 
 These engines are used in production by large companies to serve text and multimodal LLMs at scale. They primarily focus on serving models that fit within the VRAM of the GPUs.
