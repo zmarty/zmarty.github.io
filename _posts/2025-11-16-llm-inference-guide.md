@@ -4,7 +4,7 @@ title: "Getting Started with running LLM models locally"
 date: 2025-11-16 05:50:00 -0800
 categories: [AI]
 tags: [llm, vllm, sglang, llama.cpp, quantization, inference]
-description: "A comprehensive guide to running large language models locally: hardware options, inference engines (vLLM, SGLang, llama.cpp), quantization techniques, and user interfaces."
+description: "A guide to running large language models locally: hardware options, inference engines (vLLM, SGLang, llama.cpp), quantization techniques, and user interfaces."
 ---
 
 In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not, and review the user interfaces available for interacting with your local models.
@@ -26,7 +26,7 @@ Modern inference engines employ several techniques to maximize throughput and en
 | [TensorRT-LLM](https://nvidia.github.io/TensorRT-LLM/)                     | 12.1k         | Open Source (Apache-2.0)                                                        | High-throughput production                |
 | [llama.cpp](https://github.com/ggml-org/llama.cpp)                         | 89.8k         | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [exllamav3](https://github.com/turboderp-org/exllamav3)                    | 571           | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
-| [MLX (Apple MLX + MLX-LM)](https://ml-explore.github.io/mlx/)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
+| [MLX (Apple MLX + MLX-LM)](https://github.com/ml-explore/mlx-lm)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
 | [Ollama](https://ollama.com/)                                              | 156k          | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [Modular (MAX engine)](https://www.modular.com/max/solutions/ai-inference) | 25.2k         | **Proprietary / source-available** (Apache-2.0 code under a community use license) | High-throughput production                |
 
