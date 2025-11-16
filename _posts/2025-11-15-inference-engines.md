@@ -7,6 +7,9 @@ tags: [llm, vllm]
 description: ""
 ---
 
+LLM inference has two main stages: prefill (prompt processing), and decode (toekn generation). While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
+
+
 LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching to speed up subsequent requests in a conversation.
 
 | Name                                                                       | GitHub stars* | Type                                                                               | Scale                                     |
@@ -21,6 +24,8 @@ LLM inference engines load the weights of a model and allow running inference on
 
 Tensor Parallelism and batch inference
 https://medium.com/@himanshushukla.shukla3/stop-using-llama-cpp-for-multi-gpu-setups-use-vllm-or-exllamav2-instead-73992cf1a1ad
+
+Does the full or quantized model that you want to run fully fit in GPU or unified memory? 
 
 ### Production level, high-throughput inference engines
 
