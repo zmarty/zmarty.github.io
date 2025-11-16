@@ -173,7 +173,7 @@ Here are a few screenshots, starting with LM Studio:
 
 llama.cpp WebUI
 
-<img width="1000" height="820" alt="image" src="https://github.com/user-attachments/assets/f40816f4-9b3a-494d-85aa-40a9684c6310" />
+<img width="996" height="796" alt="image" src="https://github.com/user-attachments/assets/c03f92d8-232d-4b14-9ffc-2c5ced50e0c1" />
 
 <br/>
 
