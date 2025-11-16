@@ -5,6 +5,7 @@ date: 2025-11-16 05:50:00 -0800
 categories: [AI]
 tags: [llm, vllm, sglang, llama.cpp, quantization, inference]
 description: "A guide to running large language models locally: hardware options, inference engines (vLLM, SGLang, llama.cpp), quantization techniques, and user interfaces."
+mermaid: true
 ---
 
 In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not, and review the user interfaces available for interacting with your local models.
