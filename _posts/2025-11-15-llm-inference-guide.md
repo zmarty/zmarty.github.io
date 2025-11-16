@@ -7,28 +7,17 @@ tags: [llm, vllm]
 description: ""
 ---
 
+In this post, I'll walk you through the essentials of running large language models locally. We'll cover the hardware options ranging from consumer GPUs to unified memory systems, explore the leading inference engines (vLLM, SGLang, llama.cpp, and more), and dive deep into quantization techniques that can make the difference between fitting a model in your VRAM or not.
+
 If you are completely new to this world of LLM inference and just want to get started with running models locally then download [LM Studio](https://lmstudio.ai/), which has backends like llama.cpp and MLX that will run on any hardware. Another option is [ollama](https://ollama.com/), but I am hesitant to recommend it because they are perceived as taking open source projects and turning them into a closed off walled garden with a custom API.
-
-### Hardware
-
-| Configuration          | Memory      | Cost    | Prefill | Generation |
-| ---------------------- | ----------- | ------- | ------- | ---------- |
-| 2× NVIDIA RTX 3090     | 48 GB VRAM  | ~$1,500 | Fast    | Fast     |
-| 1× NVIDIA RTX 5090     | 32 GB VRAM  | ~$2,000 | Fast    | Fast       |
-| 1× NVIDIA RTX Pro 6000 Workstation (600W)  | 96 GB VRAM  | ~$7,300 | Fast    | Fast       |
-| 2× NVIDIA RTX Pro 6000 Workstation (600W)  | 192 GB VRAM  | ~$14,600 | Fast    | Fast       |
-| 4× NVIDIA RTX Pro 6000 Max-Q (300W)  | 384 GB VRAM  | ~$29,200 | Fast    | Fast       |
-| AMD Strix Halo (Ryzen AI Max+ 395) | Up to 128 GB unified memory | ~$2,000 | Medium  | Slow       |
-| Apple MacBook Pro / Mac Studio M4 Max | 128 GB unified memory | ~$4,000 | Medium  | Medium     |
-| Apple Mac Studio M3 Ultra | 256–512 GB unified memory | ~$8,000+ | Medium  | Medium     |
-| AMD EPYC / Threadripper PRO (CPU-only) | 256 GB–2 TB RAM | ~$5,000+ | Slow    | Slow       |
-| Desktop CPU (Intel Core / AMD Ryzen) | 32–128 GB RAM | ~$1,000 | Slow    | Slow       |
 
 ### Inference engines
 
 LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching to speed up subsequent requests in a conversation.
 
-LLM inference has two main stages: prefill and decode. Prefill is the prompt processing step which takes the input (question) to the model and processes it, while decode is the token generation phase which generates the output from the model, token by token. While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
+Inference has two main stages: prefill and decode. Prefill is the prompt processing step which takes the input (question) to the model and processes it, while decode is the token generation phase which generates the output from the model, token by token. While LLM training is compute-bound, LLM inference is primarily memory-IO bound, especially in the token generation phase. A high-performance LLM inference engine must be optimized for both workloads: a fast, compute-heavy prefill and a low-latency, memory-bound decode loop.
+
+Modern inference engines employ several techniques to maximize throughput and enable running larger models. **Batch processing** groups multiple requests together to better utilize GPU compute during both prefill and decode phases. **Tensor parallelism** splits model layers across multiple GPUs, allowing models that don't fit on a single GPU to run efficiently—though this requires high-bandwidth interconnects like NVLink to avoid bottlenecks. **Pipeline parallelism** assigns different layers to different GPUs, processing requests sequentially through the pipeline. Production engines like vLLM and SGLang also implement **continuous batching** (dynamically adding/removing requests from batches) and **PagedAttention** (efficient KV cache memory management) to maximize GPU utilization and throughput.
 
 | Name                                                                       | GitHub stars* | Type                                                                               | Scale                                     |
 | -------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
@@ -39,6 +28,8 @@ LLM inference has two main stages: prefill and decode. Prefill is the prompt pro
 | [exllamav3](https://github.com/turboderp-org/exllamav3)                    | 571           | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [MLX (Apple MLX + MLX-LM)](https://ml-explore.github.io/mlx/)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
 | [Modular (MAX engine)](https://www.modular.com/max/solutions/ai-inference) | 25.2k         | **Proprietary / source-available** (Apache-2.0 code under a community use license) | High-throughput production                |
+
+The following decision tree will help you select the most appropriate inference engine based on your hardware configuration and use case:
 
 ```mermaid
 flowchart TD
@@ -92,10 +83,22 @@ flowchart TD
   - **Production**: You need high throughput, batch processing (processing multiple requests simultaneously to maximize GPU utilization), robust serving features, API endpoints, and proven reliability at scale.
   - **Enthusiast**: You're running models locally, experimenting, or building personal applications where ease of use and flexibility matter more than maximum throughput.
 
-Tensor Parallelism and batch inference
-https://medium.com/@himanshushukla.shukla3/stop-using-llama-cpp-for-multi-gpu-setups-use-vllm-or-exllamav2-instead-73992cf1a1ad
+### Hardware
 
-Does the full or quantized model that you want to run fully fit in GPU or unified memory? 
+The hardware you choose determines which models you can run and how fast they'll perform. The table below compares various configurations, from budget-friendly consumer GPUs to high-end workstation setups. The "Model Size" column shows the approximate parameter range you can run quantization (more on that below), while "Prefill" and "Generation" indicate the speed of prompt processing and token generation respectively.
+
+| Configuration          | Memory      | Model Size | Prefill | Generation | Cost    |
+| ---------------------- | ----------- | ----------------------- | ------- | ---------- | ------- |
+| 2× NVIDIA RTX 3090     | 48 GB VRAM  | 41B - 72B | Fast    | Fast     | ~$1,500 |
+| 1× NVIDIA RTX 5090     | 32 GB VRAM  | 27B - 48B | Fast    | Fast       | ~$2,000 |
+| 1× NVIDIA RTX Pro 6000 Workstation (600W)  | 96 GB VRAM  | 82B - 144B | Fast    | Fast       | ~$7,300 |
+| 2× NVIDIA RTX Pro 6000 Workstation (600W)  | 192 GB VRAM  | 164B - 288B | Fast    | Fast       | ~$14,600 |
+| 4× NVIDIA RTX Pro 6000 Max-Q (300W)  | 384 GB VRAM  | 329B - 576B | Fast    | Fast       | ~$29,200 |
+| AMD Strix Halo (Ryzen AI Max+ 395) | Up to 128 GB unified memory | 106B - 186B | Medium  | Slow       | ~$2,000 |
+| Apple MacBook Pro / Mac Studio M4 Max | 128 GB unified memory | 91B - 160B | Medium  | Medium     | ~$4,000 |
+| Apple Mac Studio M3 Ultra | 256–512 GB unified memory | 182B - 640B | Medium  | Medium     | ~$8,000+ |
+| AMD EPYC / Threadripper PRO (CPU-only) | 256 GB–2 TB RAM | 219B - 3.0T | Slow    | Slow       | ~$5,000+ |
+| Desktop CPU (Intel Core / AMD Ryzen) | 32–128 GB RAM | 27B - 192B | Slow    | Slow       | ~$1,000 |
 
 ### Quantization
 
@@ -111,23 +114,31 @@ Common quantization formats include:
   - **GPTQ**: Layer-wise quantization method that preserves model quality
 - **GGUF, exl3**: Advanced quantization formats with flexible bit-width support
 
+Among these formats, GGUF deserves special attention due to its popularity and unique capabilities. **GGUF (GPT-Generated Unified Format)** is a file format designed for the widely popular [llama.cpp](https://github.com/ggml-org/llama.cpp) project that enables CPU/GPU hybrid inference. Its key advantage is the ability to offload a specified number of model layers to GPU VRAM while keeping the rest in system RAM, making it possible to run models larger than available VRAM (though with reduced speed).
+
+GGUF offers two categories of quantization:
+- **Legacy Quants** (Q4_0, Q5_1, Q8_0): Older, simpler methods using a single scale and zero-point per block. Generally not recommended except for Q8_0, which provides near-lossless 8-bit quality.
+- **K-Quants** (Q4_K_M, Q5_K_S, Q6_K): The modern standard using advanced grouped and mixed-precision formats with smaller block sizes and higher-precision scaling factors. The suffixes indicate the bit-depth mix:
+  - **S (Small)**: Lower quality, smaller size
+  - **M (Medium)**: Balanced approach, using higher bit-depths for critical layers
+  - **L (Large)**: Higher quality, larger size
+
+**Recommended GGUF quantization levels:**
+- **Q8_0**: Near-FP16 quality, use when memory is not constrained
+- **Q6_K**: Excellent high-quality option, also close to FP-16 quality.
+- **Q5_K_M**: The "sweet spot" balancing accuracy and size
+- **Q4_K_M**: The "safe default" for most VRAM-constrained setups
+- **Q2_K/Q3_K**: Extreme compression with noticeable quality loss
+
+Note that GGUF prioritizes flexibility over raw speed—it's typically slower than GPU-native formats like EXL2 in both token generation and prompt processing.
+
 The graph below shows the impact of quantization on LLM. As the number of bits used for quantization increase from 2 to 16, the perplexity metric decreases (lower is better). Perplexity scales smoothly with model size across quantization levels, with 6-bit quantization staying within 0.1% of FP16. The [table](https://github.com/ggml-org/llama.cpp/pull/1684) on this list explains in more detail the 10 quantization data points chosen for each model size.
 
 <img width="792" height="612" alt="image" src="https://github.com/user-attachments/assets/03a79b2c-33ed-4385-ab87-ee2385a3182b" />
 
+For flexible GPU-only quantization, I'd like to give a special shout-out to [exllamav3](https://github.com/turboderp-org/exllamav3) and its **EXL3** format. Based on Cornell's QTIP quantization method, EXL3 allows you to specify a target bitrate (bits per weight) when converting models, making it possible to quantize a model to fit precisely within your available VRAM. Unlike fixed quantization levels (e.g., Q4, Q6, Q8), you can choose any bitrate—say 3.2 bpw or 4.75 bpw—to maximize model size while staying within your hardware constraints. The conversion process is also remarkably efficient, taking just minutes for smaller models and a few hours for 70B+ models on a single GPU, compared to hundreds of GPU-hours required by some other SOTA quantization methods.
+
 ### Interfaces
 
 These engines are used in production by large companies to serve text and multimodal LLMs at scale. They primarily focus on serving models that fit within the VRAM of the GPUs.
-
-- [vLLM](https://github.com/vllm-project/vllm)
-  - Originally developed in the Sky Computing Lab at UC Berkeley
-
-### Enthusiast inference engines
-
-These engines often allow using a combination of 
-
-
-Where to start
-
-If you are new to the LLM Inference world, I would recommend starting with LMStudio.
 
