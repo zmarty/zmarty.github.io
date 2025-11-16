@@ -156,7 +156,7 @@ Once you've chosen your hardware and inference engine, you'll need a user interf
 | [**LM Studio**](https://lmstudio.ai/) | Bundled `llama.cpp`-based engine (proprietary) | Exposes OpenAI-compatible API | N/A |
 | [**llama.cpp WebUI**](https://github.com/ggml-org/llama.cpp/discussions/16938) | Client-only | Connects to `llama-server` via OpenAI API | **89.9k** |
 | [**Jan**](https://jan.ai/) | Bundled `llama.cpp` engine | Exposes OpenAI API; connects to OpenAI, Claude, Gemini | **39.3k** |
-| [**Text-Gen-WebUI**](https://github.com/oobabooga/text-generation-webui) | Multi-engine loader (Transformers, llama.cpp, ExLlama, TRT-LLM) | Exposes OpenAI-compatible API | **45.4k** |
+| [**text-generation-webui**](https://github.com/oobabooga/text-generation-webui) | Multi-engine loader (Transformers, llama.cpp, ExLlama, TRT-LLM) | Exposes OpenAI-compatible API | **45.4k** |
 | [**Open WebUI**](https://github.com/open-webui/open-webui) | Client-only | Connects to Ollama, LM Studio, Groq, any OpenAI API | **115k** |
 | [**LibreChat**](https://github.com/danny-avila/LibreChat) | Client-only | Connects to OpenAI, Azure, Google, Anthropic, Ollama, etc. | **31.7k** |
 | [**GPT4All Desktop**](https://www.nomic.ai/gpt4all) | Bundled `llama.cpp`-derived + Nomic engine | Internal API with SDK access | **76.9k** |
@@ -164,3 +164,23 @@ Once you've chosen your hardware and inference engine, you'll need a user interf
 | [**Chatbox**](https://chatboxai.app/) | Client-only | Connects to OpenAI, Claude, Gemini, local/Ollama | **37.4k** |
 
 > **Note:** Star counts are dynamic and change daily. These figures were accurate as of mid-November 2025. "LM Studio" is listed as N/A as its primary UI application is proprietary and not a public GitHub repository. The star count for "llama.cpp WebUI" refers to the main `llama.cpp` repository, as the WebUI is a feature of its bundled server.
+
+Here are a few screenshots, starting with LM Studio:
+
+<img width="3114" height="1950" alt="image" src="https://github.com/user-attachments/assets/3e887ba3-79c6-4fe8-a11b-38efb29a1dff" />
+
+llama.cpp WebUI
+
+<img width="2216" height="1816" alt="image" src="https://github.com/user-attachments/assets/f40816f4-9b3a-494d-85aa-40a9684c6310" />
+
+Jan
+
+<img width="1278" height="822" alt="image" src="https://github.com/user-attachments/assets/45d57721-60f5-4450-8137-044a6bb64f22" />
+
+Text-Generation-WebUI
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4e54d88-c3d9-4b5f-9405-415dc13cfd3d" />
+
+OpenWebUI
+
+<img width="3442" height="1968" alt="image" src="https://github.com/user-attachments/assets/89edcfc7-79d9-4c90-94c6-7f3170cc5276" />
