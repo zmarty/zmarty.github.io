@@ -113,7 +113,7 @@ Common quantization formats include:
 
 The graph below shows the impact of quantization on LLM. As the number of bits used for quantization increase from 2 to 16, the perplexity metric decreases (lower is better). Perplexity scales smoothly with model size across quantization levels, with 6-bit quantization staying within 0.1% of FP16. The [table](https://github.com/ggml-org/llama.cpp/pull/1684) on this list explains in more detail the 10 quantization data points chosen for each model size.
 
-
+<img width="792" height="612" alt="image" src="https://github.com/user-attachments/assets/03a79b2c-33ed-4385-ab87-ee2385a3182b" />
 
 ### Interfaces
 
