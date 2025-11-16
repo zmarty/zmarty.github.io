@@ -167,20 +167,20 @@ Once you've chosen your hardware and inference engine, you'll need a user interf
 
 Here are a few screenshots, starting with LM Studio:
 
-<img width="3114" height="1950" alt="image" src="https://github.com/user-attachments/assets/3e887ba3-79c6-4fe8-a11b-38efb29a1dff" />
+<img width="1000" height="626" alt="image" src="https://github.com/user-attachments/assets/3e887ba3-79c6-4fe8-a11b-38efb29a1dff" />
 
 llama.cpp WebUI
 
-<img width="2216" height="1816" alt="image" src="https://github.com/user-attachments/assets/f40816f4-9b3a-494d-85aa-40a9684c6310" />
+<img width="1000" height="820" alt="image" src="https://github.com/user-attachments/assets/f40816f4-9b3a-494d-85aa-40a9684c6310" />
 
 Jan
 
-<img width="1278" height="822" alt="image" src="https://github.com/user-attachments/assets/45d57721-60f5-4450-8137-044a6bb64f22" />
+<img width="1000" height="643" alt="image" src="https://github.com/user-attachments/assets/45d57721-60f5-4450-8137-044a6bb64f22" />
 
 Text-Generation-WebUI
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4e54d88-c3d9-4b5f-9405-415dc13cfd3d" />
+<img width="1000" height="563" alt="image" src="https://github.com/user-attachments/assets/b4e54d88-c3d9-4b5f-9405-415dc13cfd3d" />
 
 OpenWebUI
 
-<img width="3442" height="1968" alt="image" src="https://github.com/user-attachments/assets/89edcfc7-79d9-4c90-94c6-7f3170cc5276" />
+<img width="1000" height="572" alt="image" src="https://github.com/user-attachments/assets/89edcfc7-79d9-4c90-94c6-7f3170cc5276" />
