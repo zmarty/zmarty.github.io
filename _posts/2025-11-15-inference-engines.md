@@ -7,6 +7,8 @@ tags: [llm, vllm]
 description: ""
 ---
 
+LLM inference engines load the weights of a model and allow running inference on the given text or multimodal (images, videos) inputs. They also offer features such as KV prefix caching to speed up subsequent requests in a conversation.
+
 | Name                                                                       | GitHub stars* | Type                                                                               | Scale                                     |
 | -------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
 | [vLLM](https://docs.vllm.ai/)                                              | 63.1k         | Open Source (Apache-2.0)                                                           | High-throughput production                |
