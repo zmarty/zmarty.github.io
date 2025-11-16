@@ -98,9 +98,9 @@ The hardware you choose determines which models you can run and how fast they'll
 | 1× NVIDIA RTX Pro 6000 Workstation (600W)  | 96 GB VRAM  | 82B - 144B | Fast    | Fast       | ~$7,300 |
 | 2× NVIDIA RTX Pro 6000 Workstation (600W)  | 192 GB VRAM  | 164B - 288B | Fast    | Fast       | ~$14,600 |
 | 4× NVIDIA RTX Pro 6000 Max-Q (300W)  | 384 GB VRAM  | 329B - 576B | Fast    | Fast       | ~$29,200 |
-| AMD Strix Halo (Ryzen AI Max+ 395) | Up to 128 GB unified memory | 106B - 186B | Medium  | Slow       | ~$2,000 |
-| Apple MacBook Pro / Mac Studio M4 Max | 128 GB unified memory | 91B - 160B | Medium  | Medium     | ~$4,000 |
-| Apple Mac Studio M3 Ultra | 256–512 GB unified memory | 182B - 640B | Medium  | Medium     | ~$8,000+ |
+| AMD Strix Halo (Ryzen AI Max+ 395) | 128 GB unified | 106B - 186B | Medium  | Slow       | ~$2,000 |
+| Apple MacBook Pro / Mac Studio M4 Max | 128 GB unified | 91B - 160B | Medium  | Medium     | ~$4,000 |
+| Apple Mac Studio M3 Ultra | 256–512 GB unified | 182B - 640B | Medium  | Medium     | ~$8,000+ |
 | AMD EPYC / Threadripper PRO (CPU-only) | 256 GB–2 TB RAM | 219B - 3.0T | Slow    | Slow       | ~$5,000+ |
 | Desktop CPU (Intel Core / AMD Ryzen) | 32–128 GB RAM | 27B - 192B | Slow    | Slow       | ~$1,000 |
 
