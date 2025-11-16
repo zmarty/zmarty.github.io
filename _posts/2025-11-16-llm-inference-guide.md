@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Getting Started with running LLM models locally"
-date: 2025-11-16 12:00:00 -0700
+date: 2025-11-16 05:50:00 -0800
 categories: [AI]
 tags: [llm, vllm, sglang, llama.cpp, quantization, inference]
 description: "A comprehensive guide to running large language models locally: hardware options, inference engines (vLLM, SGLang, llama.cpp), quantization techniques, and user interfaces."
