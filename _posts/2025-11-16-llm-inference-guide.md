@@ -28,7 +28,6 @@ Modern inference engines employ several techniques to maximize throughput and en
 | [exllamav3](https://github.com/turboderp-org/exllamav3)                    | 571           | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
 | [MLX (Apple MLX + MLX-LM)](https://github.com/ml-explore/mlx-lm)              | 22.8k         | Open Source (MIT)                                                                  | Enthusiast / Apple-silicon dev & research |
 | [Ollama](https://ollama.com/)                                              | 156k          | Open Source (MIT)                                                                  | Enthusiast / local-first                  |
-| [Modular (MAX engine)](https://www.modular.com/max/solutions/ai-inference) | 25.2k         | **Proprietary / source-available** (Apache-2.0 code under a community use license) | High-throughput production                |
 
 > **Note:** While Ollama initially used llama.cpp as its backend, it now has [its own inference engine](https://ollama.com/blog/multimodal-models), particularly for supporting multimodal models with improved reliability, accuracy, and model modularity.
 
