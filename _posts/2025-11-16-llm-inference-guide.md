@@ -82,6 +82,8 @@ flowchart TD
   - A 70B parameter model in FP16 requires ~140GB of VRAM
   - Quantization (INT8, INT4) can reduce memory requirements by 2-4x
 
+  > **WARNING:** If the model does not entirely fit in VRAM or unified memory, inference will be so slow that it will be unusable for real work.
+
 - **Production or Enthusiast?**: 
   - **Production**: You need high throughput, batch processing (processing multiple requests simultaneously to maximize GPU utilization), robust serving features, API endpoints, and proven reliability at scale.
   - **Enthusiast**: You're running models locally, experimenting, or building personal applications where ease of use and flexibility matter more than maximum throughput.
