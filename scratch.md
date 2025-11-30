@@ -957,7 +957,7 @@ vllm serve \
 ```console
 vllm - NVFP4-Qwen3-235B-A22B-Thinking-2507-FP4
 
-DOES NOT WORK - needs more investigation! Out of memory?!
+DOES NOT WORK - vllm currently loads this unquantized: "Your NVFP4 235B MoE checkpoint is effectively being treated as (mostly) unquantized BF16, so each GPU ends up with ~94 GiB of weights, which basically fills a 96 GiB RTX PRO 6000."
 
 cd /git/vllm-nightly/
 source .venv/bin/activate
@@ -975,9 +975,10 @@ vllm serve \
     --enable-expert-parallel \
     --swap-space 16 \
     --max-num-seqs 1 \
-    --max-model-len 12800 \
+    --max-model-len 1280 \
     --gpu-memory-utilization 0.95 \
-    --tensor-parallel-size 2 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
     --host 0.0.0.0 \
     --port 8000
 ```
