@@ -983,22 +983,7 @@ vllm serve \
 ```
 
 ```console
-SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! SORT OF WORKS?!?!?!?! 
-
-uv venv --python 3.12 --seed
-source .venv/bin/activate
-
-uv pip install compressed-tensors==0.12.2
-uv pip install depyf==0.20.0
-
-uv pip install --pre \
-  'triton-kernels @ git+https://github.com/triton-lang/triton.git@v3.5.0#subdirectory=python/triton_kernels' \
-  vllm \
-  --extra-index-url https://wheels.vllm.ai/nightly \
-  --extra-index-url https://download.pytorch.org/whl/nightly/cu129 \
-  --extra-index-url https://download.pytorch.org/whl/xformers/
-
-python -c "import vllm; print(vllm.__version__)"
+WORKS
 
 # I had to hack the versions using Claude Sonnet 4.5
 
@@ -1023,5 +1008,5 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
-50-70 tokens/sec?
+112 tokens/sec?
 ```
