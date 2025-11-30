@@ -986,8 +986,6 @@ vllm serve \
 ```console
 WORKS
 
-# I had to hack the versions using Claude Sonnet 4.5
-
 export CUDA_VISIBLE_DEVICES=0,1
 export VLLM_ATTENTION_BACKEND=FLASHINFER
 export NCCL_DEBUG=INFO
