@@ -1016,3 +1016,77 @@ At the end of GRUB_CMDLINE_LINUX_DEFAULT add md_iommu=on iommu=pt like so:
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash md_iommu=on iommu=pt"
 sudo update-grub
 ```
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+---------------------------
+
+```console
+QuantTrio-MiniMax-M2-AWQ
+
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2-AWQ \
+    --served-model-name MiniMax-M2-AWQ \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 1 \
+    --pipeline-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
+    --host 0.0.0.0 \
+    --port 8000
+
+"Tell me a very long story"
+tp 2 pp 1 - starts at around 122, ends at around 116 tokens/sec after a long story
+tp 1 pp 2 - starts at around 118, ends at around 96 tokens/sec after a VERY long story
+
+--
+
+vllm serve \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --max-num-seqs 8 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --host 0.0.0.0 \
+    --port 8000
+
+"Tell me a very long story"
+tp 2 pp 1 - 86 tokens/sec
+tp 1 pp 2 - 58 tokens/sec
+
+--
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-235B-A22B-Thinking-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Thinking-2507 \
+    --reasoning-parser deepseek_r1
+    --swap-space 16 \
+    --max-num-seqs 512 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.97 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+```
