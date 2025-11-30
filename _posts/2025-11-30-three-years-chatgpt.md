@@ -17,7 +17,8 @@ I’m genuinely excited to see what the next three years bring!
 
 I’ll leave you with a couple of graphs that capture this progress. One comparing the relative “intelligence index” of four open-weight models you can run today within 192 GB of VRAM against GPT-4 and GPT-4o.
 
-
+<img width="1356" height="746" alt="Screenshot from 2025-11-30 13-28-47" src="https://github.com/user-attachments/assets/28ff4d78-872b-4074-b94c-390a06569d62" />
 
 And another which showcases how close the race between OpenAI, Google, and Anthropic has gotten recently, with the Google currently being in the lead.
 
+<img width="1934" height="811" alt="Screenshot from 2025-11-30 13-30-41" src="https://github.com/user-attachments/assets/43ac3ac5-b974-430d-ae9a-2016c62cef48" />
