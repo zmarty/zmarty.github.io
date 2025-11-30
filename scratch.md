@@ -1015,6 +1015,13 @@ sudo vi /etc/default/grub
 At the end of GRUB_CMDLINE_LINUX_DEFAULT add md_iommu=on iommu=pt like so:
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash md_iommu=on iommu=pt"
 sudo update-grub
+
+
+[shm_broadcast.py:501] No available shared memory broadcast block found in 60 seconds. This typically happens when some processes are hanging or doing some time-consuming work (e.g. compilation, weight/kv cache quantization).
+[shm_broadcast.py:501] No available shared memory broadcast block found in 60 seconds. This typically happens when some processes are hanging or doing some time-consuming work (e.g. compilation, weight/kv cache quantization).
+[shm_broadcast.py:501] No available shared memory broadcast block found in 60 seconds. This typically happens when some processes are hanging or doing some time-consuming work (e.g. compilation, weight/kv cache quantization).
+[shm_broadcast.py:501] No available shared memory broadcast block found in 60 seconds. This typically happens when some processes are hanging or doing some time-consuming work (e.g. compilation, weight/kv cache quantization).
+
 ```
 
 ---------------------------
@@ -1079,14 +1086,38 @@ tp 1 pp 2 - 58 tokens/sec
 
 vllm serve \
     /models/awq/QuantTrio-Qwen3-235B-A22B-Thinking-2507-AWQ \
-    --served-model-name Qwen3-235B-A22B-Thinking-2507 \
-    --reasoning-parser deepseek_r1
+    --served-model-name Qwen3-235B-A22B-Thinking-2507-AWQ \
+    --reasoning-parser deepseek_r1 \
     --swap-space 16 \
-    --max-num-seqs 512 \
+    --max-num-seqs 1 \
     --max-model-len 262144 \
-    --gpu-memory-utilization 0.97 \
+    --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
     --host 0.0.0.0 \
     --port 8000
+
+"Tell me a very long story"
+tp 2 pp 1 - ~90 tokens/sec
+tp 1 pp 2 - 70 tokens/sec ... 68 tokens/sec
+
+--
+
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --served-model-name Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 1 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+"Tell me a very long story"
+tp 2 pp 1 - 80 tokens/sec
+tp 1 pp 2 -  tokens/sec
 
 ```
