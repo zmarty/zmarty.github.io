@@ -1122,4 +1122,22 @@ vllm serve \
 tp 2 pp 1 - 80 tokens/sec
 tp 1 pp 2 -  tokens/sec
 
+--
+
+vllm serve \
+  /models/original/openai-gpt-oss-120b \
+  --served-model-name gpt-oss-120b \
+  --tensor-parallel-size 1 \
+  --pipeline-parallel-size 1 \
+  --max_num_seqs 8 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.85 \
+  --tool-call-parser openai \
+  --reasoning-parser openai_gptoss \
+  --enable-auto-tool-choice \
+  --host 0.0.0.0 \
+  --port 8000
+
+tp 2 pp 1 hangs after the first turn!!
+
 ```
