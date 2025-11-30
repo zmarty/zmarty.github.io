@@ -1138,6 +1138,6 @@ vllm serve \
   --host 0.0.0.0 \
   --port 8000
 
-tp 2 pp 1 hangs after the first turn!!
+tp 2 pp 1 hangs after the first turn!! - https://github.com/vllm-project/vllm/issues/22361
 
 ```
