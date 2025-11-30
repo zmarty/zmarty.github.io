@@ -1088,6 +1088,8 @@ vllm serve \
     /models/awq/QuantTrio-Qwen3-235B-A22B-Thinking-2507-AWQ \
     --served-model-name Qwen3-235B-A22B-Thinking-2507-AWQ \
     --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
     --swap-space 16 \
     --max-num-seqs 1 \
     --max-model-len 262144 \
