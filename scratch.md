@@ -1009,3 +1009,10 @@ vllm serve \
 
 112 tokens/sec?
 ```
+
+```console
+sudo vi /etc/default/grub
+At the end of GRUB_CMDLINE_LINUX_DEFAULT add md_iommu=on iommu=pt like so:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash md_iommu=on iommu=pt"
+sudo update-grub
+```
