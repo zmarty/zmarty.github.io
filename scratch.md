@@ -1074,6 +1074,12 @@ cd lm-evaluation-harness/
 uv venv --python 3.12 --seed
 source .venv/bin/activate
 pip install "lm_eval[api]"
+
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=MiniMax-M2-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/MiniMax-M2-AWQ,trust_remote_code=True,num_concurrent=10 \
+   --output_path ./results
 ```
 
 ```console
