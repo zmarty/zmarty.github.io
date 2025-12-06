@@ -1074,12 +1074,6 @@ cd lm-evaluation-harness/
 uv venv --python 3.12 --seed
 source .venv/bin/activate
 pip install "lm_eval[api]"
-
-lm_eval \
-   --model local-completions \
-   --tasks gsm8k \
-   --model_args model=MiniMax-M2-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/MiniMax-M2-AWQ,trust_remote_code=True,num_concurrent=10 \
-   --output_path ./results
 ```
 
 ```console
@@ -1103,6 +1097,11 @@ vllm serve \
 tp 2 pp 1 - starts at around 122, ends at around 116 tokens/sec after a long story
 tp 1 pp 2 - starts at around 118, ends at around 96 tokens/sec after a VERY long story
 
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=MiniMax-M2-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/MiniMax-M2-AWQ,trust_remote_code=True,num_concurrent=20 \
+   --output_path ./results
 --
 
 vllm serve \
@@ -1122,6 +1121,11 @@ vllm serve \
 tp 2 pp 1 - 86 tokens/sec
 tp 1 pp 2 - 58 tokens/sec
 
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=GLM-4.5-Air-FP8,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=zai-org/GLM-4.5-Air-FP8,trust_remote_code=True,num_concurrent=20 \
+   --output_path ./results
 --
 
 vllm serve \
