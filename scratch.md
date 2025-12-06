@@ -1067,6 +1067,15 @@ oaievalset MiniMax-M2-AWQ test
 Could not find CompletionFn/Solver in the registry with ID
 ```
 
+Install https://github.com/EleutherAI/lm-evaluation-harness
+```
+mkdir lm-evaluation-harness
+cd lm-evaluation-harness/
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+pip install "lm_eval[api]"
+```
+
 ```console
 QuantTrio-MiniMax-M2-AWQ
 
