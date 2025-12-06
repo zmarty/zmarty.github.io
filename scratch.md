@@ -1051,21 +1051,20 @@ uv pip install vllm --torch-backend=auto
 
 Install OpenAI evals
 ```
+FAIL:
+
 cd /git
-
-# Make sure you have git lfs
-git lfs install
-sudo apt install git-lfs
-
-git clone https://github.com/openai/evals
+mkdir evals
 cd evals
-git lfs fetch --all
-git lfs pull
-
 uv venv --python 3.12 --seed
 source .venv/bin/activate
-pip install -e .
 pip install evals
+
+export OPENAI_API_KEY=none
+export OPENAI_BASE_URL=http://localhost:8000/
+oaieval --help
+oaievalset MiniMax-M2-AWQ test
+Could not find CompletionFn/Solver in the registry with ID
 ```
 
 ```console
@@ -1077,8 +1076,8 @@ vllm serve \
     --max-num-seqs 8 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
-    --tensor-parallel-size 1 \
-    --pipeline-parallel-size 2 \
+    --tensor-parallel-size 2 \
+    --pipeline-parallel-size 1 \
     --enable-auto-tool-choice \
     --tool-call-parser minimax_m2 \
     --reasoning-parser minimax_m2_append_think \
