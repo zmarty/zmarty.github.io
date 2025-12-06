@@ -1051,12 +1051,21 @@ uv pip install vllm --torch-backend=auto
 
 Install OpenAI evals
 ```
+cd /git
+
 # Make sure you have git lfs
 git lfs install
 sudo apt install git-lfs
 
 git clone https://github.com/openai/evals
+cd evals
 git lfs fetch --all
+git lfs pull
+
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+pip install -e .
+pip install evals
 ```
 
 ```console
