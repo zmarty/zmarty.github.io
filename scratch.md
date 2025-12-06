@@ -1082,7 +1082,7 @@ QuantTrio-MiniMax-M2-AWQ
 vllm serve \
     /models/awq/QuantTrio-MiniMax-M2-AWQ \
     --served-model-name MiniMax-M2-AWQ \
-    --max-num-seqs 8 \
+    --max-num-seqs 10 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
@@ -1100,14 +1100,19 @@ tp 1 pp 2 - starts at around 118, ends at around 96 tokens/sec after a VERY long
 lm_eval \
    --model local-completions \
    --tasks gsm8k \
-   --model_args model=MiniMax-M2-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/MiniMax-M2-AWQ,trust_remote_code=True,num_concurrent=20 \
+   --model_args model=MiniMax-M2-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/MiniMax-M2-AWQ,trust_remote_code=True,num_concurrent=10 \
    --output_path ./results
+
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.9287|±  |0.0071|
+|     |       |strict-match    |     5|exact_match|↑  |0.9272|±  |0.0072|
 --
 
 vllm serve \
     /models/original/GLM-4.5-Air-FP8 \
     --served-model-name GLM-4.5-Air-FP8 \
-    --max-num-seqs 8 \
+    --max-num-seqs 10 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
@@ -1124,8 +1129,15 @@ tp 1 pp 2 - 58 tokens/sec
 lm_eval \
    --model local-completions \
    --tasks gsm8k \
-   --model_args model=GLM-4.5-Air-FP8,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=zai-org/GLM-4.5-Air-FP8,trust_remote_code=True,num_concurrent=20 \
+   --model_args model=GLM-4.5-Air-FP8,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=zai-org/GLM-4.5-Air-FP8,trust_remote_code=True,num_concurrent=10 \
    --output_path ./results
+
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8931|±  |0.0085|
+|     |       |strict-match    |     5|exact_match|↑  |0.9105|±  |0.0079|
+
+--log_samples \
 --
 
 vllm serve \
@@ -1135,7 +1147,7 @@ vllm serve \
     --enable-auto-tool-choice \
     --tool-call-parser hermes \
     --swap-space 16 \
-    --max-num-seqs 1 \
+    --max-num-seqs 10 \
     --max-model-len 262144 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
@@ -1146,6 +1158,12 @@ vllm serve \
 tp 2 pp 1 - ~90 tokens/sec
 tp 1 pp 2 - 70 tokens/sec ... 68 tokens/sec
 
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=Qwen3-235B-A22B-Thinking-2507-AWQ,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=QuantTrio/Qwen3-235B-A22B-Thinking-2507-AWQ,trust_remote_code=True,num_concurrent=10 \
+   --log_samples \
+   --output_path ./results
 --
 
 vllm serve \
