@@ -1042,6 +1042,23 @@ sudo update-grub
 
 ---------------------------
 
+Install vllm:
+```console
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+uv pip install vllm --torch-backend=auto
+```
+
+Install OpenAI evals
+```
+# Make sure you have git lfs
+git lfs install
+sudo apt install git-lfs
+
+git clone https://github.com/openai/evals
+git lfs fetch --all
+```
+
 ```console
 QuantTrio-MiniMax-M2-AWQ
 
