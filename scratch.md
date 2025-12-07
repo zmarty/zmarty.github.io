@@ -1266,7 +1266,7 @@ lm_eval \
 --apply_chat_template --gen_kwargs=max_gen_toks=32000
 
 lm_eval \
-  --model local-chat-completions \
+  --model local-completions \
   --tasks mmlu_pro \
   --model_args model=Qwen3-235B-A22B-NVFP4,\
 base_url=http://127.0.0.1:8000/v1/completions,\
