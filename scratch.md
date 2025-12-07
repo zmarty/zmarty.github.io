@@ -1279,5 +1279,20 @@ max_length=32768 \
   --apply_chat_template \
   --output_path ./results
 
+lm_eval \
+  --model local-completions \
+  --tasks gsm8k \
+  --model_args model=Qwen3-235B-A22B-NVFP4,\
+base_url=http://127.0.0.1:8000/v1/completions,\
+tokenizer=nvidia/Qwen3-235B-A22B-NVFP4,\
+trust_remote_code=True,\
+num_concurrent=64,\
+max_length=32768 \
+  --gen_kwargs '{"max_gen_toks":8192}' \
+  --log_samples \
+  --apply_chat_template \
+  --batch_size 64 \
+  --num_fewshot 5 \
+  --output_path ./results
 
 ```
