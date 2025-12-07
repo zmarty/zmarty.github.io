@@ -1244,6 +1244,25 @@ lm_eval \
    --log_samples \
    --output_path ./results
 
-/models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8757|±  |0.0091|
+|     |       |strict-match    |     5|exact_match|↑  |0.8643|±  |0.0094|
+
+lm_eval \
+   --model local-completions \
+   --tasks mmlu_pro \
+   --model_args model=Qwen3-235B-A22B-NVFP4,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=nvidia/Qwen3-235B-A22B-NVFP4,trust_remote_code=True,num_concurrent=10 \
+   --log_samples \
+   --output_path ./results
+
+lm_eval \
+   --model local-chat-completions \
+   --tasks mmlu_pro \
+   --model_args model=Qwen3-235B-A22B-NVFP4,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=nvidia/Qwen3-235B-A22B-NVFP4,trust_remote_code=True,num_concurrent=10 \
+   --log_samples \
+   --output_path ./results
+
+--apply_chat_template --gen_kwargs=max_gen_toks=32000
 
 ```
