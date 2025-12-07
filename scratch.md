@@ -1240,7 +1240,7 @@ vllm serve \
 lm_eval \
    --model local-completions \
    --tasks gsm8k \
-   --model_args model=Qwen3-235B-A22B-NVFP4,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=nvfp4/nvidia/Qwen3-235B-A22B-NVFP4,trust_remote_code=True,num_concurrent=10 \
+   --model_args model=Qwen3-235B-A22B-NVFP4,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=nvidia/Qwen3-235B-A22B-NVFP4,trust_remote_code=True,num_concurrent=10 \
    --log_samples \
    --output_path ./results
 
