@@ -1214,4 +1214,10 @@ lm_eval \
    --model_args model=gpt-oss-120b,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=openai/gpt-oss-120b,trust_remote_code=True,num_concurrent=20 \
    --log_samples \
    --output_path ./results
+
+--
+
+hf download nvidia/Qwen3-235B-A22B-NVFP4 --local-dir /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
+
+
 ```
