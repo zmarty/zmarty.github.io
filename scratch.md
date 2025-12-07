@@ -1276,6 +1276,7 @@ num_concurrent=10,\
 max_length=32768 \
   --gen_kwargs '{"max_gen_toks":1024}' \
   --log_samples \
+  --apply_chat_template \
   --output_path ./results
 
 
