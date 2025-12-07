@@ -1215,6 +1215,10 @@ lm_eval \
    --log_samples \
    --output_path ./results
 
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.4511|±  |0.0137|
+|     |       |strict-match    |     5|exact_match|↑  |0.2904|±  |0.0125|
 --
 
 hf download nvidia/Qwen3-235B-A22B-NVFP4 --local-dir /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
