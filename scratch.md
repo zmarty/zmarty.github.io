@@ -1184,6 +1184,11 @@ vllm serve \
 tp 2 pp 1 - 80 tokens/sec
 tp 1 pp 2 -  tokens/sec
 
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.6331|±  |0.0133|
+|     |       |strict-match    |     5|exact_match|↑  |0.6717|±  |0.0129|
+
 --
 
 vllm serve \
@@ -1191,7 +1196,8 @@ vllm serve \
   --served-model-name gpt-oss-120b \
   --tensor-parallel-size 1 \
   --pipeline-parallel-size 1 \
-  --max_num_seqs 8 \
+  --data-parallel-size 2 \
+  --max_num_seqs 20 \
   --max-model-len 131072 \
   --gpu-memory-utilization 0.85 \
   --tool-call-parser openai \
@@ -1202,4 +1208,10 @@ vllm serve \
 
 tp 2 pp 1 hangs after the first turn!! - https://github.com/vllm-project/vllm/issues/22361
 
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=gpt-oss-120b,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=openai/gpt-oss-120b,trust_remote_code=True,num_concurrent=20 \
+   --log_samples \
+   --output_path ./results
 ```
