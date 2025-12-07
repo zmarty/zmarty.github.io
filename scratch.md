@@ -1223,5 +1223,27 @@ lm_eval \
 
 hf download nvidia/Qwen3-235B-A22B-NVFP4 --local-dir /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
 
+vllm serve \
+    /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4 \
+    --served-model-name Qwen3-235B-A22B-NVFP4 \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 10 \
+    --max-model-len 40960 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=Qwen3-235B-A22B-NVFP4,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=nvfp4/nvidia/Qwen3-235B-A22B-NVFP4,trust_remote_code=True,num_concurrent=10 \
+   --log_samples \
+   --output_path ./results
+
+/models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
 
 ```
