@@ -1155,7 +1155,7 @@ vllm serve \
     --port 8000
 
 "Tell me a very long story"
-tp 2 pp 1 - ~90 tokens/sec
+tp 2 pp 1 - ~96 tokens/sec
 tp 1 pp 2 - 70 tokens/sec ... 68 tokens/sec
 
 lm_eval \
@@ -1294,5 +1294,19 @@ max_length=32768 \
   --batch_size 64 \
   --num_fewshot 5 \
   --output_path ./results
+
+---
+
+https://huggingface.co/RedHatAI/Qwen3-VL-235B-A22B-Instruct-NVFP4
+
+lm_eval \
+  --model vllm \
+  --model_args pretrained="RedHatAI/Qwen3-VL-235B-A22B-Instruct-NVFP4",dtype=auto,max_model_len=4096,tensor_parallel_size=2,enable_chunked_prefill=True,enforce_eager=True\
+  --apply_chat_template \
+  --fewshot_as_multiturn \
+  --tasks openllm \
+  --batch_size auto
+
+More similar commands at the bottom of this: https://huggingface.co/nm-testing/DeepSeek-R1-Distill-Qwen-32B-NVFP4
 
 ```
