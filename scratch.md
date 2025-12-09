@@ -1309,4 +1309,21 @@ lm_eval \
 
 More similar commands at the bottom of this: https://huggingface.co/nm-testing/DeepSeek-R1-Distill-Qwen-32B-NVFP4
 
+---
+
+vllm serve \
+    /models/original/GLM-4.6V-FP8/ \
+    --served-model-name GLM-4.6V-FP8 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --max-num-seqs 10 \
+    --max-model-len 131072 \
+    --mm-encoder-tp-mode data \
+    --mm_processor_cache_type shm \
+    --allowed-local-media-path / \
+    --host 0.0.0.0 \
+    --port 8000
+
 ```
