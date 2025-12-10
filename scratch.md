@@ -1326,4 +1326,17 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+---
+
+vllm serve \
+    /models/original/Devstral-Small-2-24B-Instruct-2512 \
+    --tensor-parallel-size 2 \
+    --served-model-name Devstral-Small-2-24B-Instruct-2512 \
+    --tool-call-parser mistral \
+    --enable-auto-tool-choice \
+    --max-num-seqs 10 \
+    --max-model-len 262144 \
+    --host 0.0.0.0 \
+    --port 8000
+
 ```
