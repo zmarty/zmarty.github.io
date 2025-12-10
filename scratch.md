@@ -1328,10 +1328,12 @@ vllm serve \
 
 ---
 
+ImportError: cannot import name 'MistralCommonTokenizer' from 'transformers.tokenization_mistral_common' (/git/vllm/.venv/lib/python3.12/site-packages/transformers/tokenization_mistral_common.py). Did you mean: 'MistralTokenizer'?
+
 vllm serve \
     /models/original/Devstral-Small-2-24B-Instruct-2512 \
-    --tensor-parallel-size 2 \
     --served-model-name Devstral-Small-2-24B-Instruct-2512 \
+    --tensor-parallel-size 2 \
     --tool-call-parser mistral \
     --enable-auto-tool-choice \
     --max-num-seqs 10 \
