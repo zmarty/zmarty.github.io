@@ -1357,4 +1357,25 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+---
+
+
+sudo apt install docker.io
+sudo apt-get install -y nvidia-container-toolkit
+
+# Create the docker group (it may already exist, but this command ensures it does):
+sudo groupadd docker
+
+# Add your user to the group:
+sudo usermod -aG docker $USER
+
+# Apply group changes: Log out of your session completely and log back in. Alternatively, for a temporary fix in the current terminal only, run:r
+newgrp docker
+
+docker run -d -e JUPYTER_PASSWORD="mypassword" \
+  -p 8888:8888 -p 2222:22 \
+  -v $(pwd)/work:/workspace/work \
+  --gpus all \
+  unsloth/unsloth
+
 ```
