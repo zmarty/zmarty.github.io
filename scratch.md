@@ -1370,8 +1370,7 @@ sudo groupadd docker
 # Add your user to the group:
 sudo usermod -aG docker $USER
 
-# Apply group changes: Log out of your session completely and log back in. Alternatively, for a temporary fix in the current terminal only, run:r
-newgrp docker
+# REBOOT!!!
 
 docker run -d -e JUPYTER_PASSWORD="mypassword" \
   -p 8888:8888 -p 2222:22 \
