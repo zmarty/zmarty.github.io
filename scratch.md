@@ -1378,4 +1378,6 @@ docker run -d -e JUPYTER_PASSWORD="mypassword" \
   --gpus all \
   unsloth/unsloth
 
+Access http://localhost:8888/
+
 ```
