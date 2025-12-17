@@ -1381,3 +1381,6 @@ docker run -d -e JUPYTER_PASSWORD="mypassword" \
 Access http://localhost:8888/
 
 ```
+
+<img width="3809" height="1912" alt="image" src="https://github.com/user-attachments/assets/2e5b0a51-98d5-4b03-9583-c3eeb7de5345" />
+
