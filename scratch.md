@@ -1372,11 +1372,20 @@ sudo usermod -aG docker $USER
 
 # REBOOT!!!
 
-docker run -d -e JUPYTER_PASSWORD="mypassword" \
+sudo mkdir -p /unsloth_work/.cache
+sudo chown -R $USER:$USER /unsloth_work
+
+docker run -d \
+  -e JUPYTER_PASSWORD="mypassword" \
+  -e HF_HOME=/workspace/work/.cache/huggingface \
+  -e HUGGINGFACE_HUB_CACHE=/workspace/work/.cache/huggingface/hub \
+  -e TRANSFORMERS_CACHE=/workspace/work/.cache/huggingface/transformers \
+  -e HF_DATASETS_CACHE=/workspace/work/.cache/huggingface/datasets \
+  -e XDG_CACHE_HOME=/workspace/work/.cache \
   -p 8888:8888 -p 2222:22 \
-  -v $(pwd)/work:/workspace/work \
+  -v /unsloth_work:/workspace/work \
   --gpus all \
-  unsloth/unsloth
+  unsloth/unsloth:latest
 
 Access http://localhost:8888/
 
