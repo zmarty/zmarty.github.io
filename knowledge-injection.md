@@ -481,7 +481,12 @@ if __name__ == "__main__":
 ```
 
 ```console
-
+python3 llms_consumer_crawler.py https://developer.cybersource.com/llms.txt   -o cybersource_docs   --same-domain-only   --drop-query   --max-depth 1000000   --max-files 1000000   --delay 1.0 --remove-from-path content/cybsdeveloper2021/amer/en/
 ```
 
 <img width="2775" height="2075" alt="image" src="https://github.com/user-attachments/assets/9a9fbdaa-7050-4b0e-ac25-fa5e2e93afe6" />
+
+```console
+ uv venv --python 3.12 --seed
+source .venv/bin/activate
+```
