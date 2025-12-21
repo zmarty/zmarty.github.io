@@ -503,7 +503,7 @@ cd /git/vllm/
 vllm serve \
     /models/awq/QuantTrio-MiniMax-M2-AWQ \
     --served-model-name MiniMax-M2-AWQ \
-    --max-num-seqs 10 \
+    --max-num-seqs 30 \
     --max-model-len 128000 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
@@ -521,4 +521,10 @@ vllm serve \
 # For some strange reason synthetic-data-kit does not support parsing .md files, just .txt files... so let's just rename all Markdown files to text....
 find developer.cybersource.com/ -type f -name '*.md' -exec bash -c 'for f; do mv -- "$f" "${f%.md}.txt"; done' _ {} +
 synthetic-data-kit ingest developer.cybersource.com/ --preview
+
+I DON'T LIKE THIS LIBRARY. I WILL JUST TAKE INSPIRATION FROM IT AND WRITE NEW CODE WITH CODING AGENTS
+```
+
+```console
+
 ```
