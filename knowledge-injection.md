@@ -533,3 +533,4 @@ I DON'T LIKE THIS LIBRARY. I WILL JUST TAKE INSPIRATION FROM IT AND WRITE NEW CO
 
 <img width="3837" height="2102" alt="image" src="https://github.com/user-attachments/assets/47c773ef-d91c-4e6b-af3f-0ba2ce86b213" />
 
+<img width="1094" height="1247" alt="image" src="https://github.com/user-attachments/assets/9678e24b-50be-4402-8704-965a292cbd99" />
