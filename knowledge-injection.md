@@ -493,3 +493,32 @@ source .venv/bin/activate
 pip install synthetic-data-kit
 mkdir -p data/{input,parsed,generated,curated,final}
 ```
+
+```console
+# (Different terminal)
+
+cd /git/vllm/
+.venv/bin/activate
+
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2-AWQ \
+    --served-model-name MiniMax-M2-AWQ \
+    --max-num-seqs 10 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --pipeline-parallel-size 1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+```console
+# Back to synthetic-data-kit terminal
+
+# For some strange reason synthetic-data-kit does not support parsing .md files, just .txt files... so let's just rename all Markdown files to text....
+find developer.cybersource.com/ -type f -name '*.md' -exec bash -c 'for f; do mv -- "$f" "${f%.md}.txt"; done' _ {} +
+synthetic-data-kit ingest developer.cybersource.com/ --preview
+```
