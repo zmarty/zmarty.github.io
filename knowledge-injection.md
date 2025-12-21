@@ -489,4 +489,7 @@ python3 llms_consumer_crawler.py https://developer.cybersource.com/llms.txt   -o
 ```console
  uv venv --python 3.12 --seed
 source .venv/bin/activate
+
+pip install synthetic-data-kit
+mkdir -p data/{input,parsed,generated,curated,final}
 ```
