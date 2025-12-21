@@ -528,3 +528,8 @@ I DON'T LIKE THIS LIBRARY. I WILL JUST TAKE INSPIRATION FROM IT AND WRITE NEW CO
 ```console
 
 ```
+
+<img width="2975" height="2094" alt="image" src="https://github.com/user-attachments/assets/c70746e9-a235-4d47-9253-3f3889867587" />
+
+<img width="3837" height="2102" alt="image" src="https://github.com/user-attachments/assets/47c773ef-d91c-4e6b-af3f-0ba2ce86b213" />
+
