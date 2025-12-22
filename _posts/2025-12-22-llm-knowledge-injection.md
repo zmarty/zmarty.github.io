@@ -21,7 +21,7 @@ Here's the plan:
 
 ## Crawling the raw documents
 
-I chose to crawl the <u>**public documents**</u> from the [Cybersource developer portal](https://developer.cybersource.com/), since I am somewhat familiar with it. I found out that this portal uses the [llms.txt standard](https://llmstxt.org/) and provides Markdown documents that are easy to crawl and ingest into LLMs.
+I chose to crawl the public documents from the [Cybersource developer portal](https://developer.cybersource.com/), since I am somewhat familiar with it. I found out that this portal uses the [llms.txt standard](https://llmstxt.org/) and provides Markdown documents that are easy to crawl and ingest into LLMs.
 
 Code is cheap nowadays and since I couldn't find a simple llms.txt crawler in 2 minutes of Googling, I just used Opus 4.5 to write my own in about 10 minutes of iteration. I am including the crawler code below.
 
