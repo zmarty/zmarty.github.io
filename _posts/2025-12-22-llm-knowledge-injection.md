@@ -12,8 +12,11 @@ It's common wisdom that you cannot add new knowledge to LLM models by fine-tunin
 Here's the plan: 
 
 1) Crawl the documents in a developer portal
+
 2) Use a teacher model ([Minimax M2](https://huggingface.co/MiniMaxAI/MiniMax-M2)) to extract questions and answers from each separate document. Also extract Chain-of-thought sections.
+
 3) Use this dataset to teach a student model ([gpt-oss-20b](https://huggingface.co/openai/gpt-oss-20b)) new facts from that developer portal.
+
 4) Compare the original model to the fine-tuned one.
 
 ## Crawling the raw documents
@@ -538,7 +541,7 @@ CPU: AMD Ryzen 9 7950X3D 16-Core Processor
 GPU: Dual NVIDIA RTX Pro 6000 (each at 96 GB VRAM)
 RAM: 192 GB DDR5 5200
 OS: Ubuntu 24.04
-vllm: 0.12.0
+vLLM: 0.12.0
 Python: 3.12
 ```
 
@@ -1113,6 +1116,234 @@ if __name__ == '__main__':
 ```
 
 </details>
+
+Here is the prompt file `qa_pairs_prompt.txt` which tells the teacher model how to extract the pairs:
+
+```text
+You are a synthetic data generator for supervised fine-tuning of a Cybersource API integration assistant.
+
+CONTEXT
+You are generating training data for an LLM that will help software developers integrate with Cybersource payment APIs. The trained model should be able to:
+- Explain Cybersource concepts, endpoints, fields, and flows
+- Provide working code examples (cURL, JSON request bodies, SDK snippets)
+- Guide developers through integration steps
+- Troubleshoot common errors and edge cases
+
+GOAL
+Generate chat-style Q&A training conversations grounded ONLY in the provided Cybersource documentation. The dataset should teach:
+1) Basic factual knowledge (coverage-first)
+2) Practical implementation with code/JSON examples
+3) Multi-step reasoning and troubleshooting
+
+OUTPUT (JSON ONLY)
+Return a JSON array of conversations. Each conversation is a JSON array of messages:
+
+[
+  [
+    { "role": "user", "thinking": null, "content": "..." },
+    { "role": "assistant", "thinking": "...", "content": "..." }
+  ],
+  ...
+]
+
+For multi-turn conversations:
+[
+  [
+    { "role": "user", "thinking": null, "content": "..." },
+    { "role": "assistant", "thinking": "...", "content": "..." },
+    { "role": "user", "thinking": null, "content": "..." },
+    { "role": "assistant", "thinking": "...", "content": "..." }
+  ]
+]
+
+LANGUAGE
+English only.
+
+GROUNDING (STRICT)
+- Use ONLY information present in the document.
+- Do NOT use external knowledge, assumptions, or speculation.
+- If the document does not contain enough information to confidently answer a question, do NOT generate that Q&A.
+- Prefer fewer, higher-quality examples over guessing.
+- If the whole document is too sparse or irrelevant, return [].
+
+SELF-CONTAINED QUESTIONS (CRITICAL)
+- Every user question must stand alone without referring to "this document", "shown here", "above/below", "the text", etc.
+- Always include "Cybersource" context in questions when relevant (e.g., "In the Cybersource Payments API...", "When using Cybersource Token Management Service...", "For Cybersource REST API authentication...")
+- Include specific context such as:
+  - The Cybersource product/service name (Payments, TMS, Webhooks, Decision Manager, Unified Checkout, etc.)
+  - The endpoint path and HTTP method if applicable
+  - Field names, header names, or parameter names
+  - Error codes or status values being discussed
+
+CATEGORY RULE (CRITICAL)
+Only generate Q&A for categories that the document actually contains enough information to support.
+- If a category is not supported, generate 0 examples for it.
+- Output may be empty: [].
+
+POSSIBLE CATEGORIES (GENERATE ONLY IF SUPPORTED)
+
+A) BASIC FACTS (definitions + surface facts)
+   - Definitions of Cybersource terms, meaning of fields, what a parameter represents
+   - Product/service overviews and capabilities
+   Example question styles:
+   - "What is Cybersource [product/feature]?"
+   - "In the Cybersource REST API, what does the [field] field represent?"
+
+B) API SHAPE (endpoints, methods, URLs, request/response structure)
+   - Endpoint + method + full URL (e.g., POST https://apitest.cybersource.com/pts/v2/payments)
+   - Required vs optional request fields
+   - Response structure and fields
+   Example question styles:
+   - "What is the Cybersource API endpoint for [action]?"
+   - "What HTTP method does Cybersource use for [operation]?"
+   - "What are the required fields for a Cybersource [operation] request?"
+
+C) CODE & REQUEST EXAMPLES (CRITICAL FOR DEVELOPER TRAINING)
+   - Generate Q&A that includes actual JSON request/response bodies from the document
+   - Include cURL commands if present in the document
+   - Show complete, working examples that developers can adapt
+   Example question styles:
+   - "Show me a sample JSON request body for a Cybersource [operation]"
+   - "What does a Cybersource [operation] API response look like?"
+   - "How do I structure a Cybersource [operation] request with [specific fields]?"
+   
+   IMPORTANT: When the document contains JSON examples, include them in your answers formatted as code blocks.
+
+D) DATA MODELS / SCHEMAS
+   - Field constraints, enums, nesting, types, validation rules
+   - Object structures (e.g., orderInformation, paymentInformation, processingInformation)
+   Example question styles:
+   - "What fields are nested under [object] in Cybersource [API]?"
+   - "What are the allowed values for [field] in Cybersource?"
+
+E) AUTH & SECURITY
+   - HTTP Signature authentication
+   - JWT authentication
+   - API key types (shared secret, P12 certificates)
+   - Required headers (v-c-merchant-id, Date, Digest, Signature)
+   - Digital signature keys for webhooks
+   Example question styles:
+   - "How do I authenticate requests to the Cybersource REST API?"
+   - "What headers are required for Cybersource API authentication?"
+   - "How do I generate the Signature header for Cybersource?"
+
+F) ERROR HANDLING
+   - HTTP status codes (201, 400, 502)
+   - Error reasons and status values (AUTHORIZED, DECLINED, INVALID_REQUEST, etc.)
+   - Retry guidance
+   Example question styles:
+   - "What does HTTP status [code] mean in Cybersource API responses?"
+   - "How do I handle a Cybersource [error type] error?"
+   - "What should I do when Cybersource returns [status/reason]?"
+
+G) PROCEDURES / HOW-TO FLOWS
+   - Step-by-step integration flows
+   - Setup procedures (sandbox creation, key generation)
+   - Multi-step processes (authorization → capture → settlement)
+   Example question styles:
+   - "How do I [accomplish task] with Cybersource?"
+   - "What are the steps to integrate Cybersource [product]?"
+   - "How do I set up [feature] in Cybersource?"
+
+H) WEBHOOKS / EVENTS
+   - Event types (Network Token Events, Invoicing, Fraud Management, Recurring Billing, etc.)
+   - Webhook payload structure
+   - Digital signature validation
+   - Subscription management
+   Example question styles:
+   - "What webhook events does Cybersource support for [product]?"
+   - "How do I validate a Cybersource webhook notification?"
+   - "What fields are included in a Cybersource [event type] webhook payload?"
+
+I) EDGE CASES / CONSTRAINTS
+   - Limits, timeouts, special cases
+   - Processor-specific behaviors
+   - Sandbox vs production differences (apitest.cybersource.com vs api.cybersource.com)
+   Example question styles:
+   - "What are the limits for Cybersource [feature]?"
+   - "What constraints apply to [field/operation] in Cybersource?"
+
+J) COMPLEX REASONING / TROUBLESHOOTING
+   - Multi-step questions combining 2+ facts from the document
+   - Choosing the right endpoint + required fields + interpreting errors
+   - Integration decision-making
+   Example question styles:
+   - "I'm getting [error] when calling Cybersource [endpoint]. What could be wrong?"
+   - "When should I use [option A] vs [option B] in Cybersource?"
+   - "How do I combine [feature A] with [feature B] in Cybersource?"
+
+MULTI-TURN CONVERSATIONS (ENCOURAGED)
+Generate some 2-4 turn conversations that mirror real developer interactions:
+- Turn 1: Conceptual question ("What is Cybersource TMS?")
+- Turn 2: Implementation question ("How do I create a payment instrument token?")
+- Turn 3: Code request ("Show me the request JSON")
+- Turn 4: Follow-up detail ("What if I need to include billing address?")
+
+HOW MANY TO GENERATE
+- Target up to {N_MAX} total conversations for this document.
+- For each supported category, generate between 1 and {N_PER_CATEGORY_MAX} examples.
+- Prioritize categories C (Code Examples), B (API Shape), and G (Procedures) for developer training.
+- It is acceptable to generate 0 examples for many categories if the document is limited.
+
+COVERAGE & DEDUPLICATION
+- Prioritize breadth: cover as many distinct endpoints, fields, headers, objects, and flows as the document provides.
+- Avoid duplicates: do not ask the same fact more than twice unless the document is very short.
+- Avoid vague questions; be specific and grounded.
+
+ASSISTANT "thinking" FIELD RULES
+- Purpose: a short, instructional reasoning outline (NOT private deliberation).
+- BASIC / API SHAPE / SCHEMAS: 1–3 short steps.
+- CODE EXAMPLES / PROCEDURES / ERRORS / COMPLEX: 3–7 short steps.
+- Do NOT include meta commentary (no "I'm an AI", no tool/browsing talk, no policy references).
+
+ASSISTANT "content" FIELD RULES
+- Concise, precise, and grounded in the document.
+- Use Cybersource terminology exactly as it appears in the document.
+- Do not invent endpoints, fields, headers, constraints, or behaviors not present in the document.
+- Format JSON and code examples properly using markdown code blocks with syntax highlighting.
+- When providing JSON examples, ensure they are valid JSON.
+- Always mention "Cybersource" when it helps clarify context.
+
+VALIDATION CHECKLIST (DO THIS BEFORE OUTPUT)
+1) Identify which categories A–J are supported by the document.
+2) If none are supported, return [].
+3) For each Q&A:
+   - The question is self-contained and mentions Cybersource where appropriate.
+   - The answer is fully supported by the document.
+   - No invented facts.
+   - JSON/code examples are properly formatted if included.
+4) Ensure diversity and coverage; remove near-duplicates.
+
+EXAMPLE OUTPUT (ILLUSTRATIVE ONLY; ADAPT TO YOUR DOCUMENT'S ACTUAL CONTENT)
+
+[
+  [
+    { "role": "user", "thinking": null, "content": "What is the Cybersource REST API endpoint for processing a payment authorization?" },
+    { "role": "assistant", "thinking": "1) Identify the payments endpoint from the doc.\n2) Note the HTTP method.\n3) Provide the full URL.", "content": "The Cybersource endpoint for processing a payment authorization is:\n\n**POST** `https://apitest.cybersource.com/pts/v2/payments`\n\nFor production, replace `apitest` with `api`." }
+  ],
+  [
+    { "role": "user", "thinking": null, "content": "What products and events can I subscribe to for Cybersource webhooks?" },
+    { "role": "assistant", "thinking": "1) List the webhook-enabled products.\n2) Note that each product has specific event types.", "content": "Cybersource webhooks support notifications for several products:\n\n- **Network Token Events** - Token lifecycle updates\n- **Invoicing** - Invoice creation, sending, payment events\n- **Fraud Management Essentials and Decision Manager** - Fraud screening results\n- **Recurring Billing** - Subscription and payment plan events\n\nYou can discover the specific event types available for your account using the GET `/notification-subscriptions/v1/products/{organizationId}` endpoint." }
+  ],
+  [
+    { "role": "user", "thinking": null, "content": "Show me an example Cybersource webhook payload for an invoicing event." },
+    { "role": "assistant", "thinking": "1) Find the webhook payload example in the doc.\n2) Identify the event type.\n3) Format the JSON properly.", "content": "Here's an example Cybersource webhook payload for the `invoicing.customer.invoice.send` event:\n\n```json\n{\n  \"eventType\": \"invoicing.customer.invoice.send\",\n  \"webhookId\": \"0fa698ae-7419-78c4-e063-9c588e0a497e\",\n  \"productId\": \"customerInvoicing\",\n  \"organizationId\": \"your_org_id\",\n  \"eventDate\": \"2024-07-10T21:11:38\",\n  \"retryNumber\": 0,\n  \"payload\": {\n    \"data\": {\n      \"invoiceNumber\": \"2\",\n      \"invoiceBalance\": \"1.00\",\n      \"currency\": \"USD\",\n      \"dueDate\": \"2024-07-10\",\n      \"payerName\": \"Jane Doe\",\n      \"emailTo\": \"customer@example.com\"\n    },\n    \"organizationId\": \"your_org_id\"\n  }\n}\n```\n\nKey fields include `eventType` to identify the event, `payload.data` containing invoice details, and `retryNumber` indicating delivery attempts." }
+  ],
+  [
+    { "role": "user", "thinking": null, "content": "How do I create a Cybersource sandbox account for testing?" },
+    { "role": "assistant", "thinking": "1) Outline the signup steps.\n2) Emphasize saving the keys.\n3) Mention the confirmation email.", "content": "To create a Cybersource sandbox account:\n\n1. Navigate to the sandbox creation page at developer.cybersource.com\n2. Complete the registration form with your details\n3. Click **Submit** to create your account\n4. **Important**: Save the API keys displayed after signup—you'll need the Organization ID, Key, and Shared Secret for authentication\n5. Check your email for login instructions (check spam if not received within 2 minutes)\n\nOnce registered, access your account through the CyberSource Business Center." },
+    { "role": "user", "thinking": null, "content": "After creating the sandbox, how do I authenticate my Cybersource API requests?" },
+    { "role": "assistant", "thinking": "1) Explain where to enter credentials.\n2) List the three credential values.\n3) Mention the alternative key generation method.", "content": "To authenticate Cybersource API requests with your sandbox credentials:\n\n1. Go to the Developer Center API Reference Assets\n2. Navigate to **APIs and Endpoints**\n3. Enter your credentials:\n   - **Organization ID**\n   - **Key** (API Key)\n   - **Shared Secret Key**\n4. Click **Update Credentials**\n\nAlternatively, generate new keys through the Business Center Key Management module.\n\nThese credentials are used to construct the HTTP Signature authentication headers required for Cybersource REST API calls." }
+  ],
+  [
+    { "role": "user", "thinking": null, "content": "What does HTTP status code 201 mean in Cybersource API responses?" },
+    { "role": "assistant", "thinking": "1) Explain what 201 indicates.\n2) Note that 201 can still mean declined.\n3) Clarify the transaction resource was created.", "content": "HTTP status code **201** in Cybersource API responses means that a transaction resource ID was successfully created.\n\n**Important**: A 201 status does not necessarily mean the transaction was approved. You may receive 201 for transactions that are:\n- Under review\n- Declined\n- Failed\n\nAlways check the `status` field in the response body (e.g., `AUTHORIZED`, `DECLINED`, `PENDING_REVIEW`) to determine the actual transaction outcome." }
+  ]
+]
+
+DOCUMENT
+{text_of_full_document}
+```
 
 I then ran it like so:
 
