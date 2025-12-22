@@ -1595,8 +1595,11 @@ You authenticate the request with your standard Cybersource OAuth 2.0 or JWT cre
 <summary markdown="span">Reasoning: (click to expand)</summary>
 
 1) Identify the endpoint path
+
 2) Note the HTTP method
+
 3) Provide the complete URL structure
+
 4) Mention the required parameters
 
 </details>
@@ -1617,7 +1620,9 @@ This endpoint retrieves the detailed processing status report for your specific 
 <summary markdown="span">Reasoning: (click to expand)</summary>
 
 1) Identify the HTTP method.
+
 2) Provide the endpoint structure.
+
 3) Explain the URL components.
 
 </details>
