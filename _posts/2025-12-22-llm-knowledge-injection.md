@@ -1117,7 +1117,7 @@ if __name__ == '__main__':
 
 </details>
 
-Here is the prompt file `qa_pairs_prompt.txt` which tells the teacher model how to extract the pairs:
+Here is the prompt file `qa_pairs_prompt.txt` that I wrote with GPT 5.2 Thinking and which tells the teacher model how to extract the pairs:
 
 ```text
 You are a synthetic data generator for supervised fine-tuning of a Cybersource API integration assistant.
