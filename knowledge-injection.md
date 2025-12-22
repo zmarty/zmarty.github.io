@@ -535,6 +535,9 @@ I DON'T LIKE THIS LIBRARY. I WILL JUST TAKE INSPIRATION FROM IT AND WRITE NEW CO
 
 <img width="1094" height="1247" alt="image" src="https://github.com/user-attachments/assets/9678e24b-50be-4402-8704-965a292cbd99" />
 
+<img width="1086" height="670" alt="image" src="https://github.com/user-attachments/assets/187d9f0f-5c7f-4565-b4f2-aea2db9d9baa" />
+
+
 --
 
 What is the Cybersource API endpoint for retrieving batch submission detail reports?
