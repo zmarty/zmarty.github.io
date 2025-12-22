@@ -534,3 +534,57 @@ I DON'T LIKE THIS LIBRARY. I WILL JUST TAKE INSPIRATION FROM IT AND WRITE NEW CO
 <img width="3837" height="2102" alt="image" src="https://github.com/user-attachments/assets/47c773ef-d91c-4e6b-af3f-0ba2ce86b213" />
 
 <img width="1094" height="1247" alt="image" src="https://github.com/user-attachments/assets/9678e24b-50be-4402-8704-965a292cbd99" />
+
+--
+
+What is the Cybersource API endpoint for retrieving batch submission detail reports?
+
+--
+
+gpt-oss-20b:
+
+We need to answer: "What is the Cybersource API endpoint for retrieving batch submission detail reports?" Likely this refers to the API used to get batch submission details (like batch details, maybe GET /batchDetails). I'm not sure of exact endpoint path. Let’s search memory: Cybersource has an API for "batch details" maybe /batchDetails? According to documentation, there is "Batch details" endpoint: GET /batchDetails?batchId=... Or maybe /batchDetails?batchId=... Actually, the "Batch Detail Report" is part of the "Batch Management API". The endpoint might be GET /reports/batchDetails. Let's recall. There's "Batch Detail Report" in the "Reports" API. The endpoint: GET /reports/batchDetail?batchId=... or /batchDetails?batchId=... Let’s search memory: I recall that Cybersource has a "Batch" API: POST /batches to create batch, GET /batches/{batchId} to get batch, GET /batches to list. But for "batch details", there is "Batch Details Report" that provides information about each transaction in a batch. The endpoint may be: GET /batchDetails?batchId=... Actually, reading docs: "Batch details report" can be retrieved via the "Batch Details" endpoint: GET /reports/batchDetails?batchId=... Also can specify fields like startTime, endTime, status, etc.
+
+But we need to provide a precise answer. The question likely expects: The endpoint is: GET /reports/batchDetail?batchId=... Let's confirm: In Cybersource API documentation, there's an endpoint: GET /batchDetails?batchId=... Let's search memory: I saw something like "/batchDetails?batchId=..." used to retrieve details of a particular batch submission. There's also "Batch List" endpoint: GET /batchList?startTime=... etc. But the question is "retrieving batch submission detail reports". That suggests maybe "batchDetails" endpoint. So answer: GET https://api.cybersource.com/v1/batchDetails?batchId={id} or /reports/batchDetails. But better to be specific: The endpoint for retrieving batch submission detail reports is: GET /reports/batchDetails. Let's check typical Cybersource API base: https://api.cybersource.com/v1. The docs might say: GET /reports/batchDetails?batchId=... So I'd answer: Use the GET /reports/batchDetails endpoint, e.g., https://api.cybersource.com/v1/reports/batchDetails?batchId=<batchId>. If you need a specific endpoint, that's it. Also mention that you need to include query param "batchId" and maybe "pageIndex", "pageSize". So answer accordingly.
+
+Thus: The Cybersource API endpoint is: GET /reports/batchDetails?batchId={batchId}. Provide example.
+
+---------
+
+In the Cybersource REST APIs the “Batch‑Detail Report” is exposed through the Batch Details endpoint.
+To pull the report for a specific batch you call:
+
+markdown
+Copy
+GET https://api.cybersource.com/v1/reports/batchDetails?batchId={batchId}
+Method – GET
+Base URL – https://api.cybersource.com/v1
+Endpoint – /reports/batchDetails
+Required Query Parameter – batchId (the ID of the batch you submitted)
+Optional Parameters – pagination (pageIndex, pageSize), filtering (status, startTime, endTime), etc., depending on your needs.
+You authenticate the request with your standard Cybersource OAuth 2.0 or JWT credentials, then parse the JSON response which contains the transaction‑level detail for that batch.
+
+--
+
+gpt-oss-20b-cybersource2:
+
+1) Identify the endpoint path
+2) Note the HTTP method
+3) Provide the complete URL structure
+4) Mention the required parameters
+
+-------
+
+The Cybersource API endpoint for retrieving batch submission detail reports is:
+
+**GET** `https://<url_prefix>/pts/v1/transaction-batch-details/{id}`
+
+Where `<url_prefix>` is the server hostname specified in your API call (e.g., `apitest.cybersource.com` or `api.cybersource.com`), and `{id}` is the unique ID assigned to your batch upload file.
+
+This endpoint retrieves the detailed processing status report for your specific batch upload file.
+
+--
+
+Real answer from training data:
+
+[{"role": "user", "thinking": null, "content": "What is the Cybersource API endpoint for retrieving batch submission detail reports?"}, {"role": "assistant", "thinking": "1) Identify the HTTP method.\n2) Provide the endpoint structure.\n3) Explain the URL components.", "content": "To retrieve a batch submission detail report, send an HTTP **GET** request to:\n\n```\nhttps://<url_prefix>/pts/v1/transaction-batch-details/{id}\n```\n\nWhere:\n- `<url_prefix>` is the server domain (see supported values below)\n- `{id}` is the unique ID assigned to your batch upload file"}]
