@@ -1326,6 +1326,13 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 
+lm_eval \
+   --model local-completions \
+   --tasks gsm8k \
+   --model_args model=GLM-4.6V-FP8,base_url=http://127.0.0.1:8000/v1/completions,tokenizer=zai-org/GLM-4.6V-FP8,trust_remote_code=True,num_concurrent=10 \
+   --log_samples \
+   --output_path ./results
+
 ---
 
 ImportError: cannot import name 'MistralCommonTokenizer' from 'transformers.tokenization_mistral_common' (/git/vllm/.venv/lib/python3.12/site-packages/transformers/tokenization_mistral_common.py). Did you mean: 'MistralTokenizer'?
