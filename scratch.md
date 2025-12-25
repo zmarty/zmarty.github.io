@@ -1333,6 +1333,11 @@ lm_eval \
    --log_samples \
    --output_path ./results
 
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.5269|±  |0.0138|
+|     |       |strict-match    |     5|exact_match|↑  |0.8711|±  |0.0092|
+
 ---
 
 ImportError: cannot import name 'MistralCommonTokenizer' from 'transformers.tokenization_mistral_common' (/git/vllm/.venv/lib/python3.12/site-packages/transformers/tokenization_mistral_common.py). Did you mean: 'MistralTokenizer'?
