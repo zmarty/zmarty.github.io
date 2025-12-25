@@ -7,10 +7,6 @@ tags: [llm, vllm]
 description: "."
 ---
 
-## How to download models
-
-
-
 ## How to install vLLM stable
 
 Prerequisite: [Ubuntu 24.04 and the proper NVIDIA drivers](https://forum.level1techs.com/t/wip-blackwell-rtx-6000-pro-max-q-quickie-setup-guide-on-ubuntu-24-04-lts-25-04/230521)
@@ -38,6 +34,10 @@ uv pip install -U vllm \
     --torch-backend=auto \
     --extra-index-url https://wheels.vllm.ai/nightly
 ```
+
+## How to download models
+
+
 
 ## Devstral 2 123B
 
