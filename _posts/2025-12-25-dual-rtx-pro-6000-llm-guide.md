@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Guide on installing and running best models on a dual RTX Pro 6000 rig"
+title: "Guide on installing and running the best models on a dual RTX Pro 6000 rig"
 date: 2025-12-25 10:30:00 -0800
 categories: [AI]
 tags: [llm, vllm]
-description: "."
+description: "Step-by-step vLLM stable/nightly install on Ubuntu 24.04 for a dual RTX Pro 6000 (96GB x2), model download workflow, and a fix for tp=2 hangs (IOMMU). Includes tested serve commands for Devstral 123B, GLM-4.5/4.6V, Qwen3 235B, MiniMax-M2, and gpt-oss-120b."
 ---
 
 ## How to install vLLM stable
