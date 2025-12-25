@@ -52,7 +52,8 @@ hf download cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit --local-dir /models/
 
 ## Devstral 2 123B
 
-Model: [Devstral-2-123B-Instruct-2512-AWQ-4bit](https://huggingface.co/cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit)
+Model: [cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit](https://huggingface.co/cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit)
+
 vLLM version tested: vllm-nightly on December 25th, 2025
 
 ```console
@@ -73,7 +74,8 @@ vllm serve \
 
 ## Qwen3-235B-A22B
 
-Model: [Qwen3-235B-A22B-GPTQ-Int4](https://huggingface.co/Qwen/Qwen3-235B-A22B-GPTQ-Int4)
+Model: [Qwen/Qwen3-235B-A22B-GPTQ-Int4](https://huggingface.co/Qwen/Qwen3-235B-A22B-GPTQ-Int4)
+
 vLLM version tested: 0.12.0
 
 ```console
@@ -94,7 +96,8 @@ vllm serve \
 
 ## GLM-4.6V-FP8
 
-Model: [GLM-4.6V-FP8](https://huggingface.co/zai-org/GLM-4.6V-FP8)
+Model: [zai-org/GLM-4.6V-FP8](https://huggingface.co/zai-org/GLM-4.6V-FP8)
+
 vLLM version tested: 0.12.0
 
 ```console
@@ -110,6 +113,128 @@ vllm serve \
     --mm-encoder-tp-mode data \
     --mm_processor_cache_type shm \
     --allowed-local-media-path / \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## nvidia/Qwen3-235B-A22B-NVFP4
+
+Model: [nvidia/Qwen3-235B-A22B-NVFP4](https://huggingface.co/nvidia/Qwen3-235B-A22B-NVFP4)
+
+vLLM version tested: 0.12.0
+
+Note: NVFP4 is slow on vLLM and RTX Pro 6000 (sm120)
+
+```console
+hf download nvidia/Qwen3-235B-A22B-NVFP4 --local-dir /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4
+
+vllm serve \
+    /models/nvfp4/nvidia/Qwen3-235B-A22B-NVFP4 \
+    --served-model-name Qwen3-235B-A22B-NVFP4 \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 10 \
+    --max-model-len 40960 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## gpt-oss-120b
+
+Model: [openai/gpt-oss-120b](https://huggingface.co/openai/gpt-oss-120b)
+
+vLLM version tested: 0.12.0
+
+Note: We are running this on a single GPU
+
+```console
+vllm serve \
+  /models/original/openai-gpt-oss-120b \
+  --served-model-name gpt-oss-120b \
+  --tensor-parallel-size 1 \
+  --pipeline-parallel-size 1 \
+  --data-parallel-size 2 \
+  --max_num_seqs 20 \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.85 \
+  --tool-call-parser openai \
+  --reasoning-parser openai_gptoss \
+  --enable-auto-tool-choice \
+  --host 0.0.0.0 \
+  --port 8000
+```
+
+## QuantTrio/Qwen3-VL-235B-A22B-Thinking-AWQ
+
+```console
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --served-model-name Qwen3-VL-235B-A22B-Thinking-AWQ \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 1 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## QuantTrio/Qwen3-235B-A22B-Thinking-2507-AWQ
+
+```console
+vllm serve \
+    /models/awq/QuantTrio-Qwen3-235B-A22B-Thinking-2507-AWQ \
+    --served-model-name Qwen3-235B-A22B-Thinking-2507-AWQ \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 10 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## GLM-4.5-Air-FP8
+
+```console
+vllm serve \
+    /models/original/GLM-4.5-Air-FP8 \
+    --served-model-name GLM-4.5-Air-FP8 \
+    --max-num-seqs 10 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## QuantTrio/MiniMax-M2-AWQ
+
+```console
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2-AWQ \
+    --served-model-name MiniMax-M2-AWQ \
+    --max-num-seqs 10 \
+    --max-model-len 128000 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --pipeline-parallel-size 1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
     --host 0.0.0.0 \
     --port 8000
 ```
