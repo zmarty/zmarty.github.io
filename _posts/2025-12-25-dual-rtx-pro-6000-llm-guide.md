@@ -50,6 +50,10 @@ mkdir /models/awq
 hf download cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit --local-dir /models/awq/cyankiwi-Devstral-2-123B-Instruct-2512-AWQ-4bit
 ```
 
+## If setting tensor-parallel-size 2 fails in vLLM
+
+
+
 ## Devstral 2 123B
 
 Model: [cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit](https://huggingface.co/cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit)
@@ -170,6 +174,10 @@ vllm serve \
 
 ## QuantTrio/Qwen3-VL-235B-A22B-Thinking-AWQ
 
+Model: [Qwen3-VL-235B-A22B-Thinking-AWQ](https://huggingface.co/QuantTrio/Qwen3-VL-235B-A22B-Thinking-AWQ)
+
+vLLM version tested: 0.12.0
+
 ```console
 vllm serve \
     /models/awq/QuantTrio-Qwen3-VL-235B-A22B-Thinking-AWQ \
@@ -187,6 +195,10 @@ vllm serve \
 ```
 
 ## QuantTrio/Qwen3-235B-A22B-Thinking-2507-AWQ
+
+Model: [QuantTrio/Qwen3-235B-A22B-Thinking-2507-AWQ](https://huggingface.co/QuantTrio/Qwen3-235B-A22B-Thinking-2507-AWQ)
+
+vLLM version tested: 0.12.0
 
 ```console
 vllm serve \
@@ -206,6 +218,10 @@ vllm serve \
 
 ## GLM-4.5-Air-FP8
 
+Model: [zai-org/GLM-4.5-Air-FP8](https://huggingface.co/zai-org/GLM-4.5-Air-FP8)
+
+vLLM version tested: 0.12.0
+
 ```console
 vllm serve \
     /models/original/GLM-4.5-Air-FP8 \
@@ -222,6 +238,10 @@ vllm serve \
 ```
 
 ## QuantTrio/MiniMax-M2-AWQ
+
+Model: [QuantTrio/MiniMax-M2-AWQ](https://huggingface.co/QuantTrio/MiniMax-M2-AWQ)
+
+vLLM version tested: 0.12.0
 
 ```console
 vllm serve \
