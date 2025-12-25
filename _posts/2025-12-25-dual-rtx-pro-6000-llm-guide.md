@@ -37,7 +37,18 @@ uv pip install -U vllm \
 
 ## How to download models
 
+```console
+mkdir /models
+cd /models
+uv venv --python 3.12 --seed
+source .venv/bin/activate
 
+pip install huggingface_hub
+
+# To download a model after going to /models and running source .venv/bin/activate
+mkdir /models/awq
+hf download cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit --local-dir /models/awq/cyankiwi-Devstral-2-123B-Instruct-2512-AWQ-4bit
+```
 
 ## Devstral 2 123B
 
