@@ -1408,3 +1408,22 @@ Access http://localhost:8888/
 <img width="2330" height="1686" alt="image" src="https://github.com/user-attachments/assets/37decead-a119-4889-91d1-982ce5d164e7" />
 
 <img width="2254" height="1318" alt="image" src="https://github.com/user-attachments/assets/10b4b1a2-6585-4099-aecb-cf16753dd095" />
+
+---
+
+```console
+vllm nightly!
+
+vllm serve \
+    /models/awq/cyankiwi-Devstral-2-123B-Instruct-2512-AWQ-4bit \
+    --served-model-name Devstral-2-123B-Instruct-2512-AWQ-4bit \
+    --enable-auto-tool-choice \
+    --tool-call-parser mistral \
+    --max-num-seqs 4 \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+
+```
