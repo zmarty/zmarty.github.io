@@ -98,7 +98,7 @@ vllm serve \
     --port 8000
 ```
 
-## GLM-4.5-Air-FP8
+## zai-org/GLM-4.5-Air-FP8
 
 Model: [zai-org/GLM-4.5-Air-FP8](https://huggingface.co/zai-org/GLM-4.5-Air-FP8)
 
@@ -119,7 +119,7 @@ vllm serve \
     --port 8000
 ```
 
-## GLM-4.6V-FP8
+## zai-org/GLM-4.6V-FP8
 
 Model: [zai-org/GLM-4.6V-FP8](https://huggingface.co/zai-org/GLM-4.6V-FP8)
 
@@ -164,7 +164,7 @@ vllm serve \
     --port 8000
 ```
 
-## gpt-oss-120b
+## OpenAI gpt-oss-120b
 
 Model: [openai/gpt-oss-120b](https://huggingface.co/openai/gpt-oss-120b)
 
@@ -189,7 +189,7 @@ vllm serve \
   --port 8000
 ```
 
-## Qwen3-235B-A22B
+## Qwen/Qwen3-235B-A22B
 
 Model: [Qwen/Qwen3-235B-A22B-GPTQ-Int4](https://huggingface.co/Qwen/Qwen3-235B-A22B-GPTQ-Int4)
 
