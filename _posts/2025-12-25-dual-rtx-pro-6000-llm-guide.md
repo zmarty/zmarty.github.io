@@ -53,7 +53,7 @@ hf download cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit --local-dir /models/
 ## Devstral 2 123B
 
 Model: [Devstral-2-123B-Instruct-2512-AWQ-4bit](https://huggingface.co/cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit)
-vLLM version: vllm-nightly on December 25th, 2025
+vLLM version tested: vllm-nightly on December 25th, 2025
 
 ```console
 hf download cyankiwi/Devstral-2-123B-Instruct-2512-AWQ-4bit --local-dir /models/awq/cyankiwi-Devstral-2-123B-Instruct-2512-AWQ-4bit
@@ -67,6 +67,49 @@ vllm serve \
     --max-model-len 262144 \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## Qwen3-235B-A22B
+
+Model: [Qwen3-235B-A22B-GPTQ-Int4](https://huggingface.co/Qwen/Qwen3-235B-A22B-GPTQ-Int4)
+vLLM version tested: 0.12.0
+
+```console
+vllm serve \
+    /models/gptq/Qwen-Qwen3-235B-A22B-GPTQ-Int4 \
+    --served-model-name Qwen3-235B-A22B-GPTQ-Int4 \
+    --reasoning-parser deepseek_r1 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes \
+    --swap-space 16 \
+    --max-num-seqs 10 \
+    --max-model-len 32768 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+## GLM-4.6V-FP8
+
+Model: [GLM-4.6V-FP8](https://huggingface.co/zai-org/GLM-4.6V-FP8)
+vLLM version tested: 0.12.0
+
+```console
+vllm serve \
+    /models/original/GLM-4.6V-FP8/ \
+    --served-model-name GLM-4.6V-FP8 \
+    --tensor-parallel-size 2 \
+    --tool-call-parser glm45 \
+    --reasoning-parser glm45 \
+    --enable-auto-tool-choice \
+    --max-num-seqs 10 \
+    --max-model-len 131072 \
+    --mm-encoder-tp-mode data \
+    --mm_processor_cache_type shm \
+    --allowed-local-media-path / \
     --host 0.0.0.0 \
     --port 8000
 ```
