@@ -13,7 +13,20 @@ description: "."
 
 ## How to install vLLM stable
 
+Prerequisite: [Ubuntu 24.04 and the proper NVIDIA drivers](https://forum.level1techs.com/t/wip-blackwell-rtx-6000-pro-max-q-quickie-setup-guide-on-ubuntu-24-04-lts-25-04/230521)
+
+```console
+mkdir vllm
+cd vllm
+uv venv --python 3.12 --seed
+source .venv/bin/activate
+
+uv pip install vllm --torch-backend=auto
+```
+
 ## How to install vLLM nightly
+
+Prerequisite: [Ubuntu 24.04 and the proper NVIDIA drivers](https://forum.level1techs.com/t/wip-blackwell-rtx-6000-pro-max-q-quickie-setup-guide-on-ubuntu-24-04-lts-25-04/230521)
 
 ```console
 mkdir vllm-nightly
