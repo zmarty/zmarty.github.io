@@ -1107,6 +1107,12 @@ lm_eval \
 |-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
 |gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.9287|±  |0.0071|
 |     |       |strict-match    |     5|exact_match|↑  |0.9272|±  |0.0072|
+
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.9348|±  |0.0068|
+|     |       |strict-match    |     5|exact_match|↑  |0.9340|±  |0.0068|
+
 --
 
 vllm serve \
