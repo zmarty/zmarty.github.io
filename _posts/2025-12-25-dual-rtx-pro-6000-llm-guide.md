@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Guide on installing and running the best models on a dual RTX Pro 6000 rig"
+title: "Guide on installing and running the best models on a dual RTX Pro 6000 rig with vLLM"
 date: 2025-12-25 10:30:00 -0800
 categories: [AI]
 tags: [llm, vllm]
