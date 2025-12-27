@@ -155,14 +155,12 @@ With vLLM running in one terminal, open another and run:
 claude
 ```
 
-Claude Code will now use your local MiniMax-M2.1 model!
+Claude Code will now use your local MiniMax-M2.1 model! If you also want to configure the Claude Code VSCode extension, see [here](https://platform.minimax.io/docs/guides/text-ai-coding-tools#use-m2-1-in-claude-code-extension-for-vs-code).
 
 ---
 
 ## References
 
 - [vLLM Anthropic API Support (GitHub Issue #21313)](https://github.com/vllm-project/vllm/issues/21313)
-- [MiniMax M2.1 for AI Coding Tools](https://platform.minimax.io/docs)
-- [Claude Code Documentation](https://code.claude.com/docs/en/overview)
+- [MiniMax M2.1 for AI Coding Tools](https://platform.minimax.io/docs/guides/text-ai-coding-tools)
 - [cyankiwi/MiniMax-M2.1-AWQ-4bit on Hugging Face](https://huggingface.co/cyankiwi/MiniMax-M2.1-AWQ-4bit)
-- Cross-posted from my blog: Guide on installing and running the best models on a dual RTX Pro 6000 rig with vLLM (I am not selling or promoting anything)
