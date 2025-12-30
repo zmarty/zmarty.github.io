@@ -77,6 +77,15 @@ The Flutter app consumes this data and presents it in a clean feed. Features inc
 
 The entire app (screens, widgets, services, data models) was generated through iterative prompting. I'd describe what I wanted ("add a tag filter bar below the header that shows pills for each tag, selected tags should be highlighted"), Claude would generate the code, and I'd refine from there.
 
+<img width="864" height="1922" alt="image" src="https://github.com/user-attachments/assets/f9f3dbd8-3519-42f4-8d35-aa773e7e6408" />
+
+<img width="864" height="1922" alt="image" src="https://github.com/user-attachments/assets/c3b9ee19-6f8a-4736-8cc9-3b4e7f6240cb" />
+
+<img width="864" height="1922" alt="image" src="https://github.com/user-attachments/assets/328791b7-9134-4ef4-bf33-8a65eda542b0" />
+
+<img width="864" height="1922" alt="image" src="https://github.com/user-attachments/assets/fbd6a745-0cd6-484e-b8fa-ba6cd76100f1" />
+
+
 ## The split
 
 There are two kinds of AI work happening here. Claude Opus in the cloud handles the coding: I describe what I want, iterate on the spec, and it writes the crawler, the backend, the mobile app. A heavier model that's good at creative problem-solving.
