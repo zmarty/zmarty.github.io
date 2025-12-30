@@ -11,7 +11,7 @@ People often ask me: why run local LLMs when cloud providers are so cheap? That'
 
 I use Claude Opus to write hyper-personalized software. These applications often call local LLMs as part of their pipelines. This is the kind of software that would have been impractical to build a few years ago. Now I can throw together a custom tool over a weekend that does exactly what I need.
 
-Case in point: I've been building a multimodal agent that crawls local websites to find events happening around me. The crawler calls GLM-4.6V running on vLLM to process text and images.
+Case in point: I've been building a multimodal agent that crawls local websites to find events happening around me. The crawler calls GLM-4.6V running on vLLM to process text and images, stores the results in a Firebase backend, and surfaces them in a Flutter mobile app. The entire stack (crawler, backend, mobile app) was vibe coded with Claude. I didn't write a single line myself, just brainstormed specs and refined the output.
 
 ## What the LLM actually does
 
@@ -54,3 +54,33 @@ nvtop showing GPU utilization while the model processes events:
 vLLM server logs showing request throughput:
 
 <img width="1000" height="502" alt="vLLM server logs" src="https://github.com/user-attachments/assets/7069a788-085a-4b97-a4f6-a97781d1946b" />
+
+## The backend: Firebase and Firestore
+
+After the crawler enriches events, they need to go somewhere. I spec'd out a Firebase backend with Claude that handles:
+
+- **Firestore database**: Events are stored with all their extracted metadata: dates, venues, prices, tags, image URLs, occurrences for recurring events, and geo coordinates for map integration.
+- **Cloud Functions (Gen2)**: TypeScript functions handle queries, pagination, and a scheduled job that updates `nextOccurrenceDate` fields so past occurrences drop off the feed automatically.
+- **Cloud Storage**: Event flyers are re-uploaded to Firebase Storage so the app doesn't hotlink to external sites that might go down.
+
+The data model supports recurring events properly, which most event systems get wrong. An event can have multiple discrete occurrences (like a band playing Friday and Saturday) or a continuous date range (like a gallery exhibition running for two months). The crawler detects which pattern applies and stores it accordingly.
+
+## The mobile app: Flutter
+
+The Flutter app consumes this data and presents it in a clean feed. Features include:
+
+- **Tag-based filtering**: Events are auto-tagged by the LLM (family-friendly, 21+, free, outdoors, etc.) and users can filter the feed.
+- **Infinite scroll**: Firestore pagination keeps the initial load fast while letting users scroll through hundreds of events.
+- **Full flyer images**: Tapping an event shows the original flyer at full resolution with pinch-to-zoom, because sometimes you just need to read the fine print.
+- **Map integration**: Events with geo coordinates can open in your maps app for directions.
+- **YouTube embeds**: Some events have promo videos that play inline.
+
+The entire app (screens, widgets, services, data models) was generated through iterative prompting. I'd describe what I wanted ("add a tag filter bar below the header that shows pills for each tag, selected tags should be highlighted"), Claude would generate the code, and I'd refine from there.
+
+## The split
+
+There are two kinds of AI work happening here. Claude Opus in the cloud handles the coding: I describe what I want, iterate on the spec, and it writes the crawler, the backend, the mobile app. A heavier model that's good at creative problem-solving.
+
+The local LLM handles the inference: parsing flyers, classifying links, deduplicating events. Tasks that need to run millions of times and require reasoning over unstructured data. A few years ago, some of this would have been practically impossible. OCR can read text from an image, but it can't understand that "$25" on a psychedelic Grateful Dead flyer is the ticket price and not a date or an address. That requires a model that actually understands what it's looking at.
+
+Tools built for an audience of one, running on hardware you control.
