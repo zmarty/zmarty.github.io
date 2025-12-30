@@ -21,7 +21,7 @@ The crawler uses GLM-4.6V for five distinct tasks:
 
 This is where multimodal models shine. [Here](https://whidbeycamanoislands.com/event/the-dead-guise-new-years-eve/) is an event where the text description doesn't mention the price, but the flyer image above it does. The LLM reads the flyer and extracts "$25" into a structured field.
 
-[I will insert a screenshot here]
+<img width="1876" height="1745" alt="image" src="https://github.com/user-attachments/assets/2e66f3ab-ee5d-42a4-b903-01ad901879d0" />
 
 The model also extracts venue names, performer lineups, age restrictions, and registration requirements from a combination of the raw HTML description and the accompanying image.
 
