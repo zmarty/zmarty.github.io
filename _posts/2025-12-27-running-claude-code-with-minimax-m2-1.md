@@ -67,7 +67,7 @@ huggingface-cli download cyankiwi/MiniMax-M2.1-AWQ-4bit \
 From your vLLM environment, launch the server with the Anthropic-compatible endpoint:
 
 ```bash
-cd ~/vllm-nightly
+cd /git/vllm-nightly
 source .venv/bin/activate
 
 vllm serve \
