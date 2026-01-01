@@ -1433,3 +1433,31 @@ vllm serve \
     --port 8000
 
 ```
+
+----
+
+```console
+cd /git/vllm-nightly
+source .venv/bin/activate
+
+export VLLM_USE_DEEP_GEMM=0
+export VLLM_USE_FLASHINFER_MOE_FP16=1
+export VLLM_USE_FLASHINFER_SAMPLER=0
+export OMP_NUM_THREADS=4
+
+vllm serve \
+    /models/awq/QuantTrio-MiniMax-M2.1-AWQ \
+    --served-model-name MiniMax-M2.1-AWQ \
+    --swap-space 16 \
+    --max-num-seqs 10 \
+    --max-model-len 196608 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --enable-expert-parallel \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
+    --trust-remote-code \
+    --host 0.0.0.0 \
+    --port 8000
+```
