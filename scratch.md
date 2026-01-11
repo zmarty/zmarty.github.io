@@ -1461,3 +1461,29 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 ```
+
+---
+
+```console
+# Model configuration (Mandatory)
+MODEL="/models/awq/mratsim-MiniMax-M2.1-FP8-INT4-AWQ"
+MODELNAME="MiniMax-M2.1-FP8-INT4-AWQ"
+GPU_UTIL=0.97
+SAMPLER_OVERRIDE='{"temperature": 1, "top_p": 0.95, "top_k": 40, "repetition_penalty": 1.1, "frequency_penalty": 0.40}'
+
+# Prevent memory fragmentation
+export PYTORCH_ALLOC_CONF=expandable_segments:True,max_split_size_mb:512
+
+# Prevent vLLM from using 100% CPU when idle (Very Recommended)
+export VLLM_SLEEP_WHEN_IDLE=1
+
+vllm serve "${MODEL}" \
+  --served-model-name "${MODELNAME}" \
+  --trust-remote-code \
+  --gpu-memory-utilization ${GPU_UTIL} \
+  --tensor-parallel-size 2 \
+  --override-generation-config "${SAMPLER_OVERRIDE}" \
+  --enable-auto-tool-choice \
+  --tool-call-parser minimax_m2 \
+  --reasoning-parser minimax_m2_append_think
+```
