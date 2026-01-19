@@ -1487,3 +1487,17 @@ vllm serve "${MODEL}" \
   --tool-call-parser minimax_m2 \
   --reasoning-parser minimax_m2_append_think
 ```
+
+---
+
+```console
+vllm serve \
+     "/models/original/GLM-4.7-Flash" \
+     --served-model-name GLM-4.7-Flash \
+     --tensor-parallel-size 2 \
+     --speculative-config.method mtp \
+     --speculative-config.num_speculative_tokens 1 \
+     --tool-call-parser glm47 \
+     --reasoning-parser glm45 \
+     --enable-auto-tool-choice
+```
