@@ -1500,6 +1500,6 @@ vllm serve \
      --tool-call-parser glm47 \
      --reasoning-parser glm45 \
      --gpu-memory-utilization 0.97 \
-     --max-model-len 120000 \
+     --max-model-len 100000 \
      --enable-auto-tool-choice
 ```
