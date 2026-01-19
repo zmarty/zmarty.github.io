@@ -1499,5 +1499,6 @@ vllm serve \
      --speculative-config.num_speculative_tokens 1 \
      --tool-call-parser glm47 \
      --reasoning-parser glm45 \
+     --gpu-memory-utilization 0.97 \
      --enable-auto-tool-choice
 ```
