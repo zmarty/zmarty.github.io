@@ -11,7 +11,7 @@ Luna is an always-on AI assistant built for one user: me. She keeps her own memo
 
 Luna builds up knowledge about me over time as we talk. She stores documents like "User Profile", "Whidbey Island Favorite Places", and "Entertainment Preferences". She knows my family members' names and birthdays, my favorite restaurant, what video games I like. When I mention something new, she decides whether to create a new memory or update an existing one. That's how she knew which restaurant I meant and could look up its current rating.
 
-<img width="1110" height="268" alt="image" src="https://github.com/user-attachments/assets/6c9003eb-30db-4097-88ba-8e700222dfad" alt="I asked about my favorite restaurant. Luna remembered which one, looked up its current rating, and answered - without me having to specify." />
+<img width="300" height="72" alt="image" src="https://github.com/user-attachments/assets/6c9003eb-30db-4097-88ba-8e700222dfad" alt="I asked about my favorite restaurant. Luna remembered which one, looked up its current rating, and answered - without me having to specify." />
 
 ## Background Tasks
 
