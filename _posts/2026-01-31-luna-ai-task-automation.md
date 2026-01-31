@@ -13,6 +13,8 @@ Luna builds up knowledge about me over time as we talk. She stores documents lik
 
 <img width="500" height="121" alt="image" src="https://github.com/user-attachments/assets/6c9003eb-30db-4097-88ba-8e700222dfad" alt="I asked about my favorite restaurant. Luna remembered which one, looked up its current rating, and answered - without me having to specify." />
 
+<img width="1524" height="1679" alt="image" src="https://github.com/user-attachments/assets/f3b21d83-b866-4122-be37-e0954a63060e" />
+
 ## Background Tasks
 
 Ask Luna to "check something every month" and she creates a task that runs on its own:
