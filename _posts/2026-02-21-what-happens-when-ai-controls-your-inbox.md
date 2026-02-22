@@ -15,6 +15,10 @@ We booked a resort through Costco Travel. I asked Luna which building would be b
 
 Then I told her to email the concierge and request that building. She found the concierge's email address on the resort website, pulled our reservation number and dates from the Costco Travel confirmation in my inbox, and sent the request. I didn't have to look up any of it.
 
+<img width="962" height="854" alt="image" src="https://github.com/user-attachments/assets/42aaa983-6001-4a0a-8dfa-af662d56f1f7" />
+
+<img width="970" height="1109" alt="image" src="https://github.com/user-attachments/assets/ab1fc37d-fd7a-4411-8bd1-9fd33b9be6dc" />
+
 ## Restaurant reservations
 
 The resort recommended making dinner reservations in advance. Luna sent emails for each night. She looked at our flight itinerary and picked the most casual restaurant for the first night as we'd be arriving late and wouldn't want anything formal.
@@ -22,6 +26,8 @@ The resort recommended making dinner reservations in advance. Luna sent emails f
 She added allergy information for one of my kids on her own. I never mentioned it in this conversation, she knew from her long-term memory.
 
 My birthday fell during the trip. She picked the fanciest restaurant for that night and also helped inquire about babysitting.
+
+<img width="1187" height="894" alt="image" src="https://github.com/user-attachments/assets/9d85ed32-d8da-4edc-8cbf-5df8e5ee3c8d" />
 
 ## Events and activities
 
@@ -38,6 +44,8 @@ I asked Luna to find reviews for the resort and summarize them. She also looked 
 ## Newsletter cleanup
 
 Separately from the trip, I asked Luna to go through my email and find newsletters I don't open. She looked at my history, flagged the ones I hadn't touched in months, and helped me unsubscribe. That had been on my to-do list for years.
+
+<img width="965" height="909" alt="image" src="https://github.com/user-attachments/assets/7e5f9cd2-2309-4897-aa7d-9a6cb572792b" />
 
 ## How it works
 
