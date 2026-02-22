@@ -57,4 +57,4 @@ User message
 
 The orchestrator never sees raw email content. The subagent processes everything and returns a natural-language summary. This keeps the orchestrator's context window clean and avoids dumping entire email threads into the conversation.
 
-Luna runs on [my hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time—names, birthdays, allergies, preferences—she can act on things I don't explicitly tell her.
+Luna runs entirely on [my own hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time—names, birthdays, allergies, preferences—she can act on things I don't explicitly tell her.
