@@ -39,4 +39,22 @@ I asked Luna to find reviews for the resort and summarize them. She also looked 
 
 Separately from the trip, I asked Luna to go through my email and find newsletters I don't open. She looked at my history, flagged the ones I hadn't touched in months, and helped me unsubscribe. That had been on my to-do list for years.
 
-Luna runs on [my hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time - names, birthdays, allergies, preferences - she can act on things I don't explicitly tell her. 
+## How it works
+
+Luna connects to Gmail via OAuth2 with read, send, and modify scopes. The token is stored locally and refreshes silently.
+
+When I ask Luna something email-related, the orchestrator doesn't handle it directly. It spawns a dedicated email subagent - a separate LLM agent loop running on the same local vLLM server with its own system prompt. The subagent has six tools: `list_emails`, `read_email`, `search_emails`, `send_email`, `reply_to_email`, and `save_email_to_file`. It also gets access to Python execution and the filesystem.
+
+```
+User message
+  → Orchestrator (local vLLM)
+    → email_assistant(request)
+      → Email subagent (separate agent loop, same vLLM)
+        → Gmail API calls
+      → Returns summary to orchestrator
+    → Orchestrator relays to user
+```
+
+The orchestrator never sees raw email content. The subagent processes everything and returns a natural-language summary. This keeps the orchestrator's context window clean and avoids dumping entire email threads into the conversation.
+
+Luna runs on [my hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time—names, birthdays, allergies, preferences—she can act on things I don't explicitly tell her.
