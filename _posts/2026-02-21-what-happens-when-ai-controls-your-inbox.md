@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "What Happened When I Gave Luna Access to My Email"
-date: 2026-02-21 12:00:00 -0800
+date: 2026-02-21 18:35:00 -0800
 categories: [AI]
 tags: [llm, agents, email]
 description: "I gave Luna access to my email. Here's what happened in a single day."
@@ -11,7 +11,7 @@ Luna, [my AI assistant](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automa
 
 ## Planning the resort stay
 
-We booked a resort through Costco Travel. I asked Luna which building would be best for a family with young kids—close to the pool, restaurants, activities. She searched for resort maps and forum posts and came back with a recommendation.
+We booked a resort through Costco Travel. I asked Luna which building would be best for a family with young kids: close to the pool, restaurants, activities. She searched for resort maps and forum posts and came back with a recommendation.
 
 Then I told her to email the concierge and request that building. She found the concierge's email address on the resort website, pulled our reservation number and dates from the Costco Travel confirmation in my inbox, and sent the request. I didn't have to look up any of it.
 
