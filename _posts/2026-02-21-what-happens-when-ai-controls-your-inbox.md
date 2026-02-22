@@ -15,9 +15,9 @@ We booked a resort through Costco Travel. I asked Luna which building would be b
 
 Then I told her to email the concierge and request that building. She found the concierge's email address on the resort website, pulled our reservation number and dates from the Costco Travel confirmation in my inbox, and sent the request. I didn't have to look up any of it.
 
-<img width="600" height="533" alt="image" src="https://github.com/user-attachments/assets/42aaa983-6001-4a0a-8dfa-af662d56f1f7" />
+<img width="550" height="489" alt="image" src="https://github.com/user-attachments/assets/42aaa983-6001-4a0a-8dfa-af662d56f1f7" />
 
-<img width="600" height="686" alt="image" src="https://github.com/user-attachments/assets/ab1fc37d-fd7a-4411-8bd1-9fd33b9be6dc" />
+<img width="550" height="629" alt="image" src="https://github.com/user-attachments/assets/ab1fc37d-fd7a-4411-8bd1-9fd33b9be6dc" />
 
 ## Restaurant reservations
 
@@ -27,7 +27,7 @@ She added allergy information for one of my kids on her own. I never mentioned i
 
 My birthday fell during the trip. She picked the fanciest restaurant for that night and also helped inquire about babysitting.
 
-<img width="600" height="452" alt="image" src="https://github.com/user-attachments/assets/9d85ed32-d8da-4edc-8cbf-5df8e5ee3c8d" />
+<img width="550" height="414" alt="image" src="https://github.com/user-attachments/assets/9d85ed32-d8da-4edc-8cbf-5df8e5ee3c8d" />
 
 ## Events and activities
 
@@ -45,7 +45,7 @@ I asked Luna to find reviews for the resort and summarize them. She also looked 
 
 Separately from the trip, I asked Luna to go through my email and find newsletters I don't open. She looked at my history, flagged the ones I hadn't touched in months, and helped me unsubscribe. That had been on my to-do list for years.
 
-<img width="600" height="565" alt="image" src="https://github.com/user-attachments/assets/7e5f9cd2-2309-4897-aa7d-9a6cb572792b" />
+<img width="550" height="518" alt="image" src="https://github.com/user-attachments/assets/7e5f9cd2-2309-4897-aa7d-9a6cb572792b" />
 
 ## How it works
 
@@ -65,4 +65,4 @@ User message
 
 The orchestrator never sees raw email content. The subagent processes everything and returns a natural-language summary. This keeps the orchestrator's context window clean and avoids dumping entire email threads into the conversation.
 
-Luna runs entirely on [my own hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time—names, birthdays, allergies, preferences—she can act on things I don't explicitly tell her.
+Luna runs entirely on [my own hardware](https://www.ovidiudan.com/2025/12/25/dual-rtx-pro-6000-llm-guide.html) and because she's been building up [memory about my family](https://www.ovidiudan.com/2026/01/31/luna-ai-task-automation.html) over time - names, birthdays, allergies, preferences - she can act on things I don't explicitly tell her.
