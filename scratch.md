@@ -1503,3 +1503,23 @@ vllm serve \
      --max-model-len 100000 \
      --enable-auto-tool-choice
 ```
+
+---
+
+```console
+vllm serve \
+    /models/original/Qwen3.5-122B-A10B-FP8 \
+    --served-model-name Qwen3.5-122B-A10B-FP8 \
+    --tensor-parallel-size 2 \
+    --enable-expert-parallel \
+    --mm-encoder-tp-mode data \
+    --mm-processor-cache-type shm \
+    --reasoning-parser qwen3 \
+    --enable-prefix-caching \
+    --enable-auto-tool-choice \
+    --tool-call-parser qwen3_coder \
+    --speculative-config '{"method": "mtp", "num_speculative_tokens": 1}' \
+    --max-model-len 262144 \
+    --host 0.0.0.0 \
+    --port 8000
+```
