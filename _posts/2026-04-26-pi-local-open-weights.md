@@ -13,6 +13,9 @@ Working draft.
 
 ## Why this update
 
+<img width="3236" height="1804" alt="Coding Index (26 Apr &#39;26) (1)" src="https://github.com/user-attachments/assets/3ee1e3f4-18b4-44b4-ada9-efe7abe1c134" />
+
+
 ## Hardware assumptions
 
 ## Shared setup
