@@ -161,7 +161,7 @@ nano ~/.pi/agent/models.json
 }
 ```
 
-In pi select /model and scroll down to the bottom of the list to select your local model(s), otherwise it will use a free cloud model:
+In Pi, select /model and scroll down to the bottom of the list to select your local model(s), otherwise it will use a free cloud model:
 
 <img width="700" height="498" alt="image" src="https://github.com/user-attachments/assets/ac611b1e-d729-4a5b-af40-cf92abdb8f2c" />
 
