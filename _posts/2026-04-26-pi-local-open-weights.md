@@ -163,7 +163,7 @@ nano ~/.pi/agent/models.json
 
 In pi select /model and scroll down to the bottom of the list to select your local model(s), otherwise it will use a free cloud model:
 
-<img width="1773" height="1262" alt="image" src="https://github.com/user-attachments/assets/ac611b1e-d729-4a5b-af40-cf92abdb8f2c" />
+<img width="700" height="498" alt="image" src="https://github.com/user-attachments/assets/ac611b1e-d729-4a5b-af40-cf92abdb8f2c" />
 
 ## References:
 - [Anthropic tested removing Claude Code from the Pro plan](https://arstechnica.com/ai/2026/04/anthropic-tested-removing-claude-code-from-the-pro-plan/)
