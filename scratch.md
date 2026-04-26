@@ -1541,6 +1541,6 @@ vllm serve \
     --enable-auto-tool-choice \
     --tool-call-parser qwen3_coder \
     --reasoning-parser qwen3 \
-    --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":3}'
+    --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
     --host 0.0.0.0 \
     --port 8000
