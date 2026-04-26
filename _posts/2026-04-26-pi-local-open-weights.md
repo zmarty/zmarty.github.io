@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Coding locally with Pi Coding agent and Qwen3.6-27B, Gemma 4 31B, and MiniMax M2.7 open weights models (April 2026 edition)"
+title: "Coding locally with Pi Coding agent and open weights models (April 2026 edition)"
 date: 2026-04-26 10:00:00 -0700
 categories: [AI]
 tags: [llm, local-inference, qwen, gemma, minimax, coding-agents]
