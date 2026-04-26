@@ -86,15 +86,47 @@ vllm serve \
 
 ## Running MiniMax M2.7 locally
 
+I can't fit the entire model in my 192 GB VRAM so I have to use a slightly quantized version.
+
 ```bash
-hf download lukealonso/MiniMax-M2.7-NVFP4 --local-dir /models/lukealonso/MiniMax-M2.7-NVFP4
+hf download lukealonso/MiniMax-M2.7-NVFP4 --local-dir /models/nvfp4/lukealonso-MiniMax-M2.7-NVFP4
+
+export SAFETENSORS_FAST_GPU=1
+export NCCL_P2P_DISABLE=1
+export NCCL_DEBUG=INFO
+export VLLM_LOGGING_LEVEL=INFO
+
+vllm serve \
+    /models/nvfp4/lukealonso-MiniMax-M2.7-NVFP4 \
+    --served-model-name MiniMax-M2.7-NVFP4 \
+    --max-model-len 196608 \
+    --max-num-seqs 2 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2_append_think \
+    --trust-remote-code \
+    --enable_expert_parallel \
+    --disable-custom-all-reduce \
+    --host 0.0.0.0 \
+    --port 8000
 ```
+
+Here are a few quantized versions of this model that I know of:
+- [lukealonso/MiniMax-M2.7-NVFP4](https://huggingface.co/lukealonso/MiniMax-M2.7-NVFP4)
+- [cyankiwi/MiniMax-M2.7-AWQ-4bit](https://huggingface.co/cyankiwi/MiniMax-M2.7-AWQ-4bit)
+- [QuantTrio/MiniMax-M2.7-AWQ](https://huggingface.co/QuantTrio/MiniMax-M2.7-AWQ)
+- [NinjaBoffin/MiniMax-M2.7-NVFP4](https://huggingface.co/NinjaBoffin/MiniMax-M2.7-NVFP4)
 
 ## Connecting the Pi coding agent
 
-Pi Coding agent is a very opinionated coding agent
+Pi Coding agent is opinionated in a very specific way: it keeps the core deliberately small and expects you to extend it with extensions, skills, plain files, README-driven CLI tools, tmux sessions, or third-party packages. That means no built-in MCP support, no dedicated sub-agents, no permission popups, no plan mode, no internal to-do system, and no background bash process manager. The point is not that these workflows are impossible, but that Pi wants them to stay explicit and observable instead of hiding them behind extra orchestration.
+
+That design is especially useful when you are pairing Pi with local open weights models. Smaller prompts, fewer baked-in abstractions, and a minimal tool surface leave more context budget for your actual project and make the agent's behavior easier to understand when a local model goes off course. If you want the full rationale behind that philosophy, [Mario Zechner's post](https://mariozechner.at/posts/2025-11-30-pi-coding-agent/) on building an opinionated minimal coding agent is worth reading.
 
 ```bash
+npm install -g @mariozechner/pi-coding-agent
 nano ~/.pi/agent/models.json
 ```
 
@@ -119,7 +151,7 @@ nano ~/.pi/agent/models.json
         {
             "id": "MiniMax-M2.7-NVFP4",
             "input": ["text"],
-            "contextWindow": 204800
+            "contextWindow": 196608
         }
       ]
     }
@@ -130,10 +162,6 @@ nano ~/.pi/agent/models.json
 In pi select /model and scroll down to the bottom of the list to select your local model(s), otherwise it will use a free cloud model:
 
 <img width="1773" height="1262" alt="image" src="https://github.com/user-attachments/assets/ac611b1e-d729-4a5b-af40-cf92abdb8f2c" />
-
-## Model-by-model notes
-
-## Troubleshooting
 
 ## References:
 - [Anthropic tested removing Claude Code from the Pro plan](https://arstechnica.com/ai/2026/04/anthropic-tested-removing-claude-code-from-the-pro-plan/)
