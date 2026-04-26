@@ -13,6 +13,8 @@ In April 2026, cloud coding assistants suddenly look a lot less predictable. Ant
 
 In this article, we will set up these models locally on a [machine with NVIDIA RTX Pro 6000 GPUs](https://www.ovidiudan.com/2025/12/27/running-claude-code-with-minimax-m2-1.html), serve them with a local inference stack, and then connect them to the [Pi Coding agent](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent) so they can be used for real local coding workflows instead of relying on a cloud-hosted model.
 
+<img width="1837" height="909" alt="image" src="https://github.com/user-attachments/assets/26c73d7e-9319-411c-aa60-e3c92b829f0e" />
+
 ## Open models are catching up
 
 These three models are close enough in practical coding quality to compare directly, but they make different tradeoffs. Qwen3.6-27B and Gemma 4 31B are multimodal dense models, while MiniMax M2.7 is a text-only MoE model with much higher total parameter count but far lower active compute per token. More importantly, the gap between these open models and Claude Sonnet 4.6 is now small enough that local coding is starting to look practical again.
