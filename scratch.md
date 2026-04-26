@@ -1523,3 +1523,24 @@ vllm serve \
     --host 0.0.0.0 \
     --port 8000
 ```
+
+---
+
+4/25/2026
+
+hf download Qwen/Qwen3.6-27B --local-dir /models/original/Qwen-Qwen3.6-27B
+
+hf download google/gemma-4-31B-it --local-dir /models/original/google-gemma-4-31B-it
+
+vllm serve \
+    /models/original/Qwen-Qwen3.6-27B \
+    --served-model-name Qwen3.6-27B \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser qwen3_coder \
+    --reasoning-parser qwen3 \
+    --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":3}'
+    --host 0.0.0.0 \
+    --port 8000
