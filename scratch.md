@@ -1544,3 +1544,20 @@ vllm serve \
     --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
     --host 0.0.0.0 \
     --port 8000
+
+---
+
+hf download lukealonso/MiniMax-M2.7-NVFP4 --local-dir /models/nvfp4/lukealonso-MiniMax-M2.7-NVFP4
+https://huggingface.co/lukealonso/MiniMax-M2.7-NVFP4/discussions/4
+
+---
+
+hf download cyankiwi/MiniMax-M2.7-AWQ-4bit --local-dir /models/awq/cyankiwi-MiniMax-M2.7-AWQ-4bit
+
+---
+
+hf download QuantTrio/MiniMax-M2.7-AWQ --local-dir /models/awq/QuantTrio-MiniMax-M2.7-AWQ
+
+---
+
+hf download NinjaBoffin/MiniMax-M2.7-NVFP4 --local-dir /models/nvfp4/NinjaBoffin-MiniMax-M2.7-NVFP4
