@@ -13,37 +13,82 @@ In April 2026, cloud coding assistants suddenly look a lot less predictable. Ant
 
 In this article, we will set up these models locally on a [machine with NVIDIA RTX Pro 6000 GPUs](https://www.ovidiudan.com/2025/12/27/running-claude-code-with-minimax-m2-1.html), serve them with a local inference stack, and then connect them to the [Pi Coding agent](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent) so they can be used for real local coding workflows instead of relying on a cloud-hosted model.
 
-## Recent models
+## Open models are catching up
 
-These three models are close enough in practical coding quality to compare directly, but they make different tradeoffs. Qwen3.6-27B is the leanest dense model here and stretches furthest on context, Gemma 4 31B is the larger dense multimodal option, and MiniMax M2.7 is the MoE outlier with much higher total parameter count but far lower active compute per token. More importantly, the gap between these open models and Claude Sonnet 4.6 is now small enough that local coding is starting to look practical again.
+These three models are close enough in practical coding quality to compare directly, but they make different tradeoffs. Qwen3.6-27B and Gemma 4 31B are multimodal dense models, while MiniMax M2.7 is a text-only MoE model with much higher total parameter count but far lower active compute per token. More importantly, the gap between these open models and Claude Sonnet 4.6 is now small enough that local coding is starting to look practical again.
 
-| Model | Architecture | Total Parameters | Active Parameters | Context Length |
-| :--- | :--- | :--- | :--- | :--- |
-| **Qwen3.6-27B** | Dense (Hybrid Attention) | ~27B | ~27B | 256K-262K (extendable to ~1M) |
-| **Gemma 4 31B** | Dense | ~31.3B | ~31.3B | 256K |
-| **MiniMax M2.7** | Mixture of Experts (MoE) | ~230B | ~10B | ~200K |
+| Model | Modality | Architecture | Total Parameters | Active Parameters | Context Length |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Qwen3.6-27B** | Multimodal (text, image, video) | Dense (Hybrid Attention) | ~27B | ~27B | 256K-262K (extendable to ~1M) |
+| **Gemma 4 31B** | Multimodal (text, image) | Dense | ~31.3B | ~31.3B | 256K |
+| **MiniMax M2.7** | Text-only | Mixture of Experts (MoE) | ~230B | ~10B | ~200K |
+
+The chart below makes the point quickly: MiniMax M2.7 is already brushing up against Claude Sonnet 4.6 on coding benchmarks, while Gemma 4 31B and Qwen3.6-27B are close enough to take seriously. A year ago, open weights models this small being in the same conversation as Sonnet for coding would have been unusual. With the right guidance, tools, and agent harness, they can now be very powerful local coding models.
 
 <img width="1000" height="557" alt="Artificial Analysis Coding Index bar chart. GPT-5.5 C leads at 59, Claude Sonnet and Opus variants score in the 43 to 53 range, MiniMax-M2.7 scores 42, and the open models highlighted here include Gemma 4 31B at 39 and 34 and Qwen3.6 27B at 37 and 27." src="https://github.com/user-attachments/assets/3ee1e3f4-18b4-44b4-ada9-efe7abe1c134" />
 
-The chart makes the point quickly: MiniMax M2.7 is already brushing up against Claude Sonnet 4.6 on coding benchmarks, while Gemma 4 31B and Qwen3.6-27B are close enough to take seriously. A year ago, open weights models this small being in the same conversation as Sonnet for coding would have been unusual. With the right guidance, tools, and agent harness, they can now be very powerful local coding models.
-
-
-## Hardware assumptions
-
-
-
-
-## Why this update
-
-
-
 ## Shared setup
+
+We'll run the models on [vllm nightly](https://docs.vllm.ai/en/latest/getting_started/installation/gpu/#install-the-latest-code). For a more detailed basic setup guide, please see my article [here](https://www.ovidiudan.com/2025/12/27/running-claude-code-with-minimax-m2-1.html). You can run the same models on Apple Silicon as well, [with mlx](https://huggingface.co/collections/mlx-community/gemma-4).
+
+```bash
+uv pip install -U vllm \
+    --torch-backend=auto \
+    --extra-index-url https://wheels.vllm.ai/nightly # add variant subdirectory here if needed
+```
 
 ## Running Qwen3.6-27B locally
 
+```bash
+hf download Qwen/Qwen3.6-27B --local-dir /models/original/Qwen-Qwen3.6-27B
+
+vllm serve \
+    /models/original/Qwen-Qwen3.6-27B \
+    --served-model-name Qwen3.6-27B \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser qwen3_coder \
+    --reasoning-parser qwen3 \
+    --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+The ``speculative-config`` line enables [Multi-Token Prediction](https://docs.vllm.ai/en/latest/features/speculative_decoding/mtp/) [speculative decoding](https://www.ovidiudan.com/2025/10/26/speculative-decoding.html) which speeds up the model when the tokens are "easy".
+
 ## Running Gemma 4 31B locally
 
+```bash
+hf download google/gemma-4-31B-it --local-dir /models/original/google-gemma-4-31B-it
+```
+
+Gemma 4 supports structured thinking, where the model can reason step-by-step before producing a final answer. The reasoning process is exposed via the reasoning field in the API response. To enable thinking, first download [this](https://github.com/vllm-project/vllm/blob/main/examples/tool_chat_template_gemma4.jinja) file and store it with the model so you can load it with vllm.
+
+Then reference it when you load the model:
+
+```bash
+vllm serve \
+    /models/original/google-gemma-4-31B-it \
+    --served-model-name gemma-4-31B \
+    --max-model-len 262144 \
+    --gpu-memory-utilization 0.95 \
+    --tensor-parallel-size 2 \
+    --enable-auto-tool-choice \
+    --tool-call-parser gemma4 \
+    --reasoning-parser gemma4 \
+    --chat-template /models/original/google-gemma-4-31B-it/tool_chat_template_gemma4.jinja \
+    --default-chat-template-kwargs '{"enable_thinking": true}' \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
 ## Running MiniMax M2.7 locally
+
+```bash
+hf download lukealonso/MiniMax-M2.7-NVFP4 --local-dir /models/lukealonso/MiniMax-M2.7-NVFP4
+```
 
 ## Connecting the Pi coding agent
 
@@ -65,6 +110,16 @@ nano ~/.pi/agent/models.json
             "id": "Qwen3.6-27B",
             "input": ["text", "image"],
             "contextWindow": 262144
+        },
+        {
+            "id": "gemma-4-31B",
+            "input": ["text", "image"],
+            "contextWindow": 262144
+        },
+        {
+            "id": "MiniMax-M2.7-NVFP4",
+            "input": ["text"],
+            "contextWindow": 204800
         }
       ]
     }
