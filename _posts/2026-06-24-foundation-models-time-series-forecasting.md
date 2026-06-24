@@ -31,7 +31,7 @@ I tested this on real transaction data. The full write-up and code are in my [ti
 
 I used the Brazilian E-Commerce Public Dataset by Olist (about 100k anonymized orders from 2016 to 2018) and treated every purchase as one transaction. After aggregating to a clean hourly series of roughly 14,000 hours, the data has the structure you would hope for: a strong daily cycle (quiet overnight, busy midday), a clear weekly rhythm, and steady growth across 2017 and 2018.
 
-<img width="1000" alt="Hourly transaction volume over time, with holiday markers in red and commercial-event markers in green. The tallest spike is Black Friday 2017." src="output/overview_hourly.png" />
+<img width="1000" alt="Hourly transaction volume over time, with holiday markers in red and commercial-event markers in green. The tallest spike is Black Friday 2017." src="https://github.com/user-attachments/assets/fc33a393-f4a5-4018-abf8-fed2a7ef60bd" />
 
 I then ran TimesFM 2.5 (200M) zero-shot, with no fine-tuning, holding out the last 7 days (168 hours) and comparing two versions of the model. The baseline sees only the past transaction counts. The covariate version also sees Brazilian holidays and commercial events.
 
@@ -41,7 +41,7 @@ To model the calendar properly, I split events into two opposite forces rather t
 
 On a normal week with no events, TimesFM reproduced the routine structure zero-shot and landed within about 3 transactions per hour of reality. Adding covariates made it worse, by roughly 10% on MAE. With no event to explain, the covariates had nothing to contribute except noise. The lesson is that covariates are not free, and you should only use them when the forecast window actually contains the events you are modeling.
 
-<img width="1000" alt="Ordinary-week forecast vs actual: baseline on top, covariate model on the bottom, with 80% prediction-interval bands." src="output/forecast.png" />
+<img width="1000" alt="Ordinary-week forecast vs actual: baseline on top, covariate model on the bottom, with 80% prediction-interval bands." src="https://github.com/user-attachments/assets/45cd4bdf-e631-4ffd-9206-d32438fb354d" />
 
 ### Black Friday: the model can't invent a spike it has never seen
 
@@ -49,7 +49,7 @@ Black Friday 2017 was the first one in the dataset, so the model had no prior oc
 
 The prediction interval coverage is just as revealing. It collapsed from about 80% on calm weeks to about 48% during Black Friday. The model was overconfident exactly when volatility was highest, which is the kind of signal you would want feeding an incident-detection system.
 
-<img width="1000" alt="Black Friday week forecast vs actual. Both the baseline and covariate models miss the large spike highlighted by the shaded event band." src="output/forecast_blackfriday.png" />
+<img width="1000" alt="Black Friday week forecast vs actual. Both the baseline and covariate models miss the large spike highlighted by the shaded event band." src="https://github.com/user-attachments/assets/a4da12cc-55d7-4a96-8709-ec102b42c32c" />
 
 ### Mother's Day: the most important lesson
 
@@ -66,7 +66,7 @@ Mother's Day 2018 (flagged day = Sun 2018-05-13 = 207 orders):
 
 Redesigning the covariate into a pre-event run-up window, flagging the days before the holiday instead of the day itself, roughly halved the damage and restored the prediction interval coverage. The takeaway is that covariate alignment matters more than covariate presence. A correctly named but mistimed signal is worse than no signal at all.
 
-<img width="1000" alt="Mother's Day week forecast vs actual after redesigning the covariate into a pre-event run-up window." src="output/forecast_mothersday.png" />
+<img width="1000" alt="Mother's Day week forecast vs actual after redesigning the covariate into a pre-event run-up window." src="https://github.com/user-attachments/assets/16b425e3-1c1b-41f4-a1b3-6714dc007000" />
 
 ## What I learned
 
