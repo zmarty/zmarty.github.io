@@ -7,7 +7,7 @@ tags: [hardware, infrastructure]
 description: "From 100A to 200A service: running dedicated 120V and 240V circuits for a multi-GPU AI rack, with NEMA L6-30R twist-lock receptacles, a Seasonic PRIME PX-2200 PSU, and a 240V PDU."
 ---
 
-I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead of in somebody else's data center. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with.
+I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead of in somebody else's data center. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with, which is more than I need today, and that is the point. Local models keep getting bigger and every GPU generation pulls more than the last one, but wiring is the slowest and most expensive part of the stack to change later. I sized the electrical for where I expect to be in a few years, not for what is sitting in the rack right now.
 
 Here is why I needed it and how the pieces fit together.
 
@@ -19,7 +19,7 @@ I also needed an EV charger around the same time, which is a 40-50A continuous l
 
 ## Going to 200A
 
-I upgraded the house service from 100A to 200A. That meant a new 200A main panel with more breaker slots, and an electrician doing the panel swap, grounding and inspection. The existing service drop from the utility was fine as it was, so nothing had to change on the utility side.
+I upgraded the house service from 100A to 200A. That meant a new 200A main panel with more breaker slots, and an electrician doing the panel swap, grounding and inspection. The drop coming in from the street was reused as is, so the utility never had to pull new wire.
 
 The EV charger is what made this necessary. The AI rack alone would not have justified it. But once the electrician is already there and the panel has empty slots, adding a couple of dedicated circuits costs very little extra.
 
@@ -29,7 +29,7 @@ This is a bigger job than it sounds like. Most of the first day was trenching al
 
 <img width="650" height="914" alt="Two electricians standing on a plank laid across the open trench, working on the new service equipment mounted on the exterior wall" src="https://github.com/user-attachments/assets/4c04e782-a26e-49fd-9a5f-64a3d203176f" />
 
-The new meter main went on the outside wall, with the shield left in place until the utility came to set the meter:
+The new meter main went on the outside wall. The utility came out and did a disconnect and reconnect in the span of 20 minutes. During that window the electrician moved the drop coming in from the street off the old conduit and onto the new one.
 
 <img width="650" height="863" alt="New gray meter main mounted on the exterior wall with conduit running down into the still-open trench, and a cover over the meter socket reading LEAVE THIS SHIELD IN PLACE UNTIL METER IS INSTALLED" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
 
