@@ -9,7 +9,7 @@ description: "From 100A to 200A service: running dedicated 120V and 240V circuit
 
 I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead of in somebody else's data center. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with, which is more than I need today, and that is the point. Local models keep getting bigger and every GPU generation pulls more than the last one, but wiring is the slowest and most expensive part of the stack to change later. I sized the electrical for where I expect to be in a few years, not for what is sitting in the rack right now.
 
-Here is why I needed it and how the pieces fit together.
+<img width="650" height="863" alt="New gray meter main mounted on the exterior wall with conduit running down into the still-open trench, and a cover over the meter socket reading LEAVE THIS SHIELD IN PLACE UNTIL METER IS INSTALLED" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
 
 ## A full panel on 100A service
 
@@ -29,9 +29,7 @@ This is a bigger job than it sounds like. Most of the first day was trenching al
 
 <img width="650" height="914" alt="Two electricians standing on a plank laid across the open trench, working on the new service equipment mounted on the exterior wall" src="https://github.com/user-attachments/assets/4c04e782-a26e-49fd-9a5f-64a3d203176f" />
 
-The new meter main went on the outside wall. The utility came out and did a disconnect and reconnect in the span of 20 minutes. During that window the electrician moved the drop coming in from the street off the old conduit and onto the new one.
-
-<img width="650" height="863" alt="New gray meter main mounted on the exterior wall with conduit running down into the still-open trench, and a cover over the meter socket reading LEAVE THIS SHIELD IN PLACE UNTIL METER IS INSTALLED" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
+The new meter main is the gray box in the photo at the top of this post, shot with the shield still covering the socket. The utility came out and did a disconnect and reconnect in the span of 20 minutes, and during that window the electrician moved the drop coming in from the street off the old conduit and onto the new one. After that the meter went in and the trench got backfilled:
 
 <img width="650" height="863" alt="The finished exterior installation with the meter set and the trench backfilled with fresh soil, air conditioner condenser to the right" src="https://github.com/user-attachments/assets/56ef4d0a-1521-49b8-84e0-153117a7ef0d" />
 
