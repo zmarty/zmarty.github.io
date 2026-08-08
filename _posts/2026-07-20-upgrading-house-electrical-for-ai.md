@@ -11,17 +11,11 @@ I upgraded my house electrical system to support a local AI rack, meaning multip
 
 Here is why I needed it and how the pieces fit together.
 
-## Why a normal outlet runs out
+## A full panel on 100A service
 
-My dual RTX Pro 6000 workstation pulls over 1,200W from the wall under sustained inference load, and that is before transient spikes. A single RTX Pro 6000 is rated at 600W TDP, and GPUs happily spike above their TDP for short periods. Two of them plus a 7950X3D, DDR5, storage and fans puts one workstation at roughly 1,300-1,400W under full load.
+My house had 100A service and the main panel was full. There were no free slots for new breakers at all, so the rack was blocked before I even got to the question of how many watts I needed.
 
-A 120V / 15A circuit gives you 1,800W on paper, but code derates continuous loads to 80%, so the real number is about 1,440W. Two GPUs already push right up against that, and going to four is not a matter of shaving watts somewhere. Four RTX Pro 6000 plus the rest of the machine lands north of 2,600W, which is over 21A continuous at 120V. A four-GPU node needs 240V, full stop. And all of that is before anything else in the rack, which was sharing the same 120V circuit.
-
-## The panel was the actual blocker
-
-My house had 100A service and the main panel was full. There were no free slots for new breakers at all.
-
-I also needed an EV charger around the same time, which is a 40-50A continuous load on its own and usually wants a 240V / 60A circuit. So even if I had found panel space, 100A service was not going to carry an EV charger plus the rack.
+I also needed an EV charger around the same time, which is a 40-50A continuous load on its own and needed a 240V / 60A breaker. So even if I had found panel space, 100A service was not going to carry an EV charger plus the rack.
 
 ## Going to 200A
 
@@ -93,7 +87,11 @@ I use a StarTech 2 ft C20 to C19 cable, 14 AWG, 15A / 250V. Two feet is delibera
 
 ## Why 240V and not just another 120V circuit
 
-The immediate reason is that a PSU in this class will not start on 120V at all. And even if you found a 120V unit rated for 1,600W+, you would be pulling over 13A continuous on a circuit rated for 12A. You could pull a 120V / 20A circuit instead, but at that point you are already running new wire, so you may as well go 240V.
+Start with what one machine actually draws. My dual RTX Pro 6000 workstation pulls over 1,200W from the wall under sustained inference load, and that is before transient spikes. A single RTX Pro 6000 is rated at 600W TDP, and GPUs happily spike above their TDP for short periods. Two of them plus a 7950X3D, DDR5, storage and fans puts one workstation at roughly 1,300-1,400W under full load.
+
+A 120V / 15A circuit gives you 1,800W on paper, but code derates continuous loads to 80%, so the real number is about 1,440W. Two GPUs already push right up against that, and going to four is not a matter of shaving watts somewhere. Four RTX Pro 6000 plus the rest of the machine lands north of 2,600W, which is over 21A continuous at 120V. A four-GPU node needs 240V, full stop. And all of that is before anything else in the rack, which was sharing the same circuit.
+
+A PSU in this class will not start on 120V anyway. Even if you found a 120V unit rated for 1,600W+, you would be pulling over 13A continuous on a circuit rated for 12A. You could pull a 120V / 20A circuit instead, but at that point you are already running new wire, so you may as well go 240V.
 
 Most of this is a North American problem. Europe and most of the rest of the world run 230V to ordinary wall sockets, so a PSU that refuses to start on 120V is a non-issue there and a normal outlet already delivers something like 3,700W. If you are reading this from that side of the Atlantic, you get for free the part that cost me a panel upgrade. You would still want a dedicated circuit once you are running several machines, but you would not be doing it just to reach 240V.
 
