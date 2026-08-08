@@ -7,7 +7,7 @@ tags: [hardware, infrastructure]
 description: "From 100A to 200A service: running dedicated 120V and 240V circuits for a multi-GPU AI rack, with NEMA L6-30R twist-lock receptacles, a Seasonic PRIME PX-2200 PSU, and a 240V PDU."
 ---
 
-I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead of in somebody else's data center. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with, which is more than I need today, and that is the point. Local models keep getting bigger and every GPU generation pulls more than the last one, but wiring is the slowest and most expensive part of the stack to change later. I sized the electrical for where I expect to be in a few years, not for what is sitting in the rack right now.
+I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a standard 120V for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with in the future as local models keep getting bigger and more power hungry.
 
 <img width="650" height="863" alt="New gray meter main mounted on the exterior wall with conduit running down into the still-open trench, and a cover over the meter socket reading LEAVE THIS SHIELD IN PLACE UNTIL METER IS INSTALLED" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
 
@@ -15,15 +15,11 @@ I upgraded my house electrical system to support a local AI rack, meaning multip
 
 My house had 100A service and the main panel was full. There were no free slots for new breakers at all, so the rack was blocked before I even got to the question of how many watts I needed.
 
-I also needed an EV charger around the same time, which is a 40-50A continuous load on its own and needed a 240V / 60A breaker. So even if I had found panel space, 100A service was not going to carry an EV charger plus the rack.
+I also needed an EV charger, which is a 40-50A continuous load on its own and needed a separate 240V / 60A breaker. So even if I had found panel space, 100A service was not going to carry an EV charger plus the rack.
 
 ## Going to 200A
 
-I upgraded the house service from 100A to 200A. That meant a new 200A main panel with more breaker slots, and an electrician doing the panel swap, grounding and inspection. The drop coming in from the street was reused as is, so the utility never had to pull new wire.
-
-The EV charger is what made this necessary. The AI rack alone would not have justified it. But once the electrician is already there and the panel has empty slots, adding a couple of dedicated circuits costs very little extra.
-
-This is a bigger job than it sounds like. Most of the first day was trenching along the side of the house:
+This is a bigger job than it sounds like and it meant a new external meter box, new 200A main panel with more breaker slots, and an electrician doing the panel swap, grounding and inspection. Most of the first day was trenching along the side of the house:
 
 <img width="650" height="490" alt="Open trench running along the side of the house past the gas meter, with excavated soil and rocks piled on plastic sheeting and two traffic cones in the foreground" src="https://github.com/user-attachments/assets/f6d413a3-2608-4af7-b45b-2d27b09789e2" />
 
@@ -81,7 +77,7 @@ Wall (L6-30R) -> PDU (L6-30P input, C19 outlet) -> C20-to-C19 jumper -> PSU (C20
 
 The part that trips people up is the cable. You need a C20 to C19 jumper: the C20 end goes into the PDU's C19 outlet, and the C19 end goes into the PSU's C20 inlet. It is not the same as the common C13/C14 cable you use for servers and monitors.
 
-I use a StarTech 2 ft C20 to C19 cable, 14 AWG, 15A / 250V. Two feet is deliberately short because the PSU sits right next to the PDU and I did not want loose loops of cable in the rack. If you need slack, the Tripp Lite 6 ft version works fine. Look for 12 or 14 AWG rated at least 15A at 250V.
+I use a [StarTech C20 to C19 cable, 14 AWG, 15A / 250V](https://www.startech.com/en-us/cables/pxtc19201410?srsltid=AfmBOop2OfWFRRgcH90tFlVP_nu6HilRZ93IQTeEqKaXmPXqf5Z7xRjb). Two feet is deliberately short because the PSU sits right next to the PDU and I did not want loose loops of cable in the rack. If you need slack, the Tripp Lite 6 ft version works fine. Look for 12 or 14 AWG rated at least 15A at 250V.
 
 ## Why 240V and not just another 120V circuit
 
