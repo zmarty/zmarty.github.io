@@ -68,9 +68,18 @@ The twist-lock connection is also nice because it will not slowly work its way l
 
 <!-- TODO: picture of the PDU mounted in the rack -->
 
+Tripp Lite 5800K Basic PDU, 4 Outlets (C19), 24A, 208/240V, 12-Foot / 3.66 Meter L6-30P Input Cable, Dual 20A Circuit Breakers for 2 C19 Outlets, 1U Rack-Mount Power, 2-Year Warranty (PDUH30HV19)
+
+<img width="1098" height="197" alt="Tripp Lite 5800K Basic PDU, 4 Outlets (C19), 24A, 208/240V, 12-Foot / 3.66 Meter L6-30P Input Cable, Dual 20A Circuit Breakers for 2 C19 Outlets, 1U Rack-Mount Power, 2-Year Warranty (PDUH30HV19)" src="https://github.com/user-attachments/assets/c20585af-f202-4035-a63f-1a2748a41096" />
+
+https://www.amazon.com/Tripp-Lite-Outlets-Rack-Mount-PDUH30HV19/dp/B00ZPOIPO4/
+
 ## The PSU only runs on 240V
 
 The [Seasonic PRIME PX-2200](https://seasonic.com/atx3-prime-px-2200/) is a 2,200W, 80 PLUS Platinum, fully modular unit. Most consumer PSUs accept 100-240V. This one does not. It only operates on 200-240V AC input and will not turn on at 120V at all.
+
+<img width="300" height="222" alt="Seasonic PRIME PX-2200" src="https://github.com/user-attachments/assets/1f2b3b64-c924-4c78-ba73-3d7a8acc217d" />
+
 
 Because of the wattage it also uses a C20 inlet (rated for 16A) instead of the C14 you see on lower-wattage PSUs. So the chain from the wall looks like this:
 
