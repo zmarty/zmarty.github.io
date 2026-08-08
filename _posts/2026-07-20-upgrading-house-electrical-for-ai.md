@@ -61,26 +61,25 @@ At 240V and 30A you get 7,200W on paper, or 5,760W continuous after the 80% dera
 
 <img width="1000" height="1328" alt="Hand holding the Leviton 2620 twist-lock receptacle before installation, stamped 30A-250V and L6-30 around the black face, with a blue locking collar in the center" src="https://github.com/user-attachments/assets/1762b1c4-a49e-415a-8f5b-1b05ab8f4e87" />
 
-## The PDU
+## Picking a PDU
 
-Almost all 240V rack PDUs use an L6-30P twist-lock plug, so once you have the L6-30R on the wall the PDU choice is easy. I went with a Tripp Lite PDUMH30HV: 30A, 208/240V, L6-30P input, and a mix of C13 and C19 outlets. It is metered, so there is a digital current display on the front. It is not networked or managed. I mostly wanted the readout so I can see total draw at a glance.
+Almost all 240V rack PDUs take an L6-30P twist-lock plug, so once the L6-30R is on the wall the choice gets easy. Two things need to line up: the input plug has to be L6-30P to match the receptacle, and the outlets have to include C19 if you are feeding a high-wattage PSU, because that is what the other end of the cable needs.
 
-The twist-lock connection is also nice because it will not slowly work its way loose the way a straight-blade plug can.
+As an example of something that fits, the [Tripp Lite 5800K](https://www.amazon.com/Tripp-Lite-Outlets-Rack-Mount-PDUH30HV19/dp/B00ZPOIPO4/) (PDUH30HV19) is a 1U basic PDU with a 12 ft L6-30P input cable and four C19 outlets, rated 208/240V at 24A, with two 20A breakers covering two outlets each.
+
+<img width="1000" height="179" alt="Tripp Lite PDUH30HV19 basic PDU, a 1U black rack-mount strip with four C19 outlets and two circuit breaker buttons" src="https://github.com/user-attachments/assets/c20585af-f202-4035-a63f-1a2748a41096" />
+
+That 24A works out to 5,760W at 240V, which is the same as the continuous rating of the circuit feeding it, so the PDU is not the thing that limits you. Note that all four outlets are C19, so anything low-power in the rack needs a C20 to C14 cable rather than an ordinary C13/C14 cord.
+
+The twist-lock connection on the input is also nice because it will not slowly work its way loose the way a straight-blade plug can.
 
 <!-- TODO: picture of the PDU mounted in the rack -->
-
-Tripp Lite 5800K Basic PDU, 4 Outlets (C19), 24A, 208/240V, 12-Foot / 3.66 Meter L6-30P Input Cable, Dual 20A Circuit Breakers for 2 C19 Outlets, 1U Rack-Mount Power, 2-Year Warranty (PDUH30HV19)
-
-<img width="1098" height="197" alt="Tripp Lite 5800K Basic PDU, 4 Outlets (C19), 24A, 208/240V, 12-Foot / 3.66 Meter L6-30P Input Cable, Dual 20A Circuit Breakers for 2 C19 Outlets, 1U Rack-Mount Power, 2-Year Warranty (PDUH30HV19)" src="https://github.com/user-attachments/assets/c20585af-f202-4035-a63f-1a2748a41096" />
-
-https://www.amazon.com/Tripp-Lite-Outlets-Rack-Mount-PDUH30HV19/dp/B00ZPOIPO4/
 
 ## The PSU only runs on 240V
 
 The [Seasonic PRIME PX-2200](https://seasonic.com/atx3-prime-px-2200/) is a 2,200W, 80 PLUS Platinum, fully modular unit. Most consumer PSUs accept 100-240V. This one does not. It only operates on 200-240V AC input and will not turn on at 120V at all.
 
-<img width="300" height="222" alt="Seasonic PRIME PX-2200" src="https://github.com/user-attachments/assets/1f2b3b64-c924-4c78-ba73-3d7a8acc217d" />
-
+<img width="300" height="222" alt="Seasonic PRIME PX-2200 power supply, a black fully modular ATX unit" src="https://github.com/user-attachments/assets/1f2b3b64-c924-4c78-ba73-3d7a8acc217d" />
 
 Because of the wattage it also uses a C20 inlet (rated for 16A) instead of the C14 you see on lower-wattage PSUs. So the chain from the wall looks like this:
 
@@ -106,4 +105,4 @@ If you already have 200A service and a free slot or two in the panel, you skip t
 
 ## Where it ended up
 
-The rack has its own 120V and 240V feeds, each on a dedicated breaker. The dual RTX Pro 6000 workstation runs off the 240V PDU through the PX-2200. The second machine and the networking gear are on the 120V circuit. The PDU meter shows I am well under the continuous limit even at full inference load, with enough left over to add a second 240V workstation later.
+The rack has its own 120V and 240V feeds, each on a dedicated breaker. The dual RTX Pro 6000 workstation runs on the 240V side through the PX-2200. The second machine and the networking gear are on the 120V circuit. Even at full inference load the 240V circuit sits nowhere near its continuous limit, so there is room to add a second workstation later.
