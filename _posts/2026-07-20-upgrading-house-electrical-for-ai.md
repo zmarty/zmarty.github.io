@@ -11,6 +11,21 @@ I upgraded my house electrical system to support a multi-GPU AI rack. The house 
 
 Here is why I needed it and how the pieces fit together.
 
+<img width="574" height="807" alt="Trench, electrician installing new box outside" src="https://github.com/user-attachments/assets/4c04e782-a26e-49fd-9a5f-64a3d203176f" />
+
+<img width="1360" height="1806" alt="New box outside" src="https://github.com/user-attachments/assets/56ef4d0a-1521-49b8-84e0-153117a7ef0d" />
+
+<img width="1360" height="1806" alt="New Siemens panel" src="https://github.com/user-attachments/assets/f99b8dfa-5162-47eb-a472-fd36851caa0b" />
+
+<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/3feffbfb-6854-420c-b0f6-bc1ea2e4e15a" />
+
+<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
+
+<img width="2398" height="1806" alt="image" src="https://github.com/user-attachments/assets/f6d413a3-2608-4af7-b45b-2d27b09789e2" />
+
+<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/1762b1c4-a49e-415a-8f5b-1b05ab8f4e87" />
+
+
 ## Why a normal outlet runs out
 
 My dual RTX Pro 6000 workstation pulls over 1,200W from the wall under sustained inference load, and that is before transient spikes. A single RTX Pro 6000 is rated at 600W TDP, and GPUs happily spike above their TDP for short periods. Two of them plus a 7950X3D, DDR5, storage and fans puts one workstation at roughly 1,300-1,400W under full load.
