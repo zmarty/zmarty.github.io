@@ -11,21 +11,6 @@ I upgraded my house electrical system to support a multi-GPU AI rack. The house 
 
 Here is why I needed it and how the pieces fit together.
 
-<img width="574" height="807" alt="Trench, electrician installing new box outside" src="https://github.com/user-attachments/assets/4c04e782-a26e-49fd-9a5f-64a3d203176f" />
-
-<img width="1360" height="1806" alt="New box outside" src="https://github.com/user-attachments/assets/56ef4d0a-1521-49b8-84e0-153117a7ef0d" />
-
-<img width="1360" height="1806" alt="New Siemens panel" src="https://github.com/user-attachments/assets/f99b8dfa-5162-47eb-a472-fd36851caa0b" />
-
-<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/3feffbfb-6854-420c-b0f6-bc1ea2e4e15a" />
-
-<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
-
-<img width="2398" height="1806" alt="image" src="https://github.com/user-attachments/assets/f6d413a3-2608-4af7-b45b-2d27b09789e2" />
-
-<img width="1360" height="1806" alt="image" src="https://github.com/user-attachments/assets/1762b1c4-a49e-415a-8f5b-1b05ab8f4e87" />
-
-
 ## Why a normal outlet runs out
 
 My dual RTX Pro 6000 workstation pulls over 1,200W from the wall under sustained inference load, and that is before transient spikes. A single RTX Pro 6000 is rated at 600W TDP, and GPUs happily spike above their TDP for short periods. Two of them plus a 7950X3D, DDR5, storage and fans puts one workstation at roughly 1,300-1,400W under full load.
@@ -44,7 +29,23 @@ I upgraded the house service from 100A to 200A. That meant a new 200A main panel
 
 The EV charger is what made this necessary. The AI rack alone would not have justified it. But once the electrician is already there and the panel has empty slots, adding a couple of dedicated circuits costs very little extra.
 
-<!-- TODO: picture of old vs new panel -->
+This is a bigger job than it sounds like. Most of the first day was trenching along the side of the house:
+
+<img width="1000" height="753" alt="Open trench running along the side of the house past the gas meter, with excavated soil and rocks piled on plastic sheeting and two traffic cones in the foreground" src="https://github.com/user-attachments/assets/f6d413a3-2608-4af7-b45b-2d27b09789e2" />
+
+<img width="1000" height="1406" alt="Two electricians standing on a plank laid across the open trench, working on the new service equipment mounted on the exterior wall" src="https://github.com/user-attachments/assets/4c04e782-a26e-49fd-9a5f-64a3d203176f" />
+
+The new meter main went on the outside wall, with the shield left in place until the utility came to set the meter:
+
+<img width="1000" height="1328" alt="New gray meter main mounted on the exterior wall with conduit running down into the still-open trench, and a cover over the meter socket reading LEAVE THIS SHIELD IN PLACE UNTIL METER IS INSTALLED" src="https://github.com/user-attachments/assets/44d4f125-6169-4765-8363-a949e90f9c3b" />
+
+<img width="1000" height="1328" alt="The finished exterior installation with the meter set and the trench backfilled with fresh soil, air conditioner condenser to the right" src="https://github.com/user-attachments/assets/56ef4d0a-1521-49b8-84e0-153117a7ef0d" />
+
+Inside, the new Siemens panel. The 200A main breaker is at the top, and the important part for me was the row of empty slots below the populated ones:
+
+<img width="1000" height="1328" alt="Interior of the new Siemens load center with the cover off, showing the 200A main breaker at the top, two columns of branch breakers, and neutral bars with circuit conductors landed on both sides" src="https://github.com/user-attachments/assets/f99b8dfa-5162-47eb-a472-fd36851caa0b" />
+
+<img width="1000" height="1328" alt="The same Siemens panel with the dead front cover installed, mounted in an open stud bay with fiberglass insulation and labeled conduits entering from above" src="https://github.com/user-attachments/assets/3feffbfb-6854-420c-b0f6-bc1ea2e4e15a" />
 
 ## The two circuits I ran to the rack
 
@@ -58,7 +59,7 @@ This is the one that matters. I had a [Leviton 2620](https://www.amazon.com/dp/B
 
 At 240V and 30A you get 7,200W on paper, or 5,760W continuous after the 80% derate. That covers two dual-GPU workstations with plenty of headroom left for spikes.
 
-<!-- TODO: picture of the L6-30R receptacle on the wall -->
+<img width="1000" height="1328" alt="Hand holding the Leviton 2620 twist-lock receptacle before installation, stamped 30A-250V and L6-30 around the black face, with a blue locking collar in the center" src="https://github.com/user-attachments/assets/1762b1c4-a49e-415a-8f5b-1b05ab8f4e87" />
 
 ## The PDU
 
