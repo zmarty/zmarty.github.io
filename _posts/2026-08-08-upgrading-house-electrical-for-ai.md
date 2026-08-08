@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Upgrading my house electrical system for AI workloads"
-date: 2026-07-20 09:00:00 -0700
+date: 2026-08-08 09:00:00 -0700
 categories: [AI, Hardware]
 tags: [hardware, infrastructure]
 description: "From 100A to 200A service: running dedicated 120V and 240V circuits for a multi-GPU AI rack, with NEMA L6-30R twist-lock receptacles, a Seasonic PRIME PX-2200 PSU, and a 240V PDU."
