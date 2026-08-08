@@ -7,7 +7,7 @@ tags: [hardware, infrastructure]
 description: "From 100A to 200A service: running dedicated 120V and 240V circuits for a multi-GPU AI rack, with NEMA L6-30R twist-lock receptacles, a Seasonic PRIME PX-2200 PSU, and a 240V PDU."
 ---
 
-I upgraded my house electrical system to support a multi-GPU AI rack. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with.
+I upgraded my house electrical system to support a local AI rack, meaning multiple multi-GPU machines running large models on my own hardware instead of in somebody else's data center. The house went from 100A to 200A service, and I ran two dedicated circuits to the rack: a 120V / 20A for networking gear, and a 240V / 30A on a NEMA L6-30R twist-lock for the GPU workstations. That 30A outlet gives me 5,760W of continuous power to work with.
 
 Here is why I needed it and how the pieces fit together.
 
@@ -55,7 +55,7 @@ A NEMA 5-20R receptacle on its own breaker, for networking gear, smaller machine
 
 ### 240V / 30A
 
-This is the one that matters. I had a [Leviton 2620](https://www.amazon.com/dp/B00002NAT9) installed, a 30A 250V flush-mount locking receptacle. It is a NEMA L6-30R, which is what nearly every 240V rack PDU expects.
+This is the one that matters. I had a [Leviton 2620](https://www.amazon.com/dp/B00002NAT9) installed, a 30A 250V flush-mount locking receptacle. It is a NEMA L6-30R, which is what nearly every 240V rack power distribution unit (PDU) expects.
 
 At 240V and 30A you get 7,200W on paper, or 5,760W continuous after the 80% derate. That covers two dual-GPU workstations with plenty of headroom left for spikes.
 
@@ -94,6 +94,8 @@ I use a StarTech 2 ft C20 to C19 cable, 14 AWG, 15A / 250V. Two feet is delibera
 ## Why 240V and not just another 120V circuit
 
 The immediate reason is that a PSU in this class will not start on 120V at all. And even if you found a 120V unit rated for 1,600W+, you would be pulling over 13A continuous on a circuit rated for 12A. You could pull a 120V / 20A circuit instead, but at that point you are already running new wire, so you may as well go 240V.
+
+Most of this is a North American problem. Europe and most of the rest of the world run 230V to ordinary wall sockets, so a PSU that refuses to start on 120V is a non-issue there and a normal outlet already delivers something like 3,700W. If you are reading this from that side of the Atlantic, you get for free the part that cost me a panel upgrade. You would still want a dedicated circuit once you are running several machines, but you would not be doing it just to reach 240V.
 
 The better reason is headroom. One workstation at 1,400W draws 5.8A at 240V, on a circuit good for 24A continuous. That is not headroom for one machine, it is room for several. A single L6-30 run carries multiple nodes plus whatever else ends up in the rack, which is the whole point: I can keep adding machines without calling an electrician again. On 120V every new node is another dedicated circuit and eventually another panel slot, and panel slots are what I ran out of in the first place.
 
