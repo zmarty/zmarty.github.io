@@ -41,16 +41,7 @@ After that, one article at a time, a subagent:
 4. Writes the article as Markdown with images placed between paragraphs
 5. Saves the coordinates
 
-I settled on one article per agent. I measured the cost per turn and let that decide for me. An agent's cost doesn't track the amount of work it does, because every image it has looked at stays in its prompt and gets billed again on every later turn. On one issue I ran twelve long agents of between 56 and 337 turns each:
-
-| agent length | cost per turn |
-|---|---|
-| under 100 turns | $0.054 |
-| over 200 turns | $0.189 (3.5x) |
-
-Same model and same work, and the only variable is how much history each turn is dragging along. Splitting those 43 articles into short single-article agents works out at roughly a quarter of the cost. Put another way, a screenshot read at turn 20 of a 250-turn agent gets paid for about 230 more times.
-
-## The limit was the quota, not the money
+## The quota was the real limit
 
 I wasn't paying API rates for any of this. I started on the $20 Pro plan, found it far too limited, and moved to the $100/month Max 5x plan, with the Anthropic models running through the cloud API. That plan gives you a quota on a rolling five-hour window, and how much you actually get in a given window varies, so the orchestrator and its subagents would run until they hit the ceiling and then everything still in progress would die. Two design decisions came directly out of that.
 
