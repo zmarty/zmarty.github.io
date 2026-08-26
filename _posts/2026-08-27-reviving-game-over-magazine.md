@@ -13,11 +13,11 @@ I liberated a 30-year-old video games magazine I used to buy as a kid, using the
 
 Here's how the home page listing the issues looks like:
 
-<img width="500" height="428" alt="image" src="https://github.com/user-attachments/assets/1d5ca9ff-88f1-433a-9a7c-4b843472f0f1" />
+<a href="https://www.gameover.ro/" target="_blank"><img width="500" height="428" alt="image" src="https://github.com/user-attachments/assets/1d5ca9ff-88f1-433a-9a7c-4b843472f0f1" /></a>
 
 And here is how the reader looks like when the users read articles. Note the cropped
 
-<img width="500" height="462" alt="image" src="https://github.com/user-attachments/assets/23a89c62-0f80-4e5c-ba45-c4d5556b3b10" />
+<a href="https://www.gameover.ro/go-16/warzone-2100/" target="_blank"><img width="500" height="462" alt="image" src="https://github.com/user-attachments/assets/23a89c62-0f80-4e5c-ba45-c4d5556b3b10" /></a>
 
 ## Why plain OCR fails on this
 
