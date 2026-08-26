@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Reviving a 30-year-old video game magazine with LLMs"
-date: 2026-08-23 09:00:00 -0700
+date: 2026-08-27 09:00:00 -0700
 categories: [AI, Development]
 tags: [llm, claude, opus, document-ai, digital-preservation]
 description: "I converted all 16 issues of Game Over, Romania's first PC gaming magazine, from raw scanned PDFs into a searchable website. Plain OCR cannot do this because of the layout. I tested six models and Opus 5 was the only one that could."
 ---
 
-I saved a 30-year-old video games magazine I used to buy as a kid using the best technology known to man. *Game Over* was the first Romanian magazine about PC games, published from 1996 to 1999, shortly after the fall of Communism. All 16 issues survived only as raw scanned PDFs, and until recently it would have been impossible to extract the articles, because of the magazine layout and because articles can span multiple pages. OCR would not have worked here. I tested Fable 5, Opus 5, Sonnet 5, MiniMax M3, DeepSeek V4 Pro and Kimi K3 on the work. **Opus 5 was the winner**, and it wasn't close.
+I liberated a 30-year-old video games magazine I used to buy as a kid using the best technology known to man. *Game Over* was the first Romanian magazine about PC games, published from 1996 to 1999, shortly after the fall of Communism. All 16 issues survived only as raw scanned PDFs, and until recently it would have been impossible to automaticallyu extract the articles. OCR would not have worked here. People assume the hard part of an old magazine is the words. It wasn't. The hard parts were the two things nobody thinks about: reading the layout and figuring out that three unrelated game reviews share one page, and cropping the screenshots out of the scans. I tested Opus 5, Sonnet 5, MiniMax M3, DeepSeek V4 Pro and Kimi K3 on the work and Opus 5 was on top.
 
 The result is live at [gameover.ro](https://www.gameover.ro) and it spans **659 articles, 569,006 Romanian words, and 3,991 screenshots** cut out of the page scans. It took well over a billion tokens of vision work. In this post I'll cover why the layout breaks OCR, how I structured the agents, and what I learned from it.
 
