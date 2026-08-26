@@ -11,9 +11,13 @@ I liberated a 30-year-old video games magazine I used to buy as a kid using the 
 
 The result is live at [gameover.ro](https://www.gameover.ro) and it spans **659 articles, 569,006 Romanian words, and 3,991 screenshots** cut out of the page scans. It took well over a billion tokens of vision work. In this post I'll cover why the layout breaks OCR, how I structured the agents, and what I learned from it.
 
-<img width="932" height="797" alt="image" src="https://github.com/user-attachments/assets/1d5ca9ff-88f1-433a-9a7c-4b843472f0f1" />
+Here's how the home page listing the issues looks like:
 
-<img width="932" height="797" alt="image" src="https://github.com/user-attachments/assets/a735adef-fd27-470b-96d8-9705cccf8d40" />
+<img width="500" height="428" alt="image" src="https://github.com/user-attachments/assets/1d5ca9ff-88f1-433a-9a7c-4b843472f0f1" />
+
+And here is how the reader looks like when the users read articles. Note the cropped
+
+<img width="500" height="428" alt="image" src="https://github.com/user-attachments/assets/a735adef-fd27-470b-96d8-9705cccf8d40" />
 
 ## Why plain OCR fails on this
 
