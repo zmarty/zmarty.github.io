@@ -7,7 +7,7 @@ tags: [llm, claude, opus, document-ai, digital-preservation]
 description: "I converted all 16 issues of Game Over, Romania's first PC gaming magazine, from raw scanned PDFs into a searchable website. Plain OCR cannot do this because of the layout. I tested six models and Opus 5 was the only one that could."
 ---
 
-I liberated a 30-year-old video games magazine I used to buy as a kid, using the best technology known to man. The 16 issues survived only as raw scanned PDFs, so I used Opus 5 with an orchestrator agent and hundreds of vision subagents to parse the complex layout where multiple articles share a page and reviews span multiple pages, and to segment each page and crop out the screenshots.
+I liberated a 30-year-old video games magazine I used to buy as a kid, using the best technology available today. The 16 issues survived only as raw scanned PDFs, so I used Opus 5 with an orchestrator agent and hundreds of vision subagents to parse the complex layout where multiple articles share a page and reviews span multiple pages, and to segment each page and crop out the screenshots.
 
 *Game Over* was the first Romanian magazine about PC games, published from 1996 to 1999, shortly after the fall of Communism. The result is live at [gameover.ro](https://www.gameover.ro) and it spans **659 articles, 569,006 Romanian words, and 3,991 screenshots** cut out of the page scans. It took well over a billion tokens of vision work. In this post I'll cover why the layout breaks OCR, how I structured the agents, and what I learned from it.
 
