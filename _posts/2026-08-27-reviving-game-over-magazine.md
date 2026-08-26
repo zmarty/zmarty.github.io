@@ -72,7 +72,7 @@ There's a related rule I had to learn, which is to never kill an agent that's st
 
 The day-to-day version of this was less tidy. When a window ran out I'd wait it out and then use Claude's remote control to restart the run from my phone, driving the session on my Mac Mini, so a good part of this archive was resumed from the couch.
 
-## What it cost
+## Final tally
 
 The token numbers are in the session logs, so I can be exact about those. Over four days at the end of July, on one machine, across the main sessions and 17 subagent transcripts:
 
@@ -88,6 +88,12 @@ That's just under a billion tokens in four days, and the shape of it is the inte
 
 At Claude Opus 5 list prices those four days would have come to about $2,021, and that window covered finishing one issue, most of another, all of a third, and most of the website build. What I actually paid that month was $100, and across the whole project it was roughly $200 of subscription for 16 issues, about $12.50 an issue.
 
+## The domain cost more than the AI
+
+`gameover.ro` was sitting with a squatter, and the negotiation took several weeks. They opened above $4,000 and I got it down to $650, which came to $672.75 on the invoice once the 3.5% card fee went on, plus RoTLD registry fees of 12 EUR to transfer it and 108 EUR to renew it for nine years.
+
+So the domain cost more than three times the AI processing, which says something about which parts of this were actually scarce.
+
 ## Preserving the mistakes too
 
 The transcription follows the page even when the page is wrong. *Game Over* was loosely proof-read, so the archive keeps its typos and its factual errors, and one caption reads "Beyond The Call Od Duty" because that's what was printed. One 1999 review has eight typos in a single article and all eight are still there. Gaps get marked rather than filled in, so where a passage genuinely can't be read it's marked unreadable instead of being reconstructed into something plausible. The archive also keeps a defect register, about 24,500 words of it, listing each irrecoverable scan defect, printed error and uncertain reading.
@@ -98,22 +104,6 @@ The first is the conjugate leaf. Some issues were scanned sheet by sheet and the
 
 The second is that *Game Over* had a website between 1999 and 2001 which republished a lot of the same articles as plain ASCII, so I pulled it out of the Wayback Machine and diffed it against the transcriptions. It's a detector rather than an authority, because it's a different edition whose editor silently fixed typos, so a disagreement only means go and look at the scan. It caught the best mistake of the whole project: a 1999 article titled "Hitman" turns out not to be the Eidos game at all, but a Romanian indie project that happened to share the name, written up by an author who went and visited the developers. Since game titles are what link articles together across all 16 issues, that error would have quietly filed a Romanian hobby project into the Eidos franchise.
 
-## The domain cost more than the AI
-
-`gameover.ro` was sitting with a squatter, and the negotiation took several weeks. They opened above $4,000 and I got it down to $650, which came to $672.75 on the invoice once the 3.5% card fee went on, plus RoTLD registry fees of 12 EUR to transfer it and 108 EUR to renew it for nine years.
-
-So the domain cost more than three times the AI processing, which says something about which parts of this were actually scarce.
-
 ## Credit where it's due
 
 The scans came from [Când Apare Revista](https://arhiva.candaparerevista.ro/), a Romanian community that has spent years finding physical copies of 1990s and 2000s Romanian gaming and computing magazines and scanning them page by page, and this project builds on that work. What scanning can't do, because it needs thousands of hours of human attention, is turn the pictures back into text, and that's the part this archive adds.
-
-## What I learned
-
-The model can go beyond OCR and look at a magazine page and understand how it's put together: that this is three articles and not one, that this column continues that one, that this rating box goes with the review above it, and that this headline is a game title even though it's drawn as artwork. That capability replaced years of volunteer work and it's only recently become usable.
-
-Transcribing the words was only half the job. Cutting out 3,991 screenshots and recording the coordinates so they can be cut again took as much effort as the text, and I'd treat those coordinates as the durable artifact from day one. I didn't, and issue 1 is permanently stuck at lower quality because of it.
-
-Running agents against a hard quota is a different problem from running them against a budget. When the thing that can stop you is a rolling window that kills everything in progress, you stop optimising for speed and start optimising for how much finished work survives being cut off, which in practice means short agents doing one small thing each, saving results the moment they exist, and running strictly one at a time. It's slower, and it's the only version that ever finished an issue.
-
-The archive is at [gameover.ro](https://www.gameover.ro). It's in Romanian, because the magazine was.
