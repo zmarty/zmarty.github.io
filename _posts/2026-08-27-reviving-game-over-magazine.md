@@ -17,7 +17,7 @@ Here's how the home page listing the issues looks like:
 
 And here is how the reader looks like when the users read articles. Note the cropped
 
-<img width="945" height="797" alt="image" src="https://github.com/user-attachments/assets/bbaaa6fa-9bb8-421f-b9a3-c6fb28ca2145" />
+<img width="500" height="422" alt="image" src="https://github.com/user-attachments/assets/bbaaa6fa-9bb8-421f-b9a3-c6fb28ca2145" />
 
 ## Why plain OCR fails on this
 
