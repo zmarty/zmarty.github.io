@@ -17,13 +17,13 @@ Here's how the home page listing the issues looks like:
 
 And here is how the reader looks like when the users read articles. Note the cropped
 
-<img width="845" height="781" alt="image" src="https://github.com/user-attachments/assets/23a89c62-0f80-4e5c-ba45-c4d5556b3b10" />
+<img width="500" height="462" alt="image" src="https://github.com/user-attachments/assets/23a89c62-0f80-4e5c-ba45-c4d5556b3b10" />
 
 ## Why plain OCR fails on this
 
 There's no text layer and no separately embedded images, so the prose and the screenshots both have to come out of the same picture. Here is a real page from issue 1, March 1996.
 
-<img width="1235" height="1744" alt="image" src="https://github.com/user-attachments/assets/8c988487-f3b0-4726-a11e-693273740ed8" />
+<img width="500" height="706" alt="image" src="https://github.com/user-attachments/assets/8c988487-f3b0-4726-a11e-693273740ed8" />
 
 Here's what makes it hard:
 
