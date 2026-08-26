@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Reviving a 30-year-old video game magazine with LLMs"
-date: 2026-08-27 09:00:00 -0700
+date: 2026-08-26 12:50:00 -0700
 categories: [AI, Development]
 tags: [llm, claude, opus, document-ai, digital-preservation]
 description: "I converted all 16 issues of Game Over, Romania's first PC gaming magazine, from raw scanned PDFs into a searchable website. Plain OCR cannot do this because of the layout. I tested six models and Opus 5 was the only one that could."
