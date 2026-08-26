@@ -19,7 +19,7 @@ And here is how the reader looks like when the users read articles. Note the cro
 
 <a href="https://www.gameover.ro/go-16/warzone-2100/" target="_blank"><img width="500" height="462" alt="image" src="https://github.com/user-attachments/assets/23a89c62-0f80-4e5c-ba45-c4d5556b3b10" /></a>
 
-## Why plain OCR fails on this
+## Why plain OCR fails
 
 There's no text layer and no separately embedded images, so the prose and the screenshots both have to come out of the same picture. Here is a real page from issue 1, March 1996.
 
