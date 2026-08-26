@@ -27,9 +27,15 @@ There's no text layer and no separately embedded images, so the prose and the sc
 
 That page is a good example of why this is hard. Three unrelated reviews share it with no dividing line, and the reading order doesn't match the layout: Cyberia fills the left column, The Horde starts there and jumps to the top of the right, Battle Bugs sits in the right, so reading column by column blends three games into one. Add text wrapped around screenshots, articles spilling across pages, and Romanian diacritics on dark screenshots, and plain OCR simply gives up. This is document segmentation, a comprehension problem a vision model can handle, and it means cropping 3,991 screenshots too. The durable win was saving their coordinates: Issue 16's 246 crops can be regenerated from the PDF, while Issue 1's 138 hand-tuned boxes are gone forever.
 
+## Opus was the winner
+
+I tested Opus 5, Sonnet 5, MiniMax M3, DeepSeek V4 Pro and Kimi K3 on this task and Opus is the only model that could hold this job together. The task is unusual in that it's a vision problem, a long-horizon agentic problem, and a fidelity problem all at the same time, where a confident guess is worse than admitting failure.
+
+Sonnet 5 looks cheaper per token and was not cheaper in practice. It produced more tokens for the same articles and the quality was lower, so the discount disappeared into the extra output and I ended up paying about the same for worse transcriptions. Kimi K3 behaved much the same way, and the rest were not close.
+
 ## How I structured the agents
 
-A coordinator agent reads every page of an issue itself and writes out a manifest with where each article starts and stops, which pages it covers, its section, its rating, and the offset between the PDF page number and the printed one. This part can't be delegated, because article boundaries only make sense to something that has seen the whole issue, and a subagent given three pages has no way to tell whether page four continues the article or starts a new one.
+A coordinator agent view every scanned page of an issue itself and writes out a manifest with where each article starts and stops, which pages it covers, its section, its rating, and the offset between the PDF page number and the printed one. This part can't be delegated, because article boundaries only make sense to something that has seen the whole issue, and a subagent given three pages has no way to tell whether page four continues the article or starts a new one.
 
 After that, one article at a time, a subagent:
 
@@ -39,7 +45,7 @@ After that, one article at a time, a subagent:
 4. Writes the article as Markdown with images placed between paragraphs
 5. Saves the coordinates
 
-## The quota was the real limit
+## Optimizing costs
 
 I wasn't paying API rates for any of this. I started on the $20 Pro plan, found it far too limited, and moved to the $100/month Max 5x plan, with the Anthropic models running through the cloud API. That plan gives you a quota on a rolling five-hour window, and how much you actually get in a given window varies, so the orchestrator and its subagents would run until they hit the ceiling and then everything still in progress would die. Two design decisions came directly out of that.
 
@@ -81,12 +87,6 @@ The token numbers are in the session logs, so I can be exact about those. Over f
 That's just under a billion tokens in four days, and the shape of it is the interesting part: 2.6 million tokens out against 987 million in, a ratio of about 1 to 371, with 82% of the total being cache reads. That's the re-billing effect showing up in the totals. On one issue I audited closely, images were 83% of all cached input, and 1,179 image reads that would have cost 1.14M tokens to read once ended up billed at around 331M tokens as repeated cache reads, a 240x multiplier.
 
 At Claude Opus 5 list prices those four days would have come to about $2,021, and that window covered finishing one issue, most of another, all of a third, and most of the website build. What I actually paid that month was $100, and across the whole project it was roughly $200 of subscription for 16 issues, about $12.50 an issue.
-
-## Why Opus won
-
-I tested Opus 5, Sonnet 5, MiniMax M3, DeepSeek V4 Pro and Kimi K3 on this task and Opus is the only model that could hold this job together. The task is unusual in that it's a vision problem, a long-horizon agentic problem, and a fidelity problem all at the same time, where a confident guess is worse than admitting failure.
-
-Sonnet 5 looks cheaper per token and was not cheaper in practice. It produced more tokens for the same articles and the quality was lower, so the discount disappeared into the extra output and I ended up paying about the same for worse transcriptions. Kimi K3 behaved much the same way, and the rest were not close.
 
 ## Preserving the mistakes too
 
