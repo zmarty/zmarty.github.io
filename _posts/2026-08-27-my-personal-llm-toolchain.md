@@ -40,6 +40,8 @@ Models come from `~/.pi/agent/models.json`, and a local server is just another p
 
 `enabledModels` in `~/.pi/agent/settings.json` lists what I choose from. Mine holds nine, five served on my own hardware and four from cloud providers, and Ctrl+P cycles them inside a running session. When a local model starts re-reading a file it already read, I change models in place instead of restarting the task somewhere else.
 
+<img width="300" height="667" alt="image" src="https://github.com/user-attachments/assets/7ee471eb-9f17-4844-af5f-899a4f801d0c" />
+
 ## Four extensions give Pi super powers
 
 On its own a local model writes plausible code against APIs from two years ago. Each of these is `pi install npm:<name>`.
@@ -48,8 +50,6 @@ On its own a local model writes plausible code against APIs from two years ago. 
 - `pi-mcp-adapter` puts MCP servers behind one proxy tool, about 200 tokens of tool surface instead of hundreds, and starts them lazily. I use it for Chrome through `chrome-devtools-mcp`, so "load this at 390 px and tell me where the table overflows" ends with the agent driving a real browser and reading its own screenshot. A model that can't see what it rendered is guessing at front-end work.
 - `@xynogen/pix-sudo` adds a `sudo_run` tool that asks me every time, with a 60-second auto-deny if I don't answer. The password goes to `sudo -S` on stdin and is never stored, and the tool refuses outright when nobody's watching the terminal. Giving an agent root was the decision I sat on longest.
 - `pi-subagents` spawns child Pi sessions with their own context, in parallel. It's mostly a context-budget trick: a reviewer's 40,000 tokens of file reading don't belong in the session where I'm editing. I run one for correctness, one for tests, one for needless complexity.
-
-<img width="300" height="667" alt="image" src="https://github.com/user-attachments/assets/7ee471eb-9f17-4844-af5f-899a4f801d0c" />
 
 <img width="300" height="667" alt="image" src="https://github.com/user-attachments/assets/ede3c7ac-b3f9-4f15-afe6-12d185b5a86e" />
 
