@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Recipe for running Qwen3.8-Flash-Next in NVFP4 on 2x RTX Pro 6000"
-date: 2026-08-27 09:00:00 -0700
+date: 2026-08-27 08:00:00 -0700
 categories: [AI]
 tags: [llm, vllm, local-inference, qwen]
 description: "Qwen3.8-Flash-Next narrates its own NVFP4 install on a 2x RTX Pro 6000 (Blackwell) workstation: the dedicated vLLM recipe image, tensor-parallel launch on sm_120, and the n-gram embedding table offloaded to system RAM so the weights finally fit in 192 GB of VRAM."
