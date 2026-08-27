@@ -7,7 +7,7 @@ tags: [llm, coding-agents, pi, local-inference, agents, paseo]
 description: "Paseo to run and watch agents from any device, Pi as the harness, and four extensions (web search via Gemini, Chrome, sudo, sub-agents) that make local models useful."
 ---
 
-My personal LLM toolchain lets me switch between models and harnesses and talk to all of them from a single mobile app. It is made up of [Paseo](https://github.com/getpaseo/paseo), which puts one interface in front of Claude Code, Codex, Copilot, OpenCode and the rest, and [Pi](https://pi.dev/), a minimal and extensible harness. I have four extensions installed in Pi, and the most important is `pi-web-access`, configured to search the web through Gemini / Google (5,000 free searches a month). This article shows you how to set up your own version.
+My personal LLM toolchain lets me switch between models and harnesses and talk to all of them from a single mobile app. This makes it possible to code on the go on my own machine back home. My setup is made up of [Paseo](https://github.com/getpaseo/paseo), which puts one interface in front of Claude Code, Codex, Copilot, OpenCode and the rest, and [Pi](https://pi.dev/), a minimal and extensible harness. I have four extensions installed in Pi, and the most important is `pi-web-access`, configured to search the web through Gemini / Google (5,000 free searches a month). This article shows you how to set up your own version.
 
 ## Paseo
 
@@ -16,6 +16,8 @@ A daemon on your machine owns the agents. Every client (phone, desktop, web, ter
 It runs on macOS, Linux and Windows, there's a Docker image if you'd rather containerize it, and the desktop app starts a daemon by itself. Tailscale sets up an encrypted tunnel between my phone and the computer where the harnesses run, so  there's no port forwarding to configure.
 
 Paseo speaks to Claude Code, Codex, Copilot, OpenCode and Pi through the same interface, and I pick the provider and the model per agent. Today the other four are switched off in `~/.paseo/config.json` and I only run Pi, but this flexibility allows me to use another harness on the future.
+
+<img width="876" height="871" alt="image" src="https://github.com/user-attachments/assets/0f870418-6b52-4b2c-ae75-9e0cfbea46f5" />
 
 ## Pi
 
@@ -46,6 +48,10 @@ On its own a local model writes plausible code against APIs from two years ago. 
 - `pi-mcp-adapter` puts MCP servers behind one proxy tool, about 200 tokens of tool surface instead of hundreds, and starts them lazily. I use it for Chrome through `chrome-devtools-mcp`, so "load this at 390 px and tell me where the table overflows" ends with the agent driving a real browser and reading its own screenshot. A model that can't see what it rendered is guessing at front-end work.
 - `@xynogen/pix-sudo` adds a `sudo_run` tool that asks me every time, with a 60-second auto-deny if I don't answer. The password goes to `sudo -S` on stdin and is never stored, and the tool refuses outright when nobody's watching the terminal. Giving an agent root was the decision I sat on longest.
 - `pi-subagents` spawns child Pi sessions with their own context, in parallel. It's mostly a context-budget trick: a reviewer's 40,000 tokens of file reading don't belong in the session where I'm editing. I run one for correctness, one for tests, one for needless complexity.
+
+<img width="812" height="1806" alt="image" src="https://github.com/user-attachments/assets/7ee471eb-9f17-4844-af5f-899a4f801d0c" />
+
+<img width="812" height="1806" alt="image" src="https://github.com/user-attachments/assets/ede3c7ac-b3f9-4f15-afe6-12d185b5a86e" />
 
 ## References
 
