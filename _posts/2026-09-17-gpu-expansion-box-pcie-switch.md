@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Planning a four-GPU expansion box for my AM5 workstation"
-date: 2026-09-17 09:00:00 -0700
+date: 2026-09-16 22:43:00 -0700
 categories: [AI, Hardware]
 tags: [gpu, pcie, switch, pex88096, p2p, llm, vllm, am5]
 description: "My plan to connect an AM5 workstation to four GPUs through a Broadcom PEX88096 backplane, with PCIe P2P between the cards and a shared x16 connection to the CPU."
