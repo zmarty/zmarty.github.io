@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Unreasonable things I ask AI to do"
-date: 2026-10-04 00:00:00 -0700
+date: 2026-10-04 10:35:00 +0000
 categories: [AI]
 tags: [llm, agents, local-inference, paseo, instinct, automation]
 description: "Getting a museum audio tour out of a region-locked Android app, mapping Xfinity upgrades around my house, and looking for a fiber cable at nearby stores. A few things I have been asking AI agents to do from my phone."
@@ -13,7 +13,7 @@ I've been using both [Instinct](https://instinct.com/), an AI agent I'm testing,
 
 ## Getting an audio tour out of an app I couldn't download
 
-I'm in Bangalore for work, and during the weekend I visited the HAL Aerospace Museum. There were signs on the walls inviting visitors to download the museum's app and listen to an audio tour. Great, except they only published the app on the Indian Google Play Store. My account is set to the USA, so I couldn't download it.
+I'm in Bangalore for work, and during the weekend I visited the [HAL Aerospace Museum](https://hal-india.co.in/heritage-centre-and-aerospace-museum). There were signs on the walls inviting visitors to download the museum's app and listen to an audio tour. Great, except they only published the app on the Indian Google Play Store. My account is set to the USA, so I couldn't download it.
 
 I told Instinct to find the APK online, unpack it, locate the tour audio files, and send them to me.
 
@@ -30,7 +30,7 @@ Instinct recovered the museum's area and theme groupings from the app's data and
 
 ## Checking whether my neighbors have better internet
 
-I recently moved to a house in Bellevue where the only available internet service provider is Xfinity. Boo! I have the mid-split upgrade, which gives me 2 Gbps down and 300 Mbps up. I'm waiting for the full-duplex (FDX) upgrade so I can get symmetric 2 Gbps down and 2 Gbps up through Xfinity's X-Class service.
+I recently moved to a house where the only available internet service provider is Xfinity. Boo! I have the mid-split upgrade, which gives me 2 Gbps down and 300 Mbps up. I'm waiting for the full-duplex (FDX) upgrade so I can get symmetric 2 Gbps down and 2 Gbps up through Xfinity's X-Class service.
 
 Of course, knowing that an upgrade is rolling out somewhere in the city doesn't tell me when my house will get it. So I asked my agent to open a browser, go to Xfinity's website, and check the available speeds at a few addresses around me. Then I asked it to make a map.
 
@@ -47,8 +47,6 @@ I'm effectively asking an AI to keep refreshing an ISP's availability checker on
 ## Finding a fiber cable nearby
 
 I needed a fiber optic cable urgently and wanted to find one in stock nearby. The agent used Maps to find electronics stores, then browsed their websites looking for the right cable and stock information. It asked whether I needed single-mode or multimode, and what length. Single-mode, any length it could find.
-
-It couldn't confirm stock within two miles. The best nearby lead was Vetco Electronics, about 2.8 miles away by car, with a listing for a three-meter single-mode LC-to-LC duplex cable at $12.95 before tax. The store's inventory information conflicted, so it warned me to get a shelf check before making the trip. It sent the product link, a picture, opening hours, and the phone number.
 
 <img width="320" height="712" alt="Instinct WhatsApp conversation showing a single-mode LC-to-LC fiber cable at Vetco Electronics and a warning to confirm shelf stock before visiting" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153614.png" />
 
