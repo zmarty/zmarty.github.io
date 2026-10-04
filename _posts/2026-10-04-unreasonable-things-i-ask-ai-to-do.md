@@ -36,9 +36,9 @@ Of course, knowing that an upgrade is rolling out somewhere in the city doesn't 
 
 It plotted the addresses where X-Class was available and the ones still on mid-split, with my house marked for comparison. Symmetric service was already available in pockets a few blocks away. My block was still waiting. Close enough to be annoying.
 
-<img width="640" height="551" alt="Cropped Bellevue neighborhood map with teal markers for addresses with Xfinity X-Class and outlined markers for addresses still on mid-split" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153542.png" />
+<img width="640" height="551" alt="Cropped neighborhood map with teal markers for addresses with Xfinity X-Class and outlined markers for addresses still on mid-split" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153542.png" />
 
-_Teal markers have X-Class; outlined markers are still on mid-split. I've cropped out my home marker._
+_Teal markers have X-Class; outlined markers are still on mid-split._
 
 These were checks at individual addresses, not proof that every house on a street had been upgraded. The map included the check dates so I could tell how old the results were. The agent now proactively tracks the rollout over time, rechecks nearby addresses, and sends me updates without me having to ask again.
 
