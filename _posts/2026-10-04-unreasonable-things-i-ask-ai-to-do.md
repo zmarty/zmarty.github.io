@@ -24,13 +24,9 @@ The audio wasn't sitting in a folder full of MP3s. The app was built in Unity, w
 3. Decode the banks using the FMOD engine bundled with the app itself, running headless with `NOSOUND` output.
 4. Write the decoded audio to WAV files and convert it to MP3 for playback on my phone.
 
-<!-- Image placeholder: Local agent's extraction report showing the Unity/FMOD FSB5 details and output files. -->
-
 Instinct recovered the museum's area and theme groupings from the app's data and published a web page with 79 English clips, about 83 minutes of narration. I could find an exhibit and play its audio directly in my phone's browser while walking around the museum.
 
-<!-- Image placeholder: Instinct conversation recovering the Hall 1 groupings and matching Output Gear. -->
-
-<!-- Image placeholder: Generated HAL museum audio guide page with playable clips grouped by area. -->
+<img width="1080" height="2404" style="width: 100%; max-width: 320px; height: auto;" alt="Instinct's HAL museum audio guide page with Hall 1 audio players for Ajeet, Basant Agricultural Aircraft, and HT-2" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153039.png" />
 
 ## Checking whether my neighbors have better internet
 
@@ -40,9 +36,9 @@ Of course, knowing that an upgrade is rolling out somewhere in the city doesn't 
 
 It plotted the addresses where X-Class was available and the ones still on mid-split, with my house marked for comparison. Symmetric service was already available in pockets a few blocks away. My block was still waiting. Close enough to be annoying.
 
-<!-- Image placeholder: Instinct conversation with the Xfinity availability map. Redact the home address and location marker before publishing. -->
+<img width="964" height="830" style="width: 100%; max-width: 640px; height: auto;" alt="Cropped Bellevue neighborhood map with teal markers for addresses with Xfinity X-Class and outlined markers for addresses still on mid-split" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153542.png" />
 
-<!-- Image placeholder: Generated X-Class tracker page and neighborhood map. Redact the home address and location marker before publishing. -->
+_Teal markers have X-Class; outlined markers are still on mid-split. I've cropped out my home marker._
 
 These were checks at individual addresses, not proof that every house on a street had been upgraded. The map included the check dates so I could tell how old the results were. The agent now proactively tracks the rollout over time, rechecks nearby addresses, and sends me updates without me having to ask again.
 
@@ -54,7 +50,7 @@ I needed a fiber optic cable urgently and wanted to find one in stock nearby. Th
 
 It couldn't confirm stock within two miles. The best nearby lead was Vetco Electronics, about 2.8 miles away by car, with a listing for a three-meter single-mode LC-to-LC duplex cable at $12.95 before tax. The store's inventory information conflicted, so it warned me to get a shelf check before making the trip. It sent the product link, a picture, opening hours, and the phone number.
 
-<!-- Image placeholder: Instinct conversation showing the fiber cable listing and the warning about unconfirmed stock. -->
+<img width="1080" height="2404" style="width: 100%; max-width: 320px; height: auto;" alt="Instinct WhatsApp conversation showing a single-mode LC-to-LC fiber cable at Vetco Electronics and a warning to confirm shelf stock before visiting" src="/assets/img/unreasonable-things-i-ask-ai-to-do/Screenshot_20261004-153614.png" />
 
 This is fairly ordinary computer use: look at a map, open a store's website, find the product, check whether the details match. An agent with access to a browser can do those steps much like I would. In this case it found a useful lead, although it couldn't promise there was a cable waiting on the shelf.
 
