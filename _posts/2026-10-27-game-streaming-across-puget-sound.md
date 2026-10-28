@@ -7,7 +7,7 @@ tags: [game-streaming, pyrowave, punktfunk, gpu, networking, wireguard]
 description: "Streaming games from my AI workstation 40 miles away at 4K60 and around 558 Mbps, across two ISPs and an encrypted WireGuard tunnel."
 ---
 
-I am playing a game rendered by a GPU 40 miles away and streamed to me as live video at around 558 Mbps. The fiber travels underneath Puget Sound, the waters around Seattle. The route crosses two ISPs and eventually includes coaxial links. All of this to get a game onto the screen in front of me. At 4K UHD and 60 Hz.
+I am playing a game rendered by a GPU 40 miles away and streamed to me as live video at around 558 Mbps. The video travels over undersea fiber beneath Puget Sound, near Seattle, across two ISPs, and eventually over coaxial cable. All of this to get a game onto the screen in front of me. At 4K UHD and 60 Hz.
 
 I finally found a use case for having low latency multi-gigabit Internet :)
 
