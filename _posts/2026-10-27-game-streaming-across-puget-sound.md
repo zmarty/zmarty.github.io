@@ -11,7 +11,7 @@ I am playing a game rendered by a GPU 40 miles away and streamed to me as live v
 
 I finally found a use case for having low latency multi-gigabit Internet :)
 
-I am surprised by how well it works. I move the controller, and the input goes over Bluetooth to my local Mini PC, through its network stack and onto my LAN. A UDM Pro encrypts the traffic into a VPN tunnel across the Internet. The UDM Pro at the other end decrypts it and forwards it through the remote LAN and the server's network stack to the game. The character moves, the GPU renders the next frames, and the encoded video makes the trip back, including encryption and decryption again, before my Mini PC decodes and displays it. Yet the game feels very responsive.
+I am surprised by how well it works. I move the controller, and the input goes over Bluetooth to my local Mini PC, through the switches on my local network. A UDM Pro encrypts the traffic into a VPN tunnel across the Internet. The UDM Pro at the other end decrypts it and forwards it through the switches at the remote site to the gaming server. The character moves, the GPU renders the next frames, and the encoded video makes the trip back, including encryption and decryption again, before my Mini PC decodes and displays it. Yet the game feels very responsive.
 
 The overlay shows around 15 ms of network round-trip time through that tunnel, including the gateway and VPN processing along the way. That isn't the full controller-to-screen latency: Bluetooth, game processing, rendering, decoding and display timing add to it. I haven't measured that full response time separately.
 
