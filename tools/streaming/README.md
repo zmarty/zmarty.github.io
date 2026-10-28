@@ -55,3 +55,30 @@ Synthetic smoke test, without recording the desktop:
 python3 tools/streaming/capture.py --test --delay 0 --gap 0 --count 1 --duration 1 --output /tmp/streaming-test
 python3 tools/streaming/make-gifs.py /tmp/streaming-test/*/clip-01.webm
 ```
+
+## Blog and LinkedIn video
+
+The blog plays the selected 1080p WebM recordings at their original 30 fps.
+The underlying remote game stream ran at 4K60. GIF previews are hidden by the
+blog stylesheet and remain visible in GitHub's Markdown viewer, which strips
+the playable video sources. The enlarged stats GIF remains visible on both.
+
+Prepare separate LinkedIn uploads:
+
+```bash
+python3 tools/streaming/prepare-linkedin.py
+```
+
+Exports go to `~/Videos/streaming-captures/linkedin/`. The intro and full
+gameplay clips are copied unchanged. The two-second menu and driving selections
+each repeat twice to make four-second videos; no unselected footage is added.
+`puget-sound-streaming-reel.webm` combines all four selections once, at 30 fps,
+for a roughly 14-second cover or body video. Exports are silent VP8 WebM.
+
+LinkedIn documents WebM support and desktop requirements of at least three
+seconds, 10–60 fps, and 192 kbps–30 Mbps. Its article editor supports direct
+cover and body video uploads; GIF cover images are no longer supported.
+Sources checked October 27, 2026:
+
+- https://www.linkedin.com/help/linkedin/answer/a548372
+- https://www.linkedin.com/help/linkedin/answer/a521719/
