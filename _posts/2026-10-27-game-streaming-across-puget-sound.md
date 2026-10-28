@@ -19,7 +19,7 @@ I've tried [Sunshine](https://github.com/LizardByte/Sunshine) and [Polaris](http
 
 The two sites are connected through a WireGuard VPN, so the traffic is encrypted even at these speeds. Here's the stats overlay from a gameplay clip:
 
-![Streaming statistics showing 3840x2160 at 60 Hz with PyroWave and 4:4:4 color](/assets/img/game-streaming/uncharted-gameplay-stats.gif)
+<img src="/assets/img/game-streaming/uncharted-driving-stats.gif" width="500" height="125" style="max-width: 100%; height: auto;" alt="PyroWave stream at 3840x2160 and 60 Hz, with 60 received, decoded and presented fps, 0.0% lost and 0.0% skipped frames" />
 
 Click any gameplay GIF to open the original video. Here are a few more clips of Uncharted, including driving around after I switched the client to SDR. These screen recordings are scaled to 1080p; the game stream itself is 4K.
 
