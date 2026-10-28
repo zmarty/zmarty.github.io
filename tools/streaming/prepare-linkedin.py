@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Export selected 30 fps WebM clips for LinkedIn's three-second minimum.
 
-Short selections loop twice without adding unselected footage. A combined
+The intro and gameplay selections are copied unchanged. A combined
 reel contains each selection once. Requires GI, GStreamer and VP8 plugins.
 """
 import argparse
@@ -80,15 +80,12 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     Gst.init(None)
     root = Path(__file__).resolve().parents[2] / 'assets/video/game-streaming'
-    names = ['uncharted-intro', 'uncharted-menu', 'uncharted-driving', 'uncharted-gameplay']
+    names = ['uncharted-intro', 'uncharted-gameplay']
     paths = [root / (name + '.webm') for name in names]
     for path in paths:
         target = output / path.name
-        if path.stem in ['uncharted-menu', 'uncharted-driving']:
-            encode([path, path], target)
-        else:
-            shutil.copy2(path, target)
-            print(f'{target.name}: copied full 30 fps selection', flush=True)
+        shutil.copy2(path, target)
+        print(f'{target.name}: copied full 30 fps selection', flush=True)
     encode(paths, output / 'puget-sound-streaming-reel.webm')
     print(f'Exports ready: {output}')
 

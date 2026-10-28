@@ -28,25 +28,7 @@ The two sites are connected through a WireGuard VPN, so the traffic is encrypted
 
 <img src="/assets/img/game-streaming/uncharted-driving-stats.gif" width="500" height="125" style="max-width: 100%; height: auto;" alt="PyroWave stream at 3840x2160 and 60 Hz, with 60 received, decoded and presented fps, 0.0% lost and 0.0% skipped frames" />
 
-Here are a few more clips of Uncharted, including driving around after I switched the client to SDR. These screen recordings are 1080p at 30 fps; the game stream itself is 4K at 60 fps.
-
-<video controls muted loop playsinline preload="none" poster="/assets/img/game-streaming/uncharted-menu.jpg" width="1920" height="1080" style="width: 100%; height: auto;" aria-label="Streamed Uncharted menu">
-  <source src="/assets/video/game-streaming/uncharted-menu.webm" type="video/webm">
-  <a href="/assets/video/game-streaming/uncharted-menu.webm">Watch the video.</a>
-</video>
-
-<div class="streaming-video-preview">
-  <a href="/assets/video/game-streaming/uncharted-menu.webm"><img loading="lazy" src="/assets/img/game-streaming/uncharted-menu.gif" alt="Streamed Uncharted menu" /></a>
-</div>
-
-<video controls muted loop playsinline preload="none" poster="/assets/img/game-streaming/uncharted-driving.jpg" width="1920" height="1080" style="width: 100%; height: auto;" aria-label="Driving in Uncharted over the remote stream">
-  <source src="/assets/video/game-streaming/uncharted-driving.webm" type="video/webm">
-  <a href="/assets/video/game-streaming/uncharted-driving.webm">Watch the video.</a>
-</video>
-
-<div class="streaming-video-preview">
-  <a href="/assets/video/game-streaming/uncharted-driving.webm"><img loading="lazy" src="/assets/img/game-streaming/uncharted-driving.gif" alt="Driving in Uncharted over the remote stream" /></a>
-</div>
+Here is a gameplay example from Uncharted after I switched the client to SDR. The screen recording is 1080p at 30 fps; the game stream itself is 4K at 60 fps.
 
 <video controls muted loop playsinline preload="none" poster="/assets/img/game-streaming/uncharted-gameplay.jpg" width="1920" height="1080" style="width: 100%; height: auto;" aria-label="Uncharted gameplay streamed across Puget Sound">
   <source src="/assets/video/game-streaming/uncharted-gameplay.webm" type="video/webm">
@@ -54,15 +36,11 @@ Here are a few more clips of Uncharted, including driving around after I switche
 </video>
 
 <div class="streaming-video-preview">
-  <a href="/assets/video/game-streaming/uncharted-gameplay.webm"><img loading="lazy" src="/assets/img/game-streaming/uncharted-gameplay.gif" alt="Uncharted gameplay streamed across Puget Sound" /></a>
+  <a href="/assets/video/game-streaming/uncharted-gameplay.webm"><img loading="lazy" src="/assets/img/game-streaming/uncharted-gameplay.gif" width="960" height="540" alt="Uncharted gameplay streamed across Puget Sound" /></a>
 </div>
 
 ## Getting past the frozen video
 
-Getting here involved a bit of debugging. With Punktfunk 0.45.0, I initially got audio with no picture, or a few frames followed by a frozen image while the audio kept going. An AI coding assistant helped trace two separate problems in Punktfunk's PyroWave integration.
+It took some debugging to get here. Punktfunk 0.45.0 initially gave me audio with no picture, or a frozen image while the sound kept going. An AI coding assistant helped trace two buffer problems: the startup bandwidth test could use up the decoder's buffers, and larger 4K frames could overflow a temporary buffer when packets needed extra alignment copies.
 
-The first was in the startup bandwidth test. Incomplete test frames could hold all eight of the decoder's payload buffers, leaving none for the actual video. A version-specific local client hotfix routed those probes to a separate heap-backed pool. After that, video could start reliably in the short tests.
-
-The second showed up when larger 4K frames arrived. Our connection negotiated 1,322-byte packet windows. That size isn't divisible by four, so alternating packet bodies needed alignment copies into a fixed 128 KiB scratch buffer. Larger frames exhausted it, and the client kept showing the last good picture. On the host, we set `PUNKTFUNK_WIRE_MTU=1394`, which produced 1,320-byte windows in the tested session and avoided that alignment-copy pressure.
-
-A source patch to grow the scratch buffer with the frame capacity passed an isolated parser test, but we didn't rebuild and install the full client with it. The working setup uses the local startup hotfix plus the packet-size workaround. These were integration bugs exposed by this setup; we didn't find a defect in the PyroWave codec itself.
+We applied a local client hotfix to keep bandwidth tests out of the decoder's buffer pool, and changed the host's packet-size setting to avoid the alignment problem. A broader buffer-sizing correction was tested separately but wasn't installed. The working setup uses the hotfix and packet-size workaround; the bugs were in Punktfunk's integration with PyroWave.

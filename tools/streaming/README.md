@@ -69,11 +69,11 @@ Prepare separate LinkedIn uploads:
 python3 tools/streaming/prepare-linkedin.py
 ```
 
-Exports go to `~/Videos/streaming-captures/linkedin/`. The intro and full
-gameplay clips are copied unchanged. The two-second menu and driving selections
-each repeat twice to make four-second videos; no unselected footage is added.
-`puget-sound-streaming-reel.webm` combines all four selections once, at 30 fps,
-for a roughly 14-second cover or body video. Exports are silent VP8 WebM.
+Exports go to `~/Videos/streaming-captures/linkedin/`. The intro and gameplay
+clips are copied unchanged. `puget-sound-streaming-reel.webm` combines these
+two selections once, at 30 fps, for a roughly 10-second cover or body video.
+Exports are silent VP8 WebM. The menu and short driving examples were removed
+from both the blog assets and the LinkedIn export folder.
 
 LinkedIn documents WebM support and desktop requirements of at least three
 seconds, 10–60 fps, and 192 kbps–30 Mbps. Its article editor supports direct
