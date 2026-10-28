@@ -11,6 +11,10 @@ I am playing a game rendered by a GPU 40 miles away and streamed to me as live v
 
 I finally found a use case for having low latency multi-gigabit Internet :)
 
+I am surprised by how well it works. I move the controller, and the input goes over Bluetooth to my local Mini PC, then over the Internet to the server. The game processes it and moves the character, the GPU renders the next frames, and the video gets streamed back to my screen. That's quite a trip for every movement of the stick, yet the game feels very responsive.
+
+The overlay shows around 15 ms of network round-trip time. That isn't the full controller-to-screen latency: Bluetooth, game processing, rendering, decoding and display timing add to it. I haven't measured that full response time separately.
+
 <video controls muted loop playsinline preload="none" poster="/assets/img/game-streaming/uncharted-intro.jpg" width="1920" height="1080" style="width: 100%; height: auto;" aria-label="Uncharted intro streamed from my remote workstation">
   <source src="/assets/video/game-streaming/uncharted-intro.webm" type="video/webm">
   <a href="/assets/video/game-streaming/uncharted-intro.webm">Watch the video.</a>
