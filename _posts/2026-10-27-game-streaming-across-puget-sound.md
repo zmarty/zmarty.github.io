@@ -24,7 +24,7 @@ The overlay shows around 15 ms of network round-trip time through that tunnel, i
   <a href="/assets/video/game-streaming/uncharted-intro.webm"><img loading="lazy" src="/assets/img/game-streaming/uncharted-intro.gif" alt="Uncharted intro streamed from my remote workstation" /></a>
 </div>
 
-The gaming machine is my [dual RTX Pro 6000 AI workstation](/2025/12/25/dual-rtx-pro-6000-llm-guide.html). Hardware prices have gone completely insane, and I already own these GPUs, so buying another machine for gaming doesn't make much sense. The AI machine gets to do dual duty. I free up the streaming GPU before starting the game.
+The gaming machine is my [dual RTX Pro 6000 AI workstation](/2025/12/25/dual-rtx-pro-6000-llm-guide.html). With hardware prices where they are, buying another machine for gaming doesn't make much sense when I already own these GPUs. The AI machine gets to do dual duty. I free up the streaming GPU before starting the game.
 
 I've tried [Sunshine](https://github.com/LizardByte/Sunshine) and [Polaris](https://github.com/papi-ux/polaris), and I'm currently playing with [Punktfunk](https://docs.punktfunk.unom.io/docs/pyrowave) and [PyroWave](https://github.com/Themaister/pyrowave), the codec Valve recently [added to Steam Remote Play](https://steamcommunity.com/groups/homestream/discussions/0/564794422009744473). It is intra-only, meaning every frame is encoded independently, and uses GPU compute for very low encode and decode latency. It supports HDR and full 4:4:4 color. The trade-off is bandwidth, which I happen to have. Punktfunk accepts bitrates up to 8 Gbps, well beyond what I'm sending here.
 
