@@ -7,3 +7,9 @@
 #main-wrapper > .container {
   max-width: 1450px !important;
 }
+
+/* GitHub strips video sources and CSS classes, leaving these GIF previews.
+   The published blog uses the full-frame-rate video players instead. */
+.streaming-video-preview {
+  display: none;
+}
