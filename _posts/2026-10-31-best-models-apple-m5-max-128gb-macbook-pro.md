@@ -11,7 +11,7 @@ I recently bought an M5 Max MacBook Pro with 128 GB of RAM to run local AI model
 
 I still find this a little ridiculous. A few years ago I was trying ChatGPT in a browser for the first time. Now I can put a 125B-parameter model on a laptop, disconnect from the internet, and have it write code at over 70 tokens a second. I still use cloud models, but I wouldn't have expected to have this much running in my backpack so soon.
 
-There's also been a wave of new inference engines for Apple Silicon. It feels more fragmented than the CUDA ecosystem right now: plenty of new projects, each supporting different models and making its own speed claims. For this setup I used MTPLX for the two Qwens and antirez's ds4 for DeepSeek.
+There's also been a wave of new inference engines for Apple Silicon. It feels more fragmented than the CUDA ecosystem right now: plenty of new projects, each supporting different models and making its own speed claims. For this setup I used [MTPLX](https://mtplx.com) for the two Qwens and [antirez's ds4](https://github.com/antirez/ds4) for DeepSeek.
 
 My configuration has an 18-core CPU, 40-core GPU and 128 GB of unified memory, with [614 GB/s of memory bandwidth according to Apple](https://support.apple.com/en-us/126318). That's the rated bandwidth, not a measurement from these tests. It matters because single-user LLM generation often spends much of its time reading weights from memory. Once a model needs SSD streaming, the SSD and cache behavior matter too; 614 GB/s doesn't describe that path.
 
