@@ -21,6 +21,20 @@ My configuration has an 18-core CPU, 40-core GPU and 128 GB of unified memory, w
 
 Both run through [MTPLX](https://github.com/youssofal/mtplx), an Apple Silicon engine built on MLX with native multi-token prediction. It drafts several tokens and verifies them together, the same general idea as [speculative decoding]({% post_url 2025-10-23-speculative-decoding %}). Both packs advertise a 262,144-token context window; that isn't a promise that filling it will be fast.
 
+## How good are they?
+
+For an independent coding comparison, [Artificial Analysis](https://artificialanalysis.ai/) reports these Terminal-Bench 4.0 scores, which measure agents working through tasks in a terminal:
+
+| Model tested by Artificial Analysis | Terminal-Bench 4.0 |
+| :--- | ---: |
+| [Qwen3.8-Flash-Next](https://artificialanalysis.ai/models/qwen3-8-flash-next) | 25.3% |
+| [Qwen3.8 27B (xhigh)](https://artificialanalysis.ai/models/qwen3-8-27b) | 5.6% |
+| [DeepSeek V4.1 Flash (max)](https://artificialanalysis.ai/models/deepseek-v4-1-flash) | 26.8% |
+
+On this test, Flash-Next is much stronger than 27B and close to DeepSeek. Combined with the local speeds below, that's why I'd start with Flash-Next for coding. The 27B's advantage here is its smaller memory footprint. These are scores on one demanding agent benchmark, not a verdict on every kind of task. Artificial Analysis doesn't currently list a complete Intelligence Index v5.0 score for all three, so I'm not mixing scores from different index versions.
+
+These benchmarks also aren't measurements of my quantized copies. Quantization loses precision: the 8-bit 27B should stay close to its original checkpoint, while the 4-bit Flash-Next and mixed-precision DeepSeek make a bigger compromise to fit on local hardware. How much that affects answers depends on the task. I haven't rerun these quality benchmarks locally, so treat the published scores as a guide to the underlying models, not guaranteed scores for these downloads.
+
 ## Local speed tests
 
 These are results from my local server logs, not the model cards. The installed MTPLX version is 2.12.2. Each Qwen request hit a 2,048-token output cap, including reasoning tokens, on three similar tasks:
