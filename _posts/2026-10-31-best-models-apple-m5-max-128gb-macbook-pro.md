@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The best models to run on an Apple M5 Max 128GB Macbook Pro"
+title: "The best models to run on an Apple M5 Max 128GB MacBook Pro"
 date: 2026-10-31 12:00:00 -0700
 categories: [AI]
 tags: [llm, local-inference, apple-silicon, mlx, qwen, deepseek]
