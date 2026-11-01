@@ -57,8 +57,6 @@ I recorded all three writing a Python function to merge overlapping intervals. E
 
 Flash-Next finished in 4.4 seconds. The 27B hit its output cap in 9.1 seconds. DeepSeek started writing after 7.1 seconds and finished in 75.4 seconds; the GIF shows the first 20 seconds. Their generation rates on this prompt were about 120, 58 and 7 tokens/sec respectively. Thinking was off for this recording, unlike the longer Qwen tests above, and these rates were measured from the client-side stream.
 
-[Download the MP4]({{ '/assets/video/m5-max-speed/request-aligned.mp4' | relative_url }}) or [view the timing data and reproduction scripts](https://github.com/zmarty/zmarty.github.io/tree/main/tools/model-speed).
-
 <details markdown="1">
 <summary markdown="span">Compare generation with the initial wait removed (click to expand)</summary>
 
