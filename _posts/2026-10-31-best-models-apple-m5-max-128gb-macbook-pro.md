@@ -25,7 +25,7 @@ Both run through [MTPLX](https://github.com/youssofal/mtplx), an Apple Silicon e
 
 ## How good are they?
 
-For an independent coding comparison, [Artificial Analysis](https://artificialanalysis.ai/) reports these Terminal-Bench 4.0 scores, which measure agents working through tasks in a terminal:
+For an independent coding comparison, [Artificial Analysis](https://artificialanalysis.ai/) reports these [Terminal-Bench 4.0](https://www.tbench.ai/news/terminal-bench-4-0) scores, which measure agents working through tasks in a terminal:
 
 | Model tested by Artificial Analysis | Terminal-Bench 4.0 |
 | :--- | ---: |
@@ -48,6 +48,27 @@ These are results from my local server logs, not the model cards. The installed 
 | Design an offline-first notes app | 71.6 tok/s | 38.1 tok/s |
 
 Those are the engine's reported generation rates. Including prompt processing and request overhead, the ranges were 71–85 and 38–45 tok/s respectively. Prompts were short, 48–93 tokens depending on the model and task. This is a practical spot check, not a controlled quality evaluation or a long-context benchmark.
+
+## Watch them generate
+
+I recorded all three writing a Python function to merge overlapping intervals. Each ran on its own, with thinking off, temperature 0 and a 512-token output cap. The animation replays the text as it arrived from the local API, at normal speed.
+
+![Three models generating Python code on an M5 Max MacBook Pro, with their requests starting together.]({{ '/assets/img/m5-max-speed/request-aligned.gif' | relative_url }})
+
+Flash-Next finished in 4.4 seconds. The 27B hit its output cap in 9.1 seconds. DeepSeek started writing after 7.1 seconds and finished in 75.4 seconds; the GIF shows the first 20 seconds. Their generation rates on this prompt were about 120, 58 and 7 tokens/sec respectively. Thinking was off for this recording, unlike the longer Qwen tests above, and these rates were measured from the client-side stream.
+
+[Download the MP4]({{ '/assets/video/m5-max-speed/request-aligned.mp4' | relative_url }}) or [view the timing data and reproduction scripts](https://github.com/zmarty/zmarty.github.io/tree/main/tools/model-speed).
+
+<details markdown="1">
+<summary markdown="span">Compare generation with the initial wait removed (click to expand)</summary>
+
+Here I've lined up the first text from each model, so you can compare how quickly the answers grow once generation starts. This clip runs for 15 seconds at normal speed.
+
+![The same captured responses aligned to their first text, removing the initial wait.]({{ '/assets/img/m5-max-speed/decode-aligned.gif' | relative_url }})
+
+[Download the MP4]({{ '/assets/video/m5-max-speed/decode-aligned.mp4' | relative_url }})
+
+</details>
 
 ## DeepSeek: possible, but bring patience
 

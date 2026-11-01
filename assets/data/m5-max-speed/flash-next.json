@@ -1,0 +1,1031 @@
+{
+  "label": "Qwen3.8-Flash-Next",
+  "quant": "4-bit mixed",
+  "model": "mtplx-flash-next-optimized-speed",
+  "captured_at": "2026-11-01T05:54:54.043241+00:00",
+  "hardware": "Apple M5 Max, 40-core GPU, 128 GB unified memory",
+  "prompt": "Write a Python function that merges overlapping intervals. Include type hints, comments, a short explanation, and three example calls. Return the code first.",
+  "max_tokens": 512,
+  "temperature": 0,
+  "thinking": "disabled",
+  "warmup": "Reply with OK. (8-token cap)",
+  "timing": "Client-observed SSE chunks; not individual GPU token timestamps",
+  "events": [
+    {
+      "t": 0.166779,
+      "text": "```"
+    },
+    {
+      "t": 0.206092,
+      "text": "python\nfrom"
+    },
+    {
+      "t": 0.206761,
+      "text": " typing"
+    },
+    {
+      "t": 0.234919,
+      "text": " import List"
+    },
+    {
+      "t": 0.265317,
+      "text": "\n\n\ndef merge"
+    },
+    {
+      "t": 0.265909,
+      "text": "_intervals"
+    },
+    {
+      "t": 0.29635,
+      "text": "(int"
+    },
+    {
+      "t": 0.324475,
+      "text": "ervals: List"
+    },
+    {
+      "t": 0.325047,
+      "text": "[List"
+    },
+    {
+      "t": 0.352611,
+      "text": "[int]]) ->"
+    },
+    {
+      "t": 0.353204,
+      "text": " List"
+    },
+    {
+      "t": 0.380698,
+      "text": "[List[int]]"
+    },
+    {
+      "t": 0.381324,
+      "text": ":"
+    },
+    {
+      "t": 0.409291,
+      "text": "\n    \"\"\""
+    },
+    {
+      "t": 0.437998,
+      "text": "\n    Merge overlapping"
+    },
+    {
+      "t": 0.438725,
+      "text": " intervals"
+    },
+    {
+      "t": 0.466465,
+      "text": "."
+    },
+    {
+      "t": 0.467057,
+      "text": "\n\n    Given"
+    },
+    {
+      "t": 0.494447,
+      "text": " a list of"
+    },
+    {
+      "t": 0.495048,
+      "text": " intervals"
+    },
+    {
+      "t": 0.523968,
+      "text": " ["
+    },
+    {
+      "t": 0.552636,
+      "text": "start, end"
+    },
+    {
+      "t": 0.553191,
+      "text": "],"
+    },
+    {
+      "t": 0.582227,
+      "text": " merge"
+    },
+    {
+      "t": 0.611813,
+      "text": " all overlapping"
+    },
+    {
+      "t": 0.612417,
+      "text": " intervals"
+    },
+    {
+      "t": 0.641016,
+      "text": "\n    and"
+    },
+    {
+      "t": 0.641673,
+      "text": " return"
+    },
+    {
+      "t": 0.670335,
+      "text": " a"
+    },
+    {
+      "t": 0.697707,
+      "text": " list of non"
+    },
+    {
+      "t": 0.698284,
+      "text": "-over"
+    },
+    {
+      "t": 0.72656,
+      "text": "lapping intervals"
+    },
+    {
+      "t": 0.727111,
+      "text": " that"
+    },
+    {
+      "t": 0.756444,
+      "text": " cover"
+    },
+    {
+      "t": 0.757043,
+      "text": " all"
+    },
+    {
+      "t": 0.787832,
+      "text": " the"
+    },
+    {
+      "t": 0.817085,
+      "text": " input"
+    },
+    {
+      "t": 0.817955,
+      "text": " intervals"
+    },
+    {
+      "t": 0.846031,
+      "text": "."
+    },
+    {
+      "t": 0.846672,
+      "text": "\n\n    Args"
+    },
+    {
+      "t": 0.875883,
+      "text": ":"
+    },
+    {
+      "t": 0.876441,
+      "text": "\n        intervals"
+    },
+    {
+      "t": 0.90363,
+      "text": ": A list"
+    },
+    {
+      "t": 0.904215,
+      "text": " of"
+    },
+    {
+      "t": 0.930748,
+      "text": " intervals, where"
+    },
+    {
+      "t": 0.931405,
+      "text": " each"
+    },
+    {
+      "t": 0.958595,
+      "text": " interval is a"
+    },
+    {
+      "t": 0.959205,
+      "text": " list"
+    },
+    {
+      "t": 0.986753,
+      "text": " of two"
+    },
+    {
+      "t": 0.987378,
+      "text": " integers"
+    },
+    {
+      "t": 1.016946,
+      "text": " [start,"
+    },
+    {
+      "t": 1.017613,
+      "text": " end"
+    },
+    {
+      "t": 1.045956,
+      "text": "]."
+    },
+    {
+      "t": 1.046542,
+      "text": "\n\n    Returns"
+    },
+    {
+      "t": 1.074155,
+      "text": ":"
+    },
+    {
+      "t": 1.074722,
+      "text": "\n        A"
+    },
+    {
+      "t": 1.102856,
+      "text": " list of"
+    },
+    {
+      "t": 1.103455,
+      "text": " merged"
+    },
+    {
+      "t": 1.131845,
+      "text": ", non-over"
+    },
+    {
+      "t": 1.13246,
+      "text": "lapping"
+    },
+    {
+      "t": 1.160236,
+      "text": " intervals."
+    },
+    {
+      "t": 1.187922,
+      "text": "\n    \"\"\""
+    },
+    {
+      "t": 1.188572,
+      "text": "\n    #"
+    },
+    {
+      "t": 1.217246,
+      "text": " Handle"
+    },
+    {
+      "t": 1.217855,
+      "text": " edge"
+    },
+    {
+      "t": 1.246273,
+      "text": " case: empty"
+    },
+    {
+      "t": 1.246865,
+      "text": " input"
+    },
+    {
+      "t": 1.275542,
+      "text": "\n    if"
+    },
+    {
+      "t": 1.276161,
+      "text": " not"
+    },
+    {
+      "t": 1.303624,
+      "text": " intervals:"
+    },
+    {
+      "t": 1.332141,
+      "text": "\n        return []"
+    },
+    {
+      "t": 1.360645,
+      "text": "\n\n    # Sort intervals"
+    },
+    {
+      "t": 1.361226,
+      "text": " by"
+    },
+    {
+      "t": 1.388691,
+      "text": " their start time"
+    },
+    {
+      "t": 1.419077,
+      "text": "\n    sorted"
+    },
+    {
+      "t": 1.448771,
+      "text": "_intervals"
+    },
+    {
+      "t": 1.47727,
+      "text": " = sorted(int"
+    },
+    {
+      "t": 1.477836,
+      "text": "ervals"
+    },
+    {
+      "t": 1.505477,
+      "text": ", key=lambda"
+    },
+    {
+      "t": 1.506168,
+      "text": " x"
+    },
+    {
+      "t": 1.534375,
+      "text": ": x["
+    },
+    {
+      "t": 1.534914,
+      "text": "0"
+    },
+    {
+      "t": 1.562738,
+      "text": "])"
+    },
+    {
+      "t": 1.563277,
+      "text": "\n\n    #"
+    },
+    {
+      "t": 1.591298,
+      "text": " Initialize the"
+    },
+    {
+      "t": 1.591922,
+      "text": " result"
+    },
+    {
+      "t": 1.620386,
+      "text": " with the first"
+    },
+    {
+      "t": 1.620972,
+      "text": " interval"
+    },
+    {
+      "t": 1.649236,
+      "text": "\n    merged"
+    },
+    {
+      "t": 1.649821,
+      "text": ":"
+    },
+    {
+      "t": 1.676694,
+      "text": " List[List[int"
+    },
+    {
+      "t": 1.677278,
+      "text": "]]"
+    },
+    {
+      "t": 1.704355,
+      "text": " = [sorted"
+    },
+    {
+      "t": 1.704919,
+      "text": "_intervals"
+    },
+    {
+      "t": 1.732925,
+      "text": "[0]]"
+    },
+    {
+      "t": 1.763678,
+      "text": "\n\n    #"
+    },
+    {
+      "t": 1.792663,
+      "text": " Iterate through"
+    },
+    {
+      "t": 1.793224,
+      "text": " the"
+    },
+    {
+      "t": 1.822598,
+      "text": " remaining intervals"
+    },
+    {
+      "t": 1.851317,
+      "text": "\n    for"
+    },
+    {
+      "t": 1.851923,
+      "text": " current"
+    },
+    {
+      "t": 1.882197,
+      "text": " in sorted"
+    },
+    {
+      "t": 1.882783,
+      "text": "_intervals"
+    },
+    {
+      "t": 1.911961,
+      "text": "[1:"
+    },
+    {
+      "t": 1.912604,
+      "text": "]:"
+    },
+    {
+      "t": 1.941725,
+      "text": "\n        last"
+    },
+    {
+      "t": 1.970201,
+      "text": " = merged[-"
+    },
+    {
+      "t": 1.970764,
+      "text": "1"
+    },
+    {
+      "t": 1.999496,
+      "text": "]"
+    },
+    {
+      "t": 2.02916,
+      "text": "\n        #"
+    },
+    {
+      "t": 2.029788,
+      "text": " If"
+    },
+    {
+      "t": 2.058207,
+      "text": " the current interval"
+    },
+    {
+      "t": 2.058824,
+      "text": " overlaps"
+    },
+    {
+      "t": 2.087242,
+      "text": " with the last"
+    },
+    {
+      "t": 2.087821,
+      "text": " merged"
+    },
+    {
+      "t": 2.116661,
+      "text": " interval,"
+    },
+    {
+      "t": 2.144222,
+      "text": "\n        # merge them"
+    },
+    {
+      "t": 2.144856,
+      "text": " by"
+    },
+    {
+      "t": 2.172684,
+      "text": " updating the end"
+    },
+    {
+      "t": 2.173326,
+      "text": " time"
+    },
+    {
+      "t": 2.201116,
+      "text": " of the last"
+    },
+    {
+      "t": 2.20177,
+      "text": " interval"
+    },
+    {
+      "t": 2.229824,
+      "text": "\n        if"
+    },
+    {
+      "t": 2.230438,
+      "text": " current"
+    },
+    {
+      "t": 2.259158,
+      "text": "[0]"
+    },
+    {
+      "t": 2.259742,
+      "text": " <="
+    },
+    {
+      "t": 2.287821,
+      "text": " last[1"
+    },
+    {
+      "t": 2.288455,
+      "text": "]:"
+    },
+    {
+      "t": 2.318136,
+      "text": "\n            last"
+    },
+    {
+      "t": 2.346183,
+      "text": "[1]"
+    },
+    {
+      "t": 2.346758,
+      "text": " ="
+    },
+    {
+      "t": 2.37563,
+      "text": " max(last["
+    },
+    {
+      "t": 2.376257,
+      "text": "1"
+    },
+    {
+      "t": 2.404956,
+      "text": "], current["
+    },
+    {
+      "t": 2.405529,
+      "text": "1"
+    },
+    {
+      "t": 2.433525,
+      "text": "])"
+    },
+    {
+      "t": 2.434082,
+      "text": "\n        else"
+    },
+    {
+      "t": 2.461329,
+      "text": ":"
+    },
+    {
+      "t": 2.461897,
+      "text": "\n            #"
+    },
+    {
+      "t": 2.489746,
+      "text": " No overlap,"
+    },
+    {
+      "t": 2.490302,
+      "text": " add"
+    },
+    {
+      "t": 2.518709,
+      "text": " the"
+    },
+    {
+      "t": 2.519307,
+      "text": " current"
+    },
+    {
+      "t": 2.547657,
+      "text": " interval as a"
+    },
+    {
+      "t": 2.548274,
+      "text": " new"
+    },
+    {
+      "t": 2.578873,
+      "text": " entry"
+    },
+    {
+      "t": 2.608569,
+      "text": "\n            merged"
+    },
+    {
+      "t": 2.609127,
+      "text": ".append"
+    },
+    {
+      "t": 2.637804,
+      "text": "(current)"
+    },
+    {
+      "t": 2.666867,
+      "text": "\n\n    return merged"
+    },
+    {
+      "t": 2.667484,
+      "text": "\n\n\n#"
+    },
+    {
+      "t": 2.695434,
+      "text": " Example"
+    },
+    {
+      "t": 2.696016,
+      "text": " calls"
+    },
+    {
+      "t": 2.725413,
+      "text": "\nif __"
+    },
+    {
+      "t": 2.726,
+      "text": "name"
+    },
+    {
+      "t": 2.75447,
+      "text": "__ == \"__"
+    },
+    {
+      "t": 2.755144,
+      "text": "main"
+    },
+    {
+      "t": 2.78323,
+      "text": "__\":"
+    },
+    {
+      "t": 2.811407,
+      "text": "\n    # Example"
+    },
+    {
+      "t": 2.811994,
+      "text": " 1"
+    },
+    {
+      "t": 2.8403,
+      "text": ":"
+    },
+    {
+      "t": 2.841005,
+      "text": " Over"
+    },
+    {
+      "t": 2.869803,
+      "text": "lapping intervals"
+    },
+    {
+      "t": 2.899099,
+      "text": "\n    intervals"
+    },
+    {
+      "t": 2.930382,
+      "text": "1"
+    },
+    {
+      "t": 2.930939,
+      "text": " ="
+    },
+    {
+      "t": 2.959827,
+      "text": " [[1,"
+    },
+    {
+      "t": 2.988062,
+      "text": " 3], ["
+    },
+    {
+      "t": 2.988645,
+      "text": "2"
+    },
+    {
+      "t": 3.016444,
+      "text": ", 6"
+    },
+    {
+      "t": 3.017048,
+      "text": "],"
+    },
+    {
+      "t": 3.044574,
+      "text": " [8,"
+    },
+    {
+      "t": 3.073945,
+      "text": " 10],"
+    },
+    {
+      "t": 3.074515,
+      "text": " ["
+    },
+    {
+      "t": 3.102492,
+      "text": "15,"
+    },
+    {
+      "t": 3.132448,
+      "text": " 18]]"
+    },
+    {
+      "t": 3.161286,
+      "text": "\n    print("
+    },
+    {
+      "t": 3.161898,
+      "text": "merge"
+    },
+    {
+      "t": 3.190641,
+      "text": "_intervals"
+    },
+    {
+      "t": 3.22023,
+      "text": "(intervals1"
+    },
+    {
+      "t": 3.220836,
+      "text": "))"
+    },
+    {
+      "t": 3.248317,
+      "text": "  # Output"
+    },
+    {
+      "t": 3.248948,
+      "text": ":"
+    },
+    {
+      "t": 3.276809,
+      "text": " [[1,"
+    },
+    {
+      "t": 3.305458,
+      "text": " 6], ["
+    },
+    {
+      "t": 3.306061,
+      "text": "8"
+    },
+    {
+      "t": 3.334458,
+      "text": ", 1"
+    },
+    {
+      "t": 3.335058,
+      "text": "0"
+    },
+    {
+      "t": 3.36296,
+      "text": "], [1"
+    },
+    {
+      "t": 3.363601,
+      "text": "5"
+    },
+    {
+      "t": 3.391799,
+      "text": ", 1"
+    },
+    {
+      "t": 3.392388,
+      "text": "8"
+    },
+    {
+      "t": 3.423011,
+      "text": "]]"
+    },
+    {
+      "t": 3.423597,
+      "text": "\n\n    #"
+    },
+    {
+      "t": 3.451148,
+      "text": " Example 2"
+    },
+    {
+      "t": 3.451757,
+      "text": ":"
+    },
+    {
+      "t": 3.480385,
+      "text": " All"
+    },
+    {
+      "t": 3.509856,
+      "text": " intervals"
+    },
+    {
+      "t": 3.539547,
+      "text": " overlap"
+    },
+    {
+      "t": 3.540114,
+      "text": "\n    intervals"
+    },
+    {
+      "t": 3.568024,
+      "text": "2 = [["
+    },
+    {
+      "t": 3.568646,
+      "text": "1"
+    },
+    {
+      "t": 3.595121,
+      "text": ", 4"
+    },
+    {
+      "t": 3.595736,
+      "text": "],"
+    },
+    {
+      "t": 3.623944,
+      "text": " ["
+    },
+    {
+      "t": 3.624563,
+      "text": "2"
+    },
+    {
+      "t": 3.652726,
+      "text": ","
+    },
+    {
+      "t": 3.653276,
+      "text": " 5"
+    },
+    {
+      "t": 3.683637,
+      "text": "], [3"
+    },
+    {
+      "t": 3.684275,
+      "text": ","
+    },
+    {
+      "t": 3.71336,
+      "text": " 6]]"
+    },
+    {
+      "t": 3.74193,
+      "text": "\n    print("
+    },
+    {
+      "t": 3.742509,
+      "text": "merge"
+    },
+    {
+      "t": 3.771483,
+      "text": "_intervals"
+    },
+    {
+      "t": 3.800582,
+      "text": "(intervals2"
+    },
+    {
+      "t": 3.801176,
+      "text": "))"
+    },
+    {
+      "t": 3.829463,
+      "text": "  # Output"
+    },
+    {
+      "t": 3.830072,
+      "text": ":"
+    },
+    {
+      "t": 3.857437,
+      "text": " [[1,"
+    },
+    {
+      "t": 3.88927,
+      "text": " 6]]"
+    },
+    {
+      "t": 3.916437,
+      "text": "\n\n    # Example"
+    },
+    {
+      "t": 3.917016,
+      "text": " 3"
+    },
+    {
+      "t": 3.947361,
+      "text": ": No overlapping"
+    },
+    {
+      "t": 3.947987,
+      "text": " intervals"
+    },
+    {
+      "t": 3.976329,
+      "text": "\n    intervals"
+    },
+    {
+      "t": 3.97697,
+      "text": "3"
+    },
+    {
+      "t": 4.004454,
+      "text": " = [[1"
+    },
+    {
+      "t": 4.005126,
+      "text": ","
+    },
+    {
+      "t": 4.032813,
+      "text": " 2],"
+    },
+    {
+      "t": 4.033362,
+      "text": " ["
+    },
+    {
+      "t": 4.061109,
+      "text": "3,"
+    },
+    {
+      "t": 4.061707,
+      "text": " 4"
+    },
+    {
+      "t": 4.088843,
+      "text": "], [5"
+    },
+    {
+      "t": 4.089496,
+      "text": ","
+    },
+    {
+      "t": 4.118771,
+      "text": " 6]]"
+    },
+    {
+      "t": 4.147185,
+      "text": "\n    print("
+    },
+    {
+      "t": 4.147746,
+      "text": "merge"
+    },
+    {
+      "t": 4.180001,
+      "text": "_intervals"
+    },
+    {
+      "t": 4.208993,
+      "text": "(intervals3"
+    },
+    {
+      "t": 4.209567,
+      "text": "))"
+    },
+    {
+      "t": 4.237492,
+      "text": "  # Output"
+    },
+    {
+      "t": 4.238138,
+      "text": ":"
+    },
+    {
+      "t": 4.265735,
+      "text": " [[1,"
+    },
+    {
+      "t": 4.294571,
+      "text": " 2], ["
+    },
+    {
+      "t": 4.295187,
+      "text": "3"
+    },
+    {
+      "t": 4.323174,
+      "text": ", 4"
+    },
+    {
+      "t": 4.323711,
+      "text": "],"
+    },
+    {
+      "t": 4.351387,
+      "text": " [5,"
+    },
+    {
+      "t": 4.379432,
+      "text": " 6]]"
+    },
+    {
+      "t": 4.380055,
+      "text": "\n```"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 41,
+    "completion_tokens": 506,
+    "total_tokens": 547,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "finish_reason": "stop",
+  "total_s": 4.418464,
+  "time_to_first_text_s": 0.166779,
+  "streamed_tokens_per_s": 119.86,
+  "end_to_end_tokens_per_s": 114.52
+}
