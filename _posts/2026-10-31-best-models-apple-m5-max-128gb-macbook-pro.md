@@ -13,7 +13,7 @@ I still find this a little ridiculous. A few years ago I was trying ChatGPT in a
 
 There's also been a wave of new inference engines for Apple Silicon. It feels more fragmented than the CUDA ecosystem right now: plenty of new projects, each supporting different models and making its own speed claims. For this setup I used [MTPLX](https://mtplx.com) for the two Qwens and [antirez's ds4](https://github.com/antirez/ds4) for DeepSeek.
 
-My configuration has an 18-core CPU, 40-core GPU and 128 GB of unified memory, with [614 GB/s of memory bandwidth according to Apple](https://support.apple.com/en-us/126318). That's the rated bandwidth, not a measurement from these tests. It matters because single-user LLM generation often spends much of its time reading weights from memory. Once a model needs SSD streaming, the SSD and cache behavior matter too; 614 GB/s doesn't describe that path.
+My configuration has an 18-core CPU, 40-core GPU and 128 GB of unified memory, with [614 GB/s of memory bandwidth according to Apple](https://support.apple.com/en-us/126318). Generating each token involves reading model weights, so fast memory helps. DeepSeek is a different story: much of it lives on the SSD, which is far slower than RAM.
 
 ## The two Qwens I'd start with
 
