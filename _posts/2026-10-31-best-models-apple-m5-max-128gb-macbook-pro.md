@@ -35,7 +35,9 @@ Those are the engine's reported generation rates. Including prompt processing an
 
 ## DeepSeek: possible, but bring patience
 
-I also have DeepSeek-V4.1-Flash Q4 running through [antirez's ds4](https://github.com/antirez/ds4). The GGUF is about 483 GiB. It does **not** fit in 128 GB: `ds4` uses SSD streaming and an automatically sized expert cache.
+I also have DeepSeek-V4.1-Flash Q4 running through [antirez's ds4](https://github.com/antirez/ds4). “Q4” doesn't mean every weight is 4-bit. According to the [GGUF model card](https://huggingface.co/antirez/deepseek-v4.1-flash-gguf#quantization), this build uses Q4_K for the routed experts, Q8 for attention projections, shared experts and output weights, and F16/F32 for other tensors. The Engram tables stay in their original FP8 format. The separate Q2 build uses IQ2_XXS for routed gate/up experts and Q2_K for down experts, but that's not the build I benchmarked here.
+
+The Q4 GGUF is about 483 GiB: roughly 294 GiB of main weights plus 189 GiB of Engram tables. It doesn't fit in 128 GB, so `ds4` streams weights from SSD with an automatically sized expert cache, and reads Engram rows from disk as needed.
 
 Separate 128-output-token tests measured 8.3 tok/s after a 39-token prompt and 7.1 tok/s after a 1,844-token prompt. Time to first token was roughly 6–7 seconds and 35 seconds respectively. A separate retrieval check correctly recalled a code buried in a 54,045-token prompt in 193 seconds total, with the server configured for 128K context. That doesn't establish reliable retrieval across the full window.
 
