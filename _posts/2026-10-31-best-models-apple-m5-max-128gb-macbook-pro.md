@@ -7,7 +7,9 @@ tags: [llm, local-inference, apple-silicon, mlx, qwen, deepseek]
 description: "Three models on my 128GB M5 Max: Qwen3.8-Flash-Next for speed, Qwen3.8-27B at 8-bit for a smaller memory footprint, and DeepSeek-V4.1-Flash streamed from SSD. Local speed tests included."
 ---
 
-My [dual RTX Pro 6000 workstation]({% post_url 2025-12-25-dual-rtx-pro-6000-llm-guide %}) is still where I run the bigger models, but I also want a useful coding model on the laptop itself. On my M5 Max MacBook Pro with 128 GB of unified memory, my first pick from the models I've installed is Qwen3.8-Flash-Next through MTPLX. It generates around 72–86 tokens/sec in my short-prompt tests. There's also a smaller 8-bit Qwen worth keeping, and a much larger DeepSeek that runs with substantial help from the SSD.
+I recently bought an M5 Max MacBook Pro with 128 GB of RAM to run local AI models on the go. So far, I've run Qwen3.8-Flash-Next, a 125B-parameter model with 6B active parameters per token, at 72–86 tokens/second; Qwen3.8-27B at 38–45 tokens/second; and DeepSeek-V4.1-Flash at 7–8 tokens/second, streaming from SSD because it doesn't fit in memory. This article covers these three models, the engines I used, and how to run them.
+
+There's also been a wave of new inference engines for Apple Silicon. It feels more fragmented than the CUDA ecosystem right now: plenty of new projects, each supporting different models and making its own speed claims. For this setup I used MTPLX for the two Qwens and antirez's ds4 for DeepSeek.
 
 My configuration has an 18-core CPU, 40-core GPU and 128 GB of unified memory, with [614 GB/s of memory bandwidth according to Apple](https://support.apple.com/en-us/126318). That's the rated bandwidth, not a measurement from these tests. It matters because single-user LLM generation often spends much of its time reading weights from memory. Once a model needs SSD streaming, the SSD and cache behavior matter too; 614 GB/s doesn't describe that path.
 
