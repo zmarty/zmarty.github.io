@@ -6,7 +6,7 @@ tags: [gpu, pcie, switch, pex88096, mcio, p2p, nccl, am5]
 description: "The four-GPU AM5 build I actually assembled, from an MCIO switch card and separate GPU adapters to the PCIe settings that got the cards talking."
 ---
 
-[The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of waiting for packages and iterating on the design, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
+[The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of iterating on the design and waiting around for packages, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
 
 My AM5 motherboard has two graphics slots, and a regular PC case doesn't have room to mount four cards this size with all their cables. I ordered custom cases from China, got a PCIe switch, and moved to a 240 V power supply. That last part is why I ran a dedicated circuit to the rack when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
 
