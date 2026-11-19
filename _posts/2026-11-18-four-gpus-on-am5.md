@@ -6,7 +6,11 @@ tags: [gpu, pcie, switch, pex88096, mcio, p2p, nccl, am5]
 description: "The four-GPU AM5 build I actually assembled, from an MCIO switch card and separate GPU adapters to the PCIe settings that got the cards talking."
 ---
 
-In September I wrote about [building a separate four-GPU expansion box]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) for my AM5 workstation. In that plan, all four cards plugged into slots on one switch backplane. I ended up changing the form factor. The switch is now a PCIe card in the motherboard, and each GPU has a little slot board of its own, connected with MCIO cables. The motherboard and all four GPUs fit in one case. It took some work to get them in there.
+[The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of waiting for packages and iterating on the design, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
+
+My AM5 motherboard has two graphics slots, and a regular PC case doesn't have room to mount four cards this size with all their cables. I ordered custom cases from China, got a PCIe switch, and moved to a 240 V power supply. That last part is why I ran a dedicated circuit to the rack when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
+
+The original plan called for a separate box with all four GPUs plugged into a single switch backplane. I ended up with a switch card in the motherboard and a separate slot board for each GPU, connected over MCIO. That let me fit the whole machine in one chassis.
 
 ![Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel.]({{ '/assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg' | relative_url }})
 
