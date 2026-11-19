@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 357" width="640" height="357" role="img" aria-labelledby="title desc">
+  <title id="title">The same hardware with two PCIe peer traffic routes</title>
+  <desc id="desc">With ACS request and completion redirection on, traffic can travel from a GPU through the switch and up to the CPU root complex before returning through the switch to its peer. With redirection off, the switch can forward the traffic directly to the peer.</desc>
+  <defs>
+    <marker id="amber-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 8 8">
+      <path d="M0 0l8 4-8 4z" fill="#a74019"/>
+    </marker>
+    <marker id="teal-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 8 8">
+      <path d="M0 0l8 4-8 4z" fill="#08786d"/>
+    </marker>
+    <g id="fabric">
+      <rect x="18" y="66" width="272" height="52" rx="8" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <rect x="18" y="176" width="272" height="53" rx="8" fill="#edf5fb" stroke="#a6b8cb" stroke-width="2"/>
+      <rect x="18" y="263" width="88" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <rect x="202" y="263" width="88" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="154" y="90" font-size="18" font-weight="600">CPU root complex</text>
+      <text x="154" y="207" font-size="19" font-weight="600">PCIe switch</text>
+      <text x="62" y="292" font-size="18">GPU 0</text>
+      <text x="246" y="292" font-size="18">GPU 1</text>
+    </g>
+  </defs>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#172a41">
+    <rect x="1" y="1" width="310" height="355" rx="13" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
+    <rect x="329" y="1" width="310" height="355" rx="13" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
+    <g transform="translate(2)">
+      <text x="154" y="38" font-size="21" font-weight="700">ACS redirection on</text>
+      <use href="#fabric"/>
+      <g fill="none" stroke="#a74019" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M62 263v-42h20V110" marker-end="url(#amber-arrow)"/>
+        <path d="M82 110v-8h144v8"/>
+        <path d="M226 110v111h20v40" marker-end="url(#amber-arrow)"/>
+      </g>
+      <text x="154" y="337" font-size="17" font-weight="600" fill="#873411">Via the shared uplink</text>
+    </g>
+    <g transform="translate(330)">
+      <text x="154" y="38" font-size="21" font-weight="700">ACS redirection off</text>
+      <use href="#fabric"/>
+      <path d="M154 118v58" stroke="#a6b8cb" stroke-width="3" stroke-dasharray="6 5"/>
+      <path d="M62 263v-42h184v40" fill="none" stroke="#08786d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#teal-arrow)"/>
+      <text x="154" y="337" font-size="17" font-weight="600" fill="#08655c">Within the switch fabric</text>
+    </g>
+  </g>
+</svg>
