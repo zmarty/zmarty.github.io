@@ -54,6 +54,8 @@ With the switch in place, I checked the PCIe tree before testing CUDA. `lspci -D
 
 Getting to that working boot took some experimenting with GPU firmware profiles. My working setup used **Above 4G Decoding on**, the motherboard's **Resizable BAR toggle off**, and the **8 GiB graphics profile** on all four GPUs. Linux also had `pci=realloc=on` on its command line. The 8 GiB is BAR1, a PCIe address window into GPU memory. Each card still has its 96 GB of VRAM. In compute mode the cards exposed a much larger framebuffer aperture and additional virtual-function reservations, and I ran into resource allocation problems with multiple cards.
 
+I used **NVIDIA Display Mode Selector 1.77** for Linux to set `physical_display_enabled_8GB_bar1` on each card. I changed the cards in stages, then checked `nvidia-smi -q` after reboot. All four reported **8,192 MiB** under BAR1 Memory Usage. [NVIDIA Display Mode Selector download](https://developer.nvidia.com/displaymodeselector)
+
 I also had one normal reboot where Linux could still see the switch, but all four GPUs were missing from the PCIe tree and the uplink had come up at Gen1 x4. A complete shutdown and restart brought back all four GPUs and Gen4 x16. I still don't know which part of the initialization failed. Having the device tree and link speeds from a good boot gave me something concrete to compare.
 
 ## Getting peer traffic to stay on the switch
