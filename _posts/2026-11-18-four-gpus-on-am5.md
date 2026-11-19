@@ -1,59 +1,67 @@
 ---
 layout: post
-title: "Four GPUs on AM5, and the PCIe traffic that took the long way"
+title: "How I fit four RTX PRO 6000s in one AM5 machine"
 categories: [AI, Hardware]
-tags: [gpu, pcie, switch, pex88096, p2p, nccl, llm, vllm, am5]
-description: "I built the four-GPU expansion box. Peer copies worked on every pair, but a PCIe routing change took four-GPU all-reduce from 5.53 to 21.50 GB/s."
+tags: [gpu, pcie, switch, pex88096, mcio, p2p, nccl, am5]
+description: "The four-GPU AM5 build I actually assembled, from an MCIO switch card and separate GPU adapters to the PCIe settings that got the cards talking."
 ---
 
-In September I wrote about [connecting four GPUs to my AM5 workstation]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) with a PCIe switch. The box now has four RTX PRO 6000 Blackwell cards, with 96 GB of VRAM each. Every pair of cards could move data at around 27 GB/s. Then I ran an all-reduce across all four and got 5.53 GB/s of effective bus bandwidth.
+In September I wrote about [building a separate four-GPU expansion box]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) for my AM5 workstation. In that plan, all four cards plugged into slots on one switch backplane. I ended up changing the form factor. The switch is now a PCIe card in the motherboard, and each GPU has a little slot board of its own, connected with MCIO cables. The motherboard and all four GPUs fit in one case. It took some work to get them in there.
 
-I had bought the switch so the GPUs could talk to each other without going back through the motherboard. It turns out the switch could still send their traffic there. After changing two routing settings on its ports, the same all-reduce reached 21.50 GB/s, and GLM-5.3-Flash processed a 32K-token prompt in 6.4 seconds instead of 15.2.
+![Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel.]({{ '/assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg' | relative_url }})
 
-## What I ended up with
+## The switch card and the GPU slots
 
-I kept the Ryzen 9 7950X3D and the ASUS ROG Crosshair X670E Hero. The host adapter sits in the motherboard's top x16 slot and connects to the Broadcom PEX88096 backplane in the expansion box. The two cables carry eight lanes apiece and together form one Gen4 x16 uplink. Each GPU has its own Gen4 x16 link into the switch fabric. I verified those links under load because the GPU links can downshift at idle.
+I kept the Ryzen 9 7950X3D and the ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card sits in the motherboard's top x16 slot. Its gold fingers are the upstream connection to the CPU. The connectors around the card take the MCIO cables that go out to the GPUs. The little fan on the switch card cools the switch chip itself.
 
-![The AM5 root port connects through a host adapter and two eight-lane cables to a PEX88096 backplane. The cables form one Gen4 x16 uplink shared by four GPUs, each with its own Gen4 x16 link.]({{ '/assets/img/pcie-switch-follow-up/topology.svg' | relative_url }})
+![The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables.]({{ '/assets/img/pcie-switch-follow-up/mcio-switch-card.jpg' | relative_url }})
 
-_The GPU-side links are simplified here. The backplane exposes several PCIe bridges. Diagram style inspired by [Doug's RTX 3090 splitter post](https://doug.sh/posts/pcie-splitter-rtx-3090/)._
+At the other end, each pair of eight-lane MCIO cables goes to a small board with a full-size PCIe x16 slot. The GPU plugs into that slot. The slot board also has a power input, and the GPU still has its own power lead. The two MCIO cables to a GPU carry the two halves of its x16 data link.
 
-Before the box, I had two cards in the motherboard's two graphics slots, which are wired for Gen5 x8 each in that configuration. Gen5 x8 and Gen4 x16 both work out to about 31.5 GB/s per direction before packet overhead. Each of the four cards now has that link budget to the switch. When they all need to talk to the host, they share one link with the same 31.5 GB/s budget. The reason to build this at all was to keep the repeated GPU-to-GPU transfers inside the box.
+![One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input.]({{ '/assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg' | relative_url }})
 
-Getting all four GPUs to show up took some work. An experiment with the cards' compute profile exposed a 128 GiB framebuffer aperture and additional virtual-function reservations per card, and I ran into PCIe resource allocation problems. I got all four running with Above 4G Decoding on, the motherboard's Resizable BAR toggle off, and the cards in the 8 GiB graphics profile. That 8 GiB is the size of BAR1, a PCIe address window into GPU memory. Each card still has its 96 GB of VRAM.
+![An RTX PRO 6000 plugged into its slot adapter, with two MCIO cables attached beneath the GPU.]({{ '/assets/img/pcie-switch-follow-up/gpu-on-slot-adapter.jpg' | relative_url }})
 
-## Peer-to-peer was already working
+## Fitting it in the case
 
-I checked all six GPU pairs in both directions with CUDA copies and kernels that read and wrote peer memory directly. All 36 data checks passed. The copies did 27.1–27.6 GB/s, one pair at a time. Had I stopped there, I would have thought I was done.
+I bought a [dual-chamber rackmount case from AliExpress](https://www.aliexpress.us/item/3256812027515666.html). Even with two chambers, fitting everything was difficult. A single backplane would have fixed the spacing between the GPUs. With separate slot boards I could mount the cards in pairs on either side of the motherboard area. The trade-off was finding room for eight MCIO runs, the GPU power leads, and enough clearance around the fans.
 
-For the workload I care about, a single pair is only part of the picture. In tensor parallel inference, the GPUs each compute part of the model and repeatedly exchange partial results. An all-reduce combines those results and makes the combined result available to each GPU. When four GPUs do that together, their transfers can compete for a shared link even if a copy between two GPUs has plenty of bandwidth to itself.
+![Bundled MCIO cables laid over the front of the case during assembly, before connecting the GPU slot boards.]({{ '/assets/img/pcie-switch-follow-up/routing-mcio-cables.jpg' | relative_url }})
 
-The clue was in the PCIe Access Control Services (ACS) settings. The switch ports had both peer request and completion redirection enabled. Those controls can send peer transactions upstream to the CPU's PCIe root complex before they come back down to the destination GPU. NCCL reported the same `P2P/CUMEM` transport before and after I changed the settings. That told me how NCCL was accessing peer memory. The port settings explained why those accesses could still take the longer route. [NVIDIA's NCCL troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
+The overhead view shows why the extra chamber didn't solve everything. The power leads bend over the ends of the cards, and the MCIO bundles still have to come back to the switch. The space between the GPUs also has the CPU cooler and RAM in it.
 
-![Two simplified routes between GPUs on the same backplane. With ACS redirection on, peer traffic can go up to the CPU root complex and back down. With redirection off, the switch can forward it locally.]({{ '/assets/img/pcie-switch-follow-up/peer-routing.svg' | relative_url }})
+![Overhead view of the two GPU pairs surrounding the CPU cooler and RAM, with power cables and MCIO bundles routed through the remaining space.]({{ '/assets/img/pcie-switch-follow-up/top-view.jpg' | relative_url }})
 
-_The arrows show what the routing controls allow. I inferred the detour from the port settings and the benchmark, without tracing individual PCIe packets._
+![The assembled chassis in the rack, with three large front fan grilles above four smaller ones.]({{ '/assets/img/pcie-switch-follow-up/case-in-rack.jpg' | relative_url }})
 
-For the test I turned off just request and completion redirection on seven ports in the GPU switch fabric. I left the CPU root port and the 8 GiB BAR1 configuration alone. The change was made at runtime and was never set up to run at boot.
+## What changed electrically
 
-## What changed in vLLM
+With two GPUs plugged directly into this motherboard, the two slots are wired for Gen5 x8 each. Each card has its own eight-lane path to the CPU, and traffic between the two goes through the CPU's PCIe root complex. With the switch installed, the motherboard gives the switch the full x16 link from the top slot. I leave the other CPU-connected graphics slot empty so the top slot keeps all 16 lanes. The switch supplies four downstream x16 links of its own. The MCIO cabling starts on the downstream side of the switch.
 
-I ran the NCCL test immediately before and after the switch change, with the model unloaded. Then I compared inference runs from the same day with the same GLM-5.3-Flash NVFP4 Spark checkpoint, vLLM image, and four-way tensor parallel configuration. The prefill tests used fresh prompts, so the server had to process every input token.
+![One Gen4 x16 link from the AM5 root port to the PCIe switch card, followed by four Gen4 x16 links, each carried by two x8 MCIO cables to a separate GPU slot adapter.]({{ '/assets/img/pcie-switch-follow-up/topology.svg' | relative_url }})
 
-| Test | Redirection on | Redirection off |
-| :--- | ---: | ---: |
-| Four-GPU NCCL all-reduce, 16 MiB per GPU | 5.53 GB/s | 21.50 GB/s |
-| Prefill, 8,192 input tokens | 2,899 tok/s | 5,151 tok/s |
-| Prefill, 32,768 input tokens | 2,159 tok/s | 5,099 tok/s |
-| Generation, one request, 2,048 output tokens | 218 tok/s | 288 tok/s |
-| Generation, four concurrent requests, 2,048 output tokens each | 425.3 tok/s total | 599.5 tok/s total |
+_The drawing omits the extra PCIe bridges Linux sees inside the switch fabric. Diagram style inspired by [Doug's RTX 3090 splitter post](https://doug.sh/posts/pcie-splitter-rtx-3090/)._
 
-The NCCL numbers are medians from three runs per setting. Its effective bus bandwidth accounts for the amount of data exchanged by the four ranks, so it measures something different from the speed of a copy between two cards. The collective went from 4.55 ms to 1.17 ms. At 16 KiB, the time barely moved, from 14.3 to 13.4 microseconds.
+Gen5 x8 and Gen4 x16 both have a theoretical bandwidth of about 31.5 GB/s per direction before packet overhead. Each GPU now has that budget to the switch, and I verified Gen4 x16 on the GPU links under load. The four cards share one Gen4 x16 uplink for transfers to and from the CPU, including loading model weights from host memory. The switch can also forward peer traffic between its downstream ports, which is why I wanted it for a model that stays in GPU memory.
 
-On a 32K prompt, prefill went from 15.2 seconds to 6.4 seconds. That's server-measured time spent processing the prompt. Generation improved by about 32% on the single-request 2,048-token test. The inference runs were several hours apart, with three samples per prefill length and per single-request generation test. The generation tests used short prompts and timed the full request. Output text and speculative decoding acceptance can vary between runs, so I put more weight on the immediately repeated NCCL result.
+## Getting all four GPUs to enumerate
 
-## One reboot later
+With the switch in place, I checked the PCIe tree before testing CUDA. `lspci -Dtv` showed the bridges and GPU endpoints below the CPU's root port. I used `sudo lspci -Dvv -s <address>` to inspect individual devices and ports. On a working boot the root port and the first switch upstream port both reported 16 GT/s at x16. The GPU-facing links sometimes showed a lower speed at idle, so I checked them again while the cards were moving data.
 
-On a later normal reboot, Linux could still see the switch, but all four GPUs were missing from the PCIe device list. The uplink had come up at Gen1 x4. A complete shutdown and restart brought back all four cards and the Gen4 x16 uplink. I still don't know what caused that boot failure. The recovery confirmed that the cards were visible again. I didn't verify the runtime ACS settings or rerun the benchmarks after that restart.
+Getting to that working boot took some experimenting with GPU firmware profiles. My working setup used **Above 4G Decoding on**, the motherboard's **Resizable BAR toggle off**, and the **8 GiB graphics profile** on all four GPUs. Linux also had `pci=realloc=on` on its command line. The 8 GiB is BAR1, a PCIe address window into GPU memory. Each card still has its 96 GB of VRAM. In compute mode the cards exposed a much larger framebuffer aperture and additional virtual-function reservations, and I ran into resource allocation problems with multiple cards.
 
-In later tests, increasing vLLM's prefill chunk budget and gather limit got the same 32K workload to about 9,818 input tokens a second. That took a separate round of testing, which I'll cover in a later post.
+I also had one normal reboot where Linux could still see the switch, but all four GPUs were missing from the PCIe tree and the uplink had come up at Gen1 x4. A complete shutdown and restart brought back all four GPUs and Gen4 x16. I still don't know which part of the initialization failed. Having the device tree and link speeds from a good boot gave me something concrete to compare.
+
+## Getting peer traffic to stay on the switch
+
+`nvidia-smi topo -p2p r` and `nvidia-smi topo -p2p w` reported peer access between every GPU pair. I checked all six pairs in both directions with CUDA copies and kernels that read and wrote peer memory directly. All 36 data checks passed, and the copies ran at 27.1–27.6 GB/s with one pair active at a time.
+
+Then I ran a four-GPU NCCL all-reduce, which has the GPUs exchange and combine partial results. At 16 MiB per GPU, the effective bus bandwidth was only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). Those settings can send peer requests and completions up the shared link to the root complex. The transfers can still use peer memory the whole time. [NVIDIA's NCCL troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
+
+![With ACS redirection on, peer traffic can travel up to the CPU root complex and back down. With redirection off, the switch can forward it locally.]({{ '/assets/img/pcie-switch-follow-up/peer-routing.svg' | relative_url }})
+
+I stopped the inference server, mapped the ports in the GPU subtree, and saved their original ACS settings. For the test I cleared only the peer request and completion redirect bits on seven switch ports, then read them back to confirm `ReqRedir- CmpltRedir-`. The CPU root port's ACS settings stayed as they were. It was a runtime change on this machine, with no boot hook. I didn't verify or reapply it after the later restart.
+
+The same four-GPU all-reduce reached **21.50 GB/s** after the change, up from **5.53 GB/s**. That's the median of three runs per setting with the model unloaded. NCCL reported the same `P2P/CUMEM` transport in both cases. The port settings and the change in collective speed point to the upstream detour shown in the diagram. I didn't trace individual packets.
+
+In a same-day comparison with the same four-way vLLM configuration, GLM-5.3-Flash processed an uncached 32K-token prompt in 6.4 seconds after the change, down from 15.2 seconds. The collective was the check that showed me what the switch configuration was doing. I'll get into the model setup and the later vLLM tuning in another post.

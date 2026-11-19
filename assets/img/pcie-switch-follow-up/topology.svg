@@ -1,51 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 516" width="640" height="516" role="img" aria-labelledby="title desc">
-  <title id="title">Four GPUs on one AM5 PCIe slot</title>
-  <desc id="desc">Two eight-lane cables form one Gen4 x16 uplink between the AM5 host adapter and the PEX88096 backplane. Four RTX PRO 6000 GPUs each have a Gen4 x16 downstream link.</desc>
-  <rect x="1" y="1" width="638" height="514" rx="16" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 484" width="640" height="484" role="img" aria-labelledby="title desc">
+  <title id="title">Four GPUs connected to an AM5 PCIe switch card with MCIO</title>
+  <desc id="desc">Inside one chassis, a PEX88096 card plugs into the top motherboard slot at Gen4 x16. Four downstream links each use two eight-lane MCIO cables to a PCIe x16 slot adapter holding an RTX PRO 6000.</desc>
+  <rect x="1" y="1" width="638" height="482" rx="16" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
   <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#172a41">
-    <rect x="112" y="22" width="416" height="154" rx="12" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
-    <text x="320" y="53" font-size="22" font-weight="700">AM5 workstation</text>
-    <text x="320" y="82" font-size="19">Ryzen 9 7950X3D</text>
-    <text x="320" y="107" font-size="17" fill="#445b74">PCIe root port 00:01.1</text>
-    <path d="M320 116v12" stroke="#226ca4" stroke-width="4"/>
-    <rect x="205" y="128" width="230" height="36" rx="6" fill="#e8f3fc" stroke="#8bb7d8"/>
-    <text x="320" y="152" font-size="18" font-weight="600">Host adapter in x16 slot</text>
+    <rect x="20" y="20" width="600" height="444" rx="12" fill="#edf5fb" stroke="#a6b8cb" stroke-width="2"/>
+    <text x="38" y="47" text-anchor="start" font-size="17" fill="#445b74">Dual-chamber chassis</text>
 
-    <path d="M300 164v121m40-121v121" fill="none" stroke="#226ca4" stroke-width="5"/>
-    <text x="281" y="206" text-anchor="end" font-size="19">Two x8 cables</text>
-    <text x="359" y="206" text-anchor="start" font-size="19" font-weight="700">One Gen4 x16 link</text>
+    <rect x="130" y="62" width="380" height="70" rx="8" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+    <text x="320" y="91" font-size="22" font-weight="700">AM5 motherboard</text>
+    <text x="320" y="116" font-size="17" fill="#445b74">Ryzen 9 7950X3D · root port 00:01.1</text>
 
-    <rect x="19" y="238" width="602" height="255" rx="12" fill="#edf5fb" stroke="#a6b8cb" stroke-width="2"/>
-    <path d="M300 238v48m40-48v48" fill="none" stroke="#226ca4" stroke-width="5"/>
-    <text x="36" y="265" text-anchor="start" font-size="17" fill="#445b74">Expansion box</text>
-    <rect x="40" y="286" width="560" height="58" rx="8" fill="#d8ebfa" stroke="#8bb7d8" stroke-width="2"/>
-    <text x="320" y="322" font-size="23" font-weight="700">Broadcom PEX88096 backplane</text>
+    <path d="M320 132v59" stroke="#226ca4" stroke-width="5"/>
+    <text x="338" y="165" text-anchor="start" font-size="17">Gen4 x16 in top PCIe slot</text>
+    <rect x="42" y="191" width="556" height="54" rx="8" fill="#d8ebfa" stroke="#8bb7d8" stroke-width="2"/>
+    <text x="320" y="225" font-size="23" font-weight="700">Broadcom PEX88096 switch card</text>
 
-    <path d="M110 344v65m140-65v65m140-65v65m140-65v65" stroke="#226ca4" stroke-width="4"/>
-    <path d="M40 368h560v21H40z" fill="#edf5fb"/>
-    <g font-size="17">
-      <text x="110" y="384">Gen4 x16</text>
-      <text x="250" y="384">Gen4 x16</text>
-      <text x="390" y="384">Gen4 x16</text>
-      <text x="530" y="384">Gen4 x16</text>
+    <path d="M104 245v83m12-83v83m128-83v83m12-83v83m128-83v83m12-83v83m128-83v83m12-83v83"
+          fill="none" stroke="#226ca4" stroke-width="3"/>
+    <rect x="139" y="271" width="362" height="31" rx="6" fill="#edf5fb"/>
+    <text x="320" y="292" font-size="18" font-weight="600">Each Gen4 x16 link uses two x8 MCIO cables</text>
+
+    <g fill="#d8ebfa" stroke="#8bb7d8" stroke-width="2">
+      <rect x="46" y="328" width="128" height="37" rx="7"/>
+      <rect x="186" y="328" width="128" height="37" rx="7"/>
+      <rect x="326" y="328" width="128" height="37" rx="7"/>
+      <rect x="466" y="328" width="128" height="37" rx="7"/>
     </g>
+    <g font-size="17">
+      <text x="110" y="352">Slot adapter</text>
+      <text x="250" y="352">Slot adapter</text>
+      <text x="390" y="352">Slot adapter</text>
+      <text x="530" y="352">Slot adapter</text>
+    </g>
+    <path d="M110 365v17m140-17v17m140-17v17m140-17v17" stroke="#226ca4" stroke-width="4"/>
     <g fill="#fff" stroke="#a6b8cb" stroke-width="2">
-      <rect x="46" y="409" width="128" height="62" rx="7"/>
-      <rect x="186" y="409" width="128" height="62" rx="7"/>
-      <rect x="326" y="409" width="128" height="62" rx="7"/>
-      <rect x="466" y="409" width="128" height="62" rx="7"/>
+      <rect x="46" y="382" width="128" height="62" rx="7"/>
+      <rect x="186" y="382" width="128" height="62" rx="7"/>
+      <rect x="326" y="382" width="128" height="62" rx="7"/>
+      <rect x="466" y="382" width="128" height="62" rx="7"/>
     </g>
     <g font-size="20" font-weight="700">
-      <text x="110" y="436">GPU 0</text>
-      <text x="250" y="436">GPU 1</text>
-      <text x="390" y="436">GPU 2</text>
-      <text x="530" y="436">GPU 3</text>
+      <text x="110" y="409">GPU 0</text>
+      <text x="250" y="409">GPU 1</text>
+      <text x="390" y="409">GPU 2</text>
+      <text x="530" y="409">GPU 3</text>
     </g>
     <g font-size="17" fill="#445b74">
-      <text x="110" y="458">RTX PRO 6000</text>
-      <text x="250" y="458">RTX PRO 6000</text>
-      <text x="390" y="458">RTX PRO 6000</text>
-      <text x="530" y="458">RTX PRO 6000</text>
+      <text x="110" y="431">RTX PRO 6000</text>
+      <text x="250" y="431">RTX PRO 6000</text>
+      <text x="390" y="431">RTX PRO 6000</text>
+      <text x="530" y="431">RTX PRO 6000</text>
     </g>
   </g>
 </svg>
