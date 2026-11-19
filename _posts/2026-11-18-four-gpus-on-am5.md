@@ -74,10 +74,68 @@ In a same-day comparison with the same four-way vLLM configuration, GLM-5.3-Flas
 
 ## What happens after a reboot?
 
-The ACS change was for peer traffic performance. The GPUs already enumerated and ran inference before I changed those settings. I made the change at runtime, with no boot hook or ACS kernel option, so I expect those bits to reset on reboot. The BIOS settings and the GPUs' saved 8 GiB profiles are separate from that runtime change.
+The GPUs already enumerated and ran inference before I changed ACS. The change was for peer traffic performance, and I applied it at runtime. A later privileged read confirmed that all seven switch ports were back to `ReqRedir+ CmpltRedir+` after reboot. The BIOS settings and the GPUs' saved 8 GiB profiles are separate from those runtime bits.
 
 I also had one normal reboot where Linux could still see the switch, but all four GPUs were missing from the PCIe tree and the uplink had come up at Gen1 x4. A complete shutdown and restart brought back all four GPUs and Gen4 x16. I still don't know which part of the initialization failed. Having the device tree and link speeds from a good boot gave me something concrete to compare.
 
-Once all four GPUs are visible, the check is to find the switch ports again with `lspci -Dtv` and read the `ACSCtl` line on each relevant port with `sudo lspci -Dvv -s <port>`. If either redirect flag is back to `+`, I'd clear it on the relevant switch port before repeating the collective test. Linux 6.11 supports setting individual ACS bits on specific ports at boot with `pci=config_acs`. I haven't configured that here or verified the ACS bits after the restart. Before making it persistent I'd check the port addresses, since they can change and ACS affects PCIe device isolation. [Linux 6.11 kernel parameters](https://www.kernel.org/doc/html/v6.11/admin-guide/kernel-parameters.html)
+The DeepSeek-V4.1-Flash scores at the top came from a run after I cleared redirection and before the reboot. The timeline points to redirection being off during that run. I didn't read the bits during the benchmark or run DeepSeek with both settings. The before-and-after comparison above used NCCL and GLM-5.3-Flash.
+
+### Reapplying the ACS change at Linux boot
+
+A systemd oneshot service can run the same masked write after Linux enumerates the switch. I tested the register change by hand. The service below is how I'd make it persistent. I haven't installed it on this machine. Linux also documents `pci=config_acs`, but upstream 6.11 can fall back to the firmware value for bits marked `0`. The script below reads the hardware back to confirm the two bits actually cleared. [Linux 6.11 PCI implementation](https://github.com/torvalds/linux/blob/v6.11/drivers/pci/pci.c#L957-L1035)
+
+First, use `lspci -Dtv` and `lspci -DPP -d 1000:c010` to identify the switch ports in the paths to the GPUs. The addresses below are from my machine. Replace them with the verified ports on your system. Clearing these ACS bits affects PCIe peer isolation, so scope the change to the GPU switch ports you intend to share.
+
+Save this as `/usr/local/sbin/gpu-switch-acs`. It checks that all seven devices are Broadcom switch bridges below my GPU root port and have readable ACS controls before it writes anything. The `000c` mask selects only request and completion redirection.
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+root=$(readlink -e /sys/bus/pci/devices/0000:00:01.1)
+ports=(
+    0000:02:00.0 0000:02:04.0 0000:02:08.0 0000:04:10.0
+    0000:07:00.0 0000:07:10.0 0000:0b:00.0
+)
+
+for port in "${ports[@]}"; do
+    device=$(readlink -e "/sys/bus/pci/devices/$port")
+    if [[ $device != "$root/"* || $(cat "$device/vendor") != 0x1000 ||
+          $(cat "$device/device") != 0xc010 || $(cat "$device/class") != 0x060400 ]]; then
+        echo "Unexpected PCIe topology or device at $port" >&2
+        exit 1
+    fi
+    value=$(setpci -s "$port" ECAP_ACS+6.w)
+    [[ $value =~ ^[0-9a-fA-F]{4}$ && ${value,,} != ffff ]] || exit 1
+done
+
+for port in "${ports[@]}"; do
+    setpci -s "$port" ECAP_ACS+6.w=0000:000c
+    value=$(setpci -s "$port" ECAP_ACS+6.w)
+    if [[ ! $value =~ ^[0-9a-fA-F]{4}$ ]] || (( (16#$value & 0x000c) != 0 )); then
+        echo "ACS redirection is still enabled or unreadable at $port" >&2
+        exit 1
+    fi
+done
+```
+
+Save the unit as `/etc/systemd/system/gpu-switch-acs.service`.
+
+```ini
+[Unit]
+Description=Clear peer redirection on GPU PCIe switch ports
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/local/sbin/gpu-switch-acs
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Run `sudo systemctl daemon-reload` and `sudo systemctl enable gpu-switch-acs.service` to schedule it for the next boot. If inference also starts from a systemd unit, give that unit both `Requires=gpu-switch-acs.service` and `After=gpu-switch-acs.service` so inference waits for the check to succeed.
+
+After reboot, check `systemctl status gpu-switch-acs.service` and confirm that `sudo lspci -Dvv -s <port>` reports `ReqRedir- CmpltRedir-` under `ACSCtl` on each targeted port. Then repeat the four-GPU all-reduce to check performance. To go back to the defaults, disable the service and reboot.
 
 For DeepSeek-V4.1-Flash I used the Local Inference Lab serving profile with disk-backed Engram. I'll get into the model setup and the later vLLM tuning in another post. [The DeepSeek-V4.1-Flash serving guide I used](https://github.com/local-inference-lab/rtx6kpro/blob/master/models/deepseek-v4.1-flash.md)
