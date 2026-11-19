@@ -8,41 +8,41 @@ description: "The four-GPU AM5 build I actually assembled, from an MCIO switch c
 
 [The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of iterating on the design and waiting around for packages, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. With the Engram lookup table on NVMe, it processed uncached 32K-token prompts at about 15,350 input tokens per second. It generated 235 output tokens per second on a single request and 678 tokens per second in total across eight concurrent requests. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
 
-My AM5 motherboard has two graphics slots, and a regular PC case doesn't have room to mount four cards this size with all their cables. I ordered custom cases from China, got a PCIe switch, and moved to a 240 V power supply. That last part is why I ran a dedicated circuit to the rack when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
+My AM5 motherboard has two graphics slots, and a regular PC case doesn't have room to mount four cards this size with all their cables. I ordered a custom case from China, got a PCIe switch, and moved to a 240 V power supply. That last part is why I ran a dedicated circuit to the rack when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
 
 The original plan called for a separate box with all four GPUs plugged into a single switch backplane. I ended up with a switch card in the motherboard and a separate slot board for each GPU, connected over MCIO. That let me fit the whole machine in one chassis.
 
-![Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel.]({{ '/assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg' | relative_url }})
+![Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel.]({{ '/assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
 
 ## The switch card and the GPU slots
 
-I kept the Ryzen 9 7950X3D and the ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card sits in the motherboard's top x16 slot. Its gold fingers are the upstream connection to the CPU. The connectors around the card take the MCIO cables that go out to the GPUs. The little fan on the switch card cools the switch chip itself.
+I kept the Ryzen 9 7950X3D and the ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card sits in the motherboard's top x16 slot. That slot connects the switch directly to the CPU. The connectors around the card take the MCIO cables that go out to the GPUs. The little fan on the switch card cools the switch chip itself.
 
-![The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables.]({{ '/assets/img/pcie-switch-follow-up/mcio-switch-card.jpg' | relative_url }})
+![The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables.]({{ '/assets/img/pcie-switch-follow-up/mcio-switch-card.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
 
 At the other end, each pair of eight-lane MCIO cables goes to a small board with a full-size PCIe x16 slot. The GPU plugs into that slot. The slot board also has a power input, and the GPU still has its own power lead. The two MCIO cables to a GPU carry the two halves of its x16 data link.
 
-![One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input.]({{ '/assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg' | relative_url }})
+![One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input.]({{ '/assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
 
-![An RTX PRO 6000 plugged into its slot adapter, with two MCIO cables attached beneath the GPU.]({{ '/assets/img/pcie-switch-follow-up/gpu-on-slot-adapter.jpg' | relative_url }})
+![An RTX PRO 6000 plugged into its slot adapter, with two MCIO cables attached beneath the GPU.]({{ '/assets/img/pcie-switch-follow-up/gpu-on-slot-adapter.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
 
 ## Fitting it in the case
 
 I bought a [dual-chamber rackmount case from AliExpress](https://www.aliexpress.us/item/3256812027515666.html). Even with two chambers, fitting everything was difficult. A single backplane would have fixed the spacing between the GPUs. With separate slot boards I could mount the cards in pairs on either side of the motherboard area. The trade-off was finding room for eight MCIO runs, the GPU power leads, and enough clearance around the fans.
 
-![Bundled MCIO cables laid over the front of the case during assembly, before connecting the GPU slot boards.]({{ '/assets/img/pcie-switch-follow-up/routing-mcio-cables.jpg' | relative_url }})
+![Bundled MCIO cables laid over the front of the case during assembly, before connecting the GPU slot boards.]({{ '/assets/img/pcie-switch-follow-up/routing-mcio-cables.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
 
 The overhead view shows why the extra chamber didn't solve everything. The power leads bend over the ends of the cards, and the MCIO bundles still have to come back to the switch. The space between the GPUs also has the CPU cooler and RAM in it.
 
-![Overhead view of the two GPU pairs surrounding the CPU cooler and RAM, with power cables and MCIO bundles routed through the remaining space.]({{ '/assets/img/pcie-switch-follow-up/top-view.jpg' | relative_url }})
+![Overhead view of the two GPU pairs surrounding the CPU cooler and RAM, with power cables and MCIO bundles routed through the remaining space.]({{ '/assets/img/pcie-switch-follow-up/top-view.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
 
-![The assembled chassis in the rack, with three large front fan grilles above four smaller ones.]({{ '/assets/img/pcie-switch-follow-up/case-in-rack.jpg' | relative_url }})
+![The assembled chassis in the rack, with three large front fan grilles above four smaller ones.]({{ '/assets/img/pcie-switch-follow-up/case-in-rack.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
 
 ## What changed electrically
 
 With two GPUs plugged directly into this motherboard, the two slots are wired for Gen5 x8 each. Each card has its own eight-lane path to the CPU, and traffic between the two goes through the CPU's PCIe root complex. With the switch installed, the motherboard gives the switch the full x16 link from the top slot. I leave the other CPU-connected graphics slot empty so the top slot keeps all 16 lanes. The switch supplies four downstream x16 links of its own. The MCIO cabling starts on the downstream side of the switch.
 
-![One Gen4 x16 link from the AM5 root port to the PCIe switch card, followed by four Gen4 x16 links, each carried by two x8 MCIO cables to a separate GPU slot adapter.]({{ '/assets/img/pcie-switch-follow-up/topology.svg' | relative_url }})
+![One Gen4 x16 link from the AM5 root port to the PCIe switch card, followed by four Gen4 x16 links, each carried by two x8 MCIO cables to a separate GPU slot adapter.]({{ '/assets/img/pcie-switch-follow-up/topology.svg' | relative_url }}){: width="800" height="605" style="width: 800px; max-width: 100%; height: auto;" }
 
 _The drawing omits the extra PCIe bridges Linux sees inside the switch fabric. Diagram style inspired by [Doug's RTX 3090 splitter post](https://doug.sh/posts/pcie-splitter-rtx-3090/)._
 
@@ -62,7 +62,7 @@ I also had one normal reboot where Linux could still see the switch, but all fou
 
 Then I ran a four-GPU NCCL all-reduce, which has the GPUs exchange and combine partial results. At 16 MiB per GPU, the effective bus bandwidth was only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). Those settings can send peer requests and completions up the shared link to the root complex. The transfers can still use peer memory the whole time. [NVIDIA's NCCL troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
 
-![With ACS redirection on, peer traffic can travel up to the CPU root complex and back down. With redirection off, the switch can forward it locally.]({{ '/assets/img/pcie-switch-follow-up/peer-routing.svg' | relative_url }})
+![With ACS redirection on, peer traffic can travel up to the CPU root complex and back down. With redirection off, the switch can forward it locally.]({{ '/assets/img/pcie-switch-follow-up/peer-routing.svg' | relative_url }}){: width="800" height="446" style="width: 800px; max-width: 100%; height: auto;" }
 
 I stopped the inference server, mapped the ports in the GPU subtree, and saved their original ACS settings. For the test I cleared only the peer request and completion redirect bits on seven switch ports, then read them back to confirm `ReqRedir- CmpltRedir-`. The CPU root port's ACS settings stayed as they were. It was a runtime change on this machine, with no boot hook. I didn't verify or reapply it after the later restart.
 
