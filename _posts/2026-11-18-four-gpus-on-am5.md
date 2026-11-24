@@ -1,86 +1,89 @@
 ---
 layout: post
-title: "How I fit four RTX PRO 6000s in one AM5 machine"
+title: "We have Opus at home"
 categories: [AI, Hardware]
 tags: [gpu, pcie, switch, pex88096, mcio, p2p, nccl, am5]
 description: "The four-GPU AM5 build I actually assembled, from an MCIO switch card and separate GPU adapters to the PCIe settings that got the cards talking."
+relative_asset_images: true
 ---
 
 [The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of iterating on the design and waiting around for packages, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. With the Engram lookup table on NVMe, it processed uncached 32K-token prompts at about 15,350 input tokens per second. It generated 235 output tokens per second on a single request and 678 tokens per second in total across eight concurrent requests. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
 
-![One Gen4 x16 link from the AM5 root port to the PCIe switch card, followed by four Gen4 x16 links, each carried by two x8 MCIO cables to a separate GPU slot adapter.]({{ '/assets/img/pcie-switch-follow-up/topology.svg' | relative_url }}){: width="800" height="605" style="width: 800px; max-width: 100%; height: auto;" }
-
-_The drawing omits the extra PCIe bridges Linux sees inside the switch fabric. Diagram style inspired by [Doug's RTX 3090 splitter post](https://doug.sh/posts/pcie-splitter-rtx-3090/)._
+<img src="../assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg" alt="Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel." width="800" height="602" style="width: 800px; max-width: 100%; height: auto;">
 
 ## Why I used a PCIe switch
 
-When I split a model across four GPUs, they exchange partial results as they work. Peer-to-peer access (P2P) lets one GPU read or write another GPU's memory directly. The switch can forward those transfers between its own ports, leaving the shared link to the CPU available for host traffic. That matters most when several cards are exchanging data at once.
+When a model spans four GPUs, the cards exchange partial results. Peer-to-peer access (P2P) lets one GPU read or write another GPU's memory directly. A PCIe switch can forward those transfers locally, leaving the CPU uplink available for host traffic.
 
-With two GPUs plugged directly into this motherboard, the two slots are wired for Gen5 x8 each. Each card has its own eight-lane path to the CPU, and traffic between the two goes through the CPU's PCIe root complex. With the switch installed, the motherboard gives the switch the full x16 link from the top slot. I leave the other CPU-connected graphics slot empty so the top slot keeps all 16 lanes. The switch supplies four downstream x16 links of its own. The MCIO cabling starts on the downstream side of the switch.
+My motherboard has two graphics slots, wired for Gen5 x8 each when both are occupied. The switch gives me four downstream Gen4 x16 links, with the MCIO cables on that downstream side. All four cards still share one Gen4 x16 uplink to the CPU, including when loading model weights from host memory.
 
-Gen5 x8 and Gen4 x16 both have a theoretical bandwidth of about 31.5 GB/s per direction before packet overhead. Each GPU now has that budget to the switch, and I verified Gen4 x16 on the GPU links under load. The four cards share one Gen4 x16 uplink for transfers to and from the CPU, including loading model weights from host memory.
+<img src="../assets/img/pcie-switch-follow-up/topology.svg" alt="Four GPUs connected to the PCIe switch over MCIO. Amber dots show CPU-to-GPU host traffic crossing the shared uplink. Teal dots travel in both directions between every GPU pair on the same switch fabric with ACS redirection off." width="800" height="718" style="width: 800px; max-width: 100%; height: auto;">
 
-My AM5 motherboard has two graphics slots, and a regular PC case doesn't have room to mount four cards this size with all their cables. I ordered a custom case from China, got a PCIe switch, and moved to a 240 V power supply. That last part is why I ran a dedicated circuit to the rack when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
+_The drawing omits the extra PCIe bridges Linux sees inside the switch fabric. Diagram style inspired by [Doug's RTX 3090 splitter post](https://doug.sh/posts/pcie-splitter-rtx-3090/)._
 
-The original plan called for a separate box with all four GPUs plugged into a single switch backplane. I ended up with a switch card in the motherboard and a separate slot board for each GPU, connected over MCIO. That let me fit the whole machine in one chassis.
+## Building the hardware
 
-![Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel.]({{ '/assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
+<img src="../assets/img/pcie-switch-follow-up/mcio-switch-card.jpg" alt="The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables." width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;">
 
-## The switch card and the GPU slots
+I kept the Ryzen 9 7950X3D and ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card occupies the top x16 slot; I leave the other CPU-connected graphics slot empty so the switch keeps all 16 lanes. The small blower cools the switch chip.
 
-I kept the Ryzen 9 7950X3D and the ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card sits in the motherboard's top x16 slot. That slot connects the switch directly to the CPU. The connectors around the card take the MCIO cables that go out to the GPUs. The little fan on the switch card cools the switch chip itself.
+<img src="../assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg" alt="One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input." width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;">
 
-![The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables.]({{ '/assets/img/pcie-switch-follow-up/mcio-switch-card.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
+Each GPU gets a separate board with a PCIe x16 slot and a slot power input. The GPU also keeps its own power lead.
 
-At the other end, each pair of eight-lane MCIO cables goes to a small board with a full-size PCIe x16 slot. The GPU plugs into that slot. The slot board also has a power input, and the GPU still has its own power lead. The two MCIO cables to a GPU carry the two halves of its x16 data link.
+<img src="../assets/img/pcie-switch-follow-up/gpu-on-slot-adapter.jpg" alt="An RTX PRO 6000 plugged into its slot adapter, with two MCIO cables attached beneath the GPU." width="800" height="602" style="width: 800px; max-width: 100%; height: auto;">
 
-![One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input.]({{ '/assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
+Two x8 MCIO cables carry each GPU's Gen4 x16 link to the switch. These separate adapters let me position the cards independently of the motherboard's slots.
 
-![An RTX PRO 6000 plugged into its slot adapter, with two MCIO cables attached beneath the GPU.]({{ '/assets/img/pcie-switch-follow-up/gpu-on-slot-adapter.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
+<img src="../assets/img/pcie-switch-follow-up/routing-mcio-cables.jpg" alt="Bundled MCIO cables laid over the front of the case during assembly, before connecting the GPU slot boards." width="800" height="602" style="width: 800px; max-width: 100%; height: auto;">
 
-## Fitting it in the case
+I originally planned an external GPU box with a single switch backplane. Separate adapters let me fit everything in one custom [dual-chamber rackmount case](https://www.aliexpress.us/item/3256812027515666.html). Finding room for eight MCIO cables and the GPU power leads was still difficult.
 
-I bought a [dual-chamber rackmount case from AliExpress](https://www.aliexpress.us/item/3256812027515666.html). Even with two chambers, fitting everything was difficult. A single backplane would have fixed the spacing between the GPUs. With separate slot boards I could mount the cards in pairs on either side of the motherboard area. The trade-off was finding room for eight MCIO runs, the GPU power leads, and enough clearance around the fans.
+<img src="../assets/img/pcie-switch-follow-up/top-view.jpg" alt="Overhead view of the two GPU pairs surrounding the CPU cooler and RAM, with power cables and MCIO bundles routed through the remaining space." width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;">
 
-![Bundled MCIO cables laid over the front of the case during assembly, before connecting the GPU slot boards.]({{ '/assets/img/pcie-switch-follow-up/routing-mcio-cables.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
+I mounted the cards in pairs on either side of the motherboard area. The cables had to clear the CPU cooler, RAM, and front fans. The overhead view shows how little space remained.
 
-The overhead view shows why the extra chamber didn't solve everything. The power leads bend over the ends of the cards, and the MCIO bundles still have to come back to the switch. The space between the GPUs also has the CPU cooler and RAM in it.
+<img src="../assets/img/pcie-switch-follow-up/case-in-rack.jpg" alt="The assembled chassis in the rack, with three large front fan grilles above four smaller ones." width="800" height="602" style="width: 800px; max-width: 100%; height: auto;">
 
-![Overhead view of the two GPU pairs surrounding the CPU cooler and RAM, with power cables and MCIO bundles routed through the remaining space.]({{ '/assets/img/pcie-switch-follow-up/top-view.jpg' | relative_url }}){: width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;" }
-
-![The assembled chassis in the rack, with three large front fan grilles above four smaller ones.]({{ '/assets/img/pcie-switch-follow-up/case-in-rack.jpg' | relative_url }}){: width="800" height="602" style="width: 800px; max-width: 100%; height: auto;" }
+The finished chassis went into the rack with a 240 V power supply. I'd already run a dedicated circuit when I [upgraded my house electrical system]({% post_url 2026-08-08-upgrading-house-electrical-for-ai %}).
 
 ## Getting all four GPUs to enumerate
 
-With the switch in place, I checked the PCIe tree before testing CUDA. `lspci -Dtv` showed the bridges and GPU endpoints below the CPU's root port. I used `sudo lspci -Dvv -s <address>` to inspect individual devices and ports. On a working boot the root port and the first switch upstream port both reported 16 GT/s at x16. The GPU-facing links sometimes showed a lower speed at idle, so I checked them again while the cards were moving data.
+My working settings were:
 
-Getting to that working boot took some experimenting with GPU firmware profiles. My working setup used **Above 4G Decoding on**, the motherboard's **Resizable BAR toggle off**, and the **8 GiB graphics profile** on all four GPUs. Linux also had `pci=realloc=on` on its command line. The 8 GiB is BAR1, a PCIe address window into GPU memory. Each card still has its 96 GB of VRAM. In compute mode the cards exposed a much larger framebuffer aperture and additional virtual-function reservations, and I ran into resource allocation problems with multiple cards.
+- Above 4G Decoding: on.
+- Motherboard Resizable BAR toggle: off.
+- GPU firmware profile: `physical_display_enabled_8GB_bar1` on all four cards, set with [NVIDIA Display Mode Selector 1.77](https://developer.nvidia.com/displaymodeselector).
+- Linux boot parameter: `pci=realloc=on`.
 
-I used **NVIDIA Display Mode Selector 1.77** for Linux to set `physical_display_enabled_8GB_bar1` on each card. I changed the cards in stages, then checked `nvidia-smi -q` after reboot. All four reported **8,192 MiB** under BAR1 Memory Usage. [NVIDIA Display Mode Selector download](https://developer.nvidia.com/displaymodeselector)
+The 8 GiB is BAR1, a PCIe address window into GPU memory. Each card still has 96 GB of VRAM. The larger compute-mode apertures and virtual-function reservations had caused resource allocation problems.
+
+After reboot, `nvidia-smi -q` showed 8,192 MiB of BAR1 on every card. I checked the PCIe tree with `lspci -Dtv` and verified Gen4 x16 on the CPU uplink and GPU links under load.
 
 ## Getting peer traffic to stay on the switch
 
-`nvidia-smi topo -p2p r` and `nvidia-smi topo -p2p w` reported peer access between every GPU pair. I checked all six pairs in both directions with CUDA copies and kernels that read and wrote peer memory directly. All 36 data checks passed, and the copies ran at 27.1–27.6 GB/s with one pair active at a time.
+`nvidia-smi topo -p2p r` and `nvidia-smi topo -p2p w` reported access between every GPU pair. All 36 CUDA copy and peer-memory checks passed across the six pairs in both directions. With one pair active, copies reached 27.1–27.6 GB/s.
 
-Then I ran a four-GPU NCCL all-reduce, which has the GPUs exchange and combine partial results. At 16 MiB per GPU, the effective bus bandwidth was only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). Those settings can send peer requests and completions up the shared link to the root complex. The transfers can still use peer memory the whole time. [NVIDIA's NCCL troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
+A four-GPU NCCL all-reduce reached only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). Those settings can send peer requests and completions through the CPU root complex, even while transfers use peer memory. [NVIDIA's ACS troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
 
-![With ACS redirection on, peer traffic can travel up to the CPU root complex and back down. With redirection off, the switch can forward it locally.]({{ '/assets/img/pcie-switch-follow-up/peer-routing.svg' | relative_url }}){: width="800" height="446" style="width: 800px; max-width: 100%; height: auto;" }
+<img src="../assets/img/pcie-switch-follow-up/peer-routing.svg" alt="All four GPUs exchange message dots in both directions along shared connections. With ACS redirection on, amber dots travel to the CPU root complex below the switch and back along the same uplink. With redirection off, teal dots stay inside the switch." width="800" height="500" style="width: 800px; max-width: 100%; height: auto;">
 
-I stopped the inference server, mapped the ports in the GPU subtree, and saved their original ACS settings. For the test I cleared only the peer request and completion redirect bits on seven switch ports, then read them back to confirm `ReqRedir- CmpltRedir-`. The CPU root port's ACS settings stayed as they were.
+I stopped inference, saved the original ACS settings, and cleared only the request and completion redirect bits on seven switch ports. Readback confirmed `ReqRedir- CmpltRedir-`. The CPU root port's settings stayed unchanged.
 
-The same four-GPU all-reduce reached **21.50 GB/s** after the change, up from **5.53 GB/s**. That's the median of three runs per setting with the model unloaded. NCCL reported the same `P2P/CUMEM` transport in both cases. The port settings and the change in collective speed point to the upstream detour shown in the diagram. I didn't trace individual packets.
+The same all-reduce then reached **21.50 GB/s**, up from **5.53 GB/s**. These are medians of three runs per setting, at 16 MiB per GPU with the model unloaded. NCCL reported `P2P/CUMEM` in both cases. The settings and speed change point to the detour in the diagram; I didn't trace individual packets.
 
-In a same-day comparison with the same four-way vLLM configuration, GLM-5.3-Flash processed an uncached 32K-token prompt in 6.4 seconds after the change, down from 15.2 seconds. The collective was the check that showed me what the switch configuration was doing.
+With the same four-way vLLM configuration, GLM-5.3-Flash processed an uncached 32K-token prompt in **6.4 seconds**, down from **15.2 seconds** before the change.
 
-## What happens after a reboot?
+## After a reboot
 
-The GPUs already enumerated and ran inference before I changed ACS. The change was for peer traffic performance, and I applied it at runtime. A later privileged read confirmed that all seven switch ports were back to `ReqRedir+ CmpltRedir+` after reboot. The BIOS settings and the GPUs' saved 8 GiB profiles are separate from those runtime bits.
+All seven switch ports returned to `ReqRedir+ CmpltRedir+` after reboot. The ACS change was applied at runtime; the BIOS settings and saved GPU profiles persist separately. The boot service below is a proposed way to reapply it. I tested the register writes by hand and haven't installed the service.
 
-I also had one normal reboot where Linux could still see the switch, but all four GPUs were missing from the PCIe tree and the uplink had come up at Gen1 x4. A complete shutdown and restart brought back all four GPUs and Gen4 x16. I still don't know which part of the initialization failed. Having the device tree and link speeds from a good boot gave me something concrete to compare.
+The opening DeepSeek scores came after I cleared redirection and before reboot. I didn't read the bits during that run or benchmark DeepSeek with both settings. The before-and-after comparisons used NCCL and GLM-5.3-Flash.
 
-The DeepSeek-V4.1-Flash scores at the top came from a run after I cleared redirection and before the reboot. The timeline points to redirection being off during that run. I didn't read the bits during the benchmark or run DeepSeek with both settings. The before-and-after comparison above used NCCL and GLM-5.3-Flash.
+For DeepSeek-V4.1-Flash I used the Local Inference Lab serving profile with disk-backed Engram. I'll get into the model setup and the later vLLM tuning in another post. [The DeepSeek-V4.1-Flash serving guide I used](https://github.com/local-inference-lab/rtx6kpro/blob/master/models/deepseek-v4.1-flash.md)
 
-### Reapplying the ACS change at Linux boot
+<details markdown="1">
+<summary>Optional: reapply the ACS change at Linux boot</summary>
 
 A systemd oneshot service can run the same masked write after Linux enumerates the switch. I tested the register change by hand. The service below is how I'd make it persistent. I haven't installed it on this machine. Linux also documents `pci=config_acs`, but upstream 6.11 can fall back to the firmware value for bits marked `0`. The script below reads the hardware back to confirm the two bits actually cleared. [Linux 6.11 PCI implementation](https://github.com/torvalds/linux/blob/v6.11/drivers/pci/pci.c#L957-L1035)
 
@@ -138,4 +141,4 @@ Run `sudo systemctl daemon-reload` and `sudo systemctl enable gpu-switch-acs.ser
 
 After reboot, check `systemctl status gpu-switch-acs.service` and confirm that `sudo lspci -Dvv -s <port>` reports `ReqRedir- CmpltRedir-` under `ACSCtl` on each targeted port. Then repeat the four-GPU all-reduce to check performance. To go back to the defaults, disable the service and reboot.
 
-For DeepSeek-V4.1-Flash I used the Local Inference Lab serving profile with disk-backed Engram. I'll get into the model setup and the later vLLM tuning in another post. [The DeepSeek-V4.1-Flash serving guide I used](https://github.com/local-inference-lab/rtx6kpro/blob/master/models/deepseek-v4.1-flash.md)
+</details>
