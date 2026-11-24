@@ -25,7 +25,7 @@ _The drawing omits the extra PCIe bridges Linux sees inside the switch fabric. D
 
 <img src="../assets/img/pcie-switch-follow-up/mcio-switch-card.jpg" alt="The blue PCIe switch card on its packing foam, with a gold edge connector, a small blower, and MCIO sockets beside a bundle of cables." width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;">
 
-I kept the Ryzen 9 7950X3D and ASUS ROG Crosshair X670E Hero. The Broadcom PEX88096 switch card occupies the top x16 slot; I leave the other CPU-connected graphics slot empty so the switch keeps all 16 lanes. The small blower cools the switch chip.
+I kept the Ryzen 9 7950X3D and ASUS ROG Crosshair X670E Hero. The card from this [Broadcom PEX88096 switch kit](https://www.ebay.com/itm/407128974102?var=677301812921) occupies the top x16 slot; I leave the other CPU-connected graphics slot empty so the switch keeps all 16 lanes. The small blower cools the switch chip.
 
 <img src="../assets/img/pcie-switch-follow-up/mcio-gpu-adapter.jpg" alt="One of the green GPU slot boards, with a long PCIe x16 socket, two MCIO connectors, and a slot power input." width="800" height="1062" style="width: 800px; max-width: 100%; height: auto;">
 
