@@ -7,7 +7,7 @@ description: "The four-GPU AM5 build I actually assembled, from an MCIO switch c
 relative_asset_images: true
 ---
 
-[The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of iterating on the design and waiting around for packages, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original DeepSeek-V4.1-Flash checkpoint. It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. With the Engram lookup table on NVMe, it processed uncached 32K-token prompts at about 15,350 input tokens per second. It generated 235 output tokens per second on a single request and 678 tokens per second in total across eight concurrent requests. [DeepSeek model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
+[The dream]({% post_url 2026-09-17-gpu-expansion-box-pcie-switch %}) is alive! After four months of iterating on the design and waiting around for packages, I finally built a four-GPU AI server with a whopping 384 GB of VRAM. The model I built it for is the original [DeepSeek-V4.1-Flash checkpoint](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash). It has 552 billion backbone parameters and is one of the most capable open-weight models I wanted to run at home. With the Engram lookup table on NVMe, it processed uncached 32K-token prompts at about 15,350 input tokens per second. It generated 235 output tokens per second on a single request and 678 tokens per second in total across eight concurrent requests.
 
 <img src="../assets/img/pcie-switch-follow-up/four-gpus-in-case.jpg" alt="Open rackmount case with four RTX PRO 6000s in pairs around the CPU cooler and two rows of fans on the front panel." width="800" height="602" style="width: 800px; max-width: 100%; height: auto;">
 
@@ -64,7 +64,7 @@ After reboot, `nvidia-smi -q` showed 8,192 MiB of BAR1 on every card. I checked 
 
 `nvidia-smi topo -p2p r` and `nvidia-smi topo -p2p w` reported access between every GPU pair. All 36 CUDA copy and peer-memory checks passed across the six pairs in both directions. With one pair active, copies reached 27.1–27.6 GB/s.
 
-A four-GPU NCCL all-reduce reached only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). Those settings can send peer requests and completions through the CPU root complex, even while transfers use peer memory. [NVIDIA's ACS troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs)
+A four-GPU NCCL all-reduce reached only 5.53 GB/s. The switch ports showed `ReqRedir+ CmpltRedir+` under PCIe Access Control Services (ACS). As [NVIDIA's ACS troubleshooting guide](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/gpu_troubleshooting.html#pci-access-control-services-acs) explains, those settings can send peer requests and completions through the CPU root complex, even while transfers use peer memory.
 
 <img src="../assets/img/pcie-switch-follow-up/peer-routing.svg" alt="All four GPUs exchange message dots in both directions along shared connections. With ACS redirection on, amber dots travel to the CPU root complex below the switch and back along the same uplink. With redirection off, teal dots stay inside the switch." width="800" height="500" style="width: 800px; max-width: 100%; height: auto;">
 
@@ -80,12 +80,12 @@ All seven switch ports returned to `ReqRedir+ CmpltRedir+` after reboot. The ACS
 
 The opening DeepSeek scores came after I cleared redirection and before reboot. I didn't read the bits during that run or benchmark DeepSeek with both settings. The before-and-after comparisons used NCCL and GLM-5.3-Flash.
 
-For DeepSeek-V4.1-Flash I used the Local Inference Lab serving profile with disk-backed Engram. I'll get into the model setup and the later vLLM tuning in another post. [The DeepSeek-V4.1-Flash serving guide I used](https://github.com/local-inference-lab/rtx6kpro/blob/master/models/deepseek-v4.1-flash.md)
+For DeepSeek-V4.1-Flash I used the [Local Inference Lab serving profile](https://github.com/local-inference-lab/rtx6kpro/blob/master/models/deepseek-v4.1-flash.md) with disk-backed Engram. I'll get into the model setup and the later vLLM tuning in another post.
 
 <details markdown="1">
 <summary>Optional: reapply the ACS change at Linux boot</summary>
 
-A systemd oneshot service can run the same masked write after Linux enumerates the switch. I tested the register change by hand. The service below is how I'd make it persistent. I haven't installed it on this machine. Linux also documents `pci=config_acs`, but upstream 6.11 can fall back to the firmware value for bits marked `0`. The script below reads the hardware back to confirm the two bits actually cleared. [Linux 6.11 PCI implementation](https://github.com/torvalds/linux/blob/v6.11/drivers/pci/pci.c#L957-L1035)
+A systemd oneshot service can run the same masked write after Linux enumerates the switch. I tested the register change by hand. The service below is how I'd make it persistent. I haven't installed it on this machine. Linux also documents `pci=config_acs`, but the [Linux 6.11 PCI implementation](https://github.com/torvalds/linux/blob/v6.11/drivers/pci/pci.c#L957-L1035) can fall back to the firmware value for bits marked `0`. The script below reads the hardware back to confirm the two bits actually cleared.
 
 First, use `lspci -Dtv` and `lspci -DPP -d 1000:c010` to identify the switch ports in the paths to the GPUs. The addresses below are from my machine. Replace them with the verified ports on your system. Clearing these ACS bits affects PCIe peer isolation, so scope the change to the GPU switch ports you intend to share.
 
