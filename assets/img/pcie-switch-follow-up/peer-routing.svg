@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-labelledby="title desc">
+  <title id="title">Four-GPU peer traffic with and without a CPU root complex detour</title>
+  <desc id="desc">Both panels place the four GPUs above the switch and the CPU root complex below it, matching the wiring diagram. Message dots travel in both directions across all six GPU pairs. With ACS redirection on, amber dots travel to the CPU root complex and back along the same uplink before reaching the destination GPU. With redirection off, teal dots stay on the switch fabric and the CPU uplink is idle for these transfers. The animation illustrates routing, not a traced DeepSeek communication schedule. Reduced motion leaves the static connections visible.</desc>
+  <style>
+    @media (prefers-reduced-motion: reduce) { .message { display: none; } }
+  </style>
+  <defs>
+    <g id="fabric">
+      <rect x="18" y="291" width="272" height="52" rx="8" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <rect x="18" y="154" width="272" height="79" rx="8" fill="#edf5fb" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="154" y="326" font-size="18" font-weight="600">CPU root complex</text>
+      <rect x="16" y="66" width="60" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="46" y="94" font-size="16" font-weight="600">GPU 0</text>
+      <rect x="88" y="66" width="60" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="118" y="94" font-size="16" font-weight="600">GPU 1</text>
+      <rect x="160" y="66" width="60" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="190" y="94" font-size="16" font-weight="600">GPU 2</text>
+      <rect x="232" y="66" width="60" height="45" rx="7" fill="#ffffff" stroke="#a6b8cb" stroke-width="2"/>
+      <text x="262" y="94" font-size="16" font-weight="600">GPU 3</text>
+    </g>
+    <path id="switch-bus" d="M46 111V179H262V111 M118 111V179 M190 111V179"/>
+  </defs>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#172a41">
+    <rect x="1" y="1" width="310" height="398" rx="13" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
+    <rect x="329" y="1" width="310" height="398" rx="13" fill="#f8fafc" stroke="#d3dce6" stroke-width="2"/>
+    <g transform="translate(2)">
+      <text x="154" y="38" font-size="21" font-weight="700">ACS redirection on</text>
+      <use href="#fabric"/>
+      <text x="30" y="220" text-anchor="start" font-size="18" font-weight="600">PCIe switch</text>
+      <rect x="18" y="291" width="272" height="52" rx="8" fill="#a74019" fill-opacity=".08"/>
+      <g fill="none" stroke="#c68d76" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <use href="#switch-bus"/>
+        <path d="M154 304V179"/>
+      </g>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H154V304V179H118V111" dur="14.13s" begin="0.00s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M190 111V179H154V304V179H262V111" dur="14.13s" begin="-2.10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H154V304V179H190V111" dur="14.13s" begin="-4.20s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M118 111V179H154V304V179H262V111" dur="14.13s" begin="-6.30s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H154V304V179H262V111" dur="16.05s" begin="-8.40s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#a74019" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M118 111V179H154V304V179H190V111" dur="12.21s" begin="-10.50s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <text x="154" y="378" font-size="16" font-weight="600" fill="#873411">GPU-to-GPU traffic via CPU</text>
+    </g>
+    <g transform="translate(330)">
+      <text x="154" y="38" font-size="21" font-weight="700">ACS redirection off</text>
+      <use href="#fabric"/>
+      <rect x="18" y="154" width="272" height="79" rx="8" fill="#08786d" fill-opacity=".08"/>
+      <text x="154" y="210" font-size="16" font-weight="600" fill="#08655c">GPU-to-GPU direct traffic</text>
+      <text x="154" y="228" font-size="14" fill="#08655c">P2P · PCIe switch</text>
+      <path d="M154 291V233" fill="none" stroke="#a6b8cb" stroke-width="2" stroke-dasharray="5 5"/>
+      <text x="217" y="266" font-size="14" fill="#445b74">Uplink idle</text>
+      <use href="#switch-bus" fill="none" stroke="#75a69f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H118V111" dur="5.55s" begin="0.00s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M190 111V179H262V111" dur="5.55s" begin="-1.30s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H190V111" dur="7.47s" begin="-2.60s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M118 111V179H262V111" dur="7.47s" begin="-3.90s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M46 111V179H262V111" dur="9.39s" begin="-5.20s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle class="message" r="4" fill="#08786d" stroke="#fff" stroke-width="1.2">
+        <animateMotion path="M118 111V179H190V111" dur="5.55s" begin="-6.50s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"/>
+      </circle>
+      <text x="154" y="378" font-size="16" font-weight="600" fill="#08655c">Direct traffic · no CPU detour</text>
+    </g>
+  </g>
+</svg>
